@@ -36,6 +36,15 @@ public class PlayerMovement : MonoBehaviour
         Movement();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<PickableObj>(out var pickableObj))
+        {
+            pickableObj.parentTransform = this.transform;
+            pickableObj.OnPick();
+        }
+    }
+
     private void Movement()
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
