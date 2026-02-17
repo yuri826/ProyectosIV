@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PickableObj : MonoBehaviour, IInteractable
 {
-    public Transform parentTransform { get; set; }
+    private Transform parentTransform;
 
     private string state = "ground";
 
@@ -22,8 +22,15 @@ public class PickableObj : MonoBehaviour, IInteractable
         }
     }
 
-    public void OnPick()
+    public void OnPick(Transform transform)
     {
+        parentTransform = transform;
         state = "picked";
+    }
+
+    public void Drop(Vector3 lookDir)
+    {
+        this.transform.position = parentTransform.position + lookDir - new Vector3(0, 1f, 0);
+        state = "ground";
     }
 }

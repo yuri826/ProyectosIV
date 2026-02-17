@@ -12,6 +12,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")] 
     [SerializeField] private float walkSpeed;
     private Vector3 movementDirection;
+    private Vector3 lookDir = Vector3.right;
+
+    [Header("Pickables")] 
+    private PickableObj currentObj = null;
+    private bool isPicking = false;
 
     private void Awake()
     {
@@ -23,12 +28,15 @@ public class PlayerMovement : MonoBehaviour
     {
         playerInput.actions["Move"].performed += UpdateMovementInput;
         playerInput.actions["Move"].canceled += UpdateMovementInput;
+        playerInput.actions["Interact"].started += Interact;
     }
     
     private void OnDisable()
     {
         playerInput.actions["Move"].performed -= UpdateMovementInput;
         playerInput.actions["Move"].canceled -= UpdateMovementInput;
+        playerInput.actions["Interact"].started -= Interact;
+        
     }
 
     private void Update()
@@ -40,8 +48,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.TryGetComponent<PickableObj>(out var pickableObj))
         {
-            pickableObj.parentTransform = this.transform;
-            pickableObj.OnPick();
+            currentObj = pickableObj;
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<PickableObj>(out var pickableObj))
+        {
+            currentObj = null;
         }
     }
 
@@ -49,10 +64,36 @@ public class PlayerMovement : MonoBehaviour
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
         characterController.Move(movementDirection * (walkSpeed * Time.deltaTime));
+        
+        if (movementDirection != Vector3.zero) lookDir = movementDirection;
     }
 
     private void UpdateMovementInput(InputAction.CallbackContext obj)
     {
         movementInputDirection = obj.ReadValue<Vector2>();
+    }
+    
+    private void Interact(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Interact");
+        switch (isPicking)
+        {
+            case false:
+                
+                if (currentObj != null)
+                {
+                    currentObj.OnPick(this.transform);
+                    isPicking = true;
+                }
+
+                break;
+            
+            case true:
+
+                currentObj.Drop(lookDir);
+                isPicking = false;
+
+                break;
+        }
     }
 }
