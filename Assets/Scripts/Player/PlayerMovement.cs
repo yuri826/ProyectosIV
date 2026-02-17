@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Pickables")] 
     private PickableObj currentObj = null;
+    private DepositObj depositObj = null;
     private bool isPicking = false;
 
     private void Awake()
@@ -46,9 +47,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<PickableObj>(out var pickableObj))
+        if (other.TryGetComponent<PickableObj>(out var pickableObj) && !isPicking)
         {
             currentObj = pickableObj;
+        }
+    }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.TryGetComponent<DepositObj>(out var depositObj))
+        {
+            this.depositObj = depositObj;
         }
     }
     
@@ -57,6 +66,11 @@ public class PlayerMovement : MonoBehaviour
         if (other.TryGetComponent<PickableObj>(out var pickableObj))
         {
             currentObj = null;
+        }
+        
+        if (other.TryGetComponent<DepositObj>(out var depositObj))
+        {
+            this.depositObj = null;
         }
     }
 
@@ -87,11 +101,23 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 break;
-            
+
             case true:
 
-                currentObj.Drop(lookDir);
-                isPicking = false;
+                if (depositObj != null)
+                {
+                    depositObj.OnObject(currentObj, out var correctObject);
+                    
+                    if (correctObject) Destroy(currentObj.gameObject);
+                    else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
+                    
+                    isPicking = false;
+                }
+                else
+                {
+                    currentObj.Drop(lookDir);
+                    isPicking = false;
+                }
 
                 break;
         }

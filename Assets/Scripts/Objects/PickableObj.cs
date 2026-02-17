@@ -1,10 +1,19 @@
+using System;
 using UnityEngine;
 
 public class PickableObj : MonoBehaviour, IInteractable
 {
+    [SerializeField] private string _type;
+    public string type { get; private set; }
+    
     private Transform parentTransform;
 
     private string state = "ground";
+
+    private void Awake()
+    {
+        type = _type;
+    }
 
     private void Update()
     {
@@ -32,5 +41,10 @@ public class PickableObj : MonoBehaviour, IInteractable
     {
         this.transform.position = parentTransform.position + lookDir - new Vector3(0, 1f, 0);
         state = "ground";
+    }
+
+    public string GetType()
+    {
+        return type;
     }
 }
