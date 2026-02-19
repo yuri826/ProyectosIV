@@ -20,6 +20,6 @@ public class DepositObj : MonoBehaviour
 
     protected virtual void ExecuteAction()
     {
-        Debug.Log("Cojonudo");
+        
     }
 }

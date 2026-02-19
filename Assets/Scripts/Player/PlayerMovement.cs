@@ -89,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
-        Debug.Log("Interact");
         switch (isPicking)
         {
             case false:
