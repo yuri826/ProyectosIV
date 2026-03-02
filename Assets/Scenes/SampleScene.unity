@@ -444,6 +444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
   _type: b
+  xThrowSpeed: 0
+  maxYThrowSpeed: 0
 --- !u!135 &222287571
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -799,7 +801,7 @@ GameObject:
   - component: {fileID: 376331773}
   - component: {fileID: 376331772}
   - component: {fileID: 376331771}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,6 +1155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
   _type: a
+  xThrowSpeed: 0
+  maxYThrowSpeed: 0
 --- !u!1 &673245908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,6 +1704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
   _type: a
+  xThrowSpeed: 0
+  maxYThrowSpeed: 0
 --- !u!135 &1149960226
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1806,7 +1812,7 @@ GameObject:
   - component: {fileID: 1377357439}
   - component: {fileID: 1377357438}
   - component: {fileID: 1377357437}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

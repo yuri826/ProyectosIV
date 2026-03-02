@@ -35,8 +35,10 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed += UpdateMovementInput;
         playerInput.actions["Move"].canceled += UpdateMovementInput;
         playerInput.actions["Interact"].started += Interact;
+        playerInput.actions["Act"].started += Act;
     }
-    
+
+
     private void OnDisable()
     {
         playerInput.actions["Move"].performed -= UpdateMovementInput;
@@ -67,47 +69,6 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(InteractionWait());
     }
-
-    #region Old interaction (Deprecated)
-    // private IEnumerator _Interact()
-    // {
-    //     yield return new WaitForEndOfFrame();
-    //     
-    //     
-    //     
-    //     switch (isPicking)
-    //     {
-    //         case false:
-    //             
-    //             if (currentObj != null)
-    //             {
-    //                 currentObj.OnPick(this.transform);
-    //                 isPicking = true;
-    //             }
-    //
-    //             break;
-    //
-    //         case true:
-    //
-    //             if (depositObj != null)
-    //             {
-    //                 depositObj.OnObject(currentObj, out var correctObject);
-    //                 
-    //                 if (correctObject) Destroy(currentObj.gameObject);
-    //                 else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
-    //                 
-    //                 isPicking = false;
-    //             }
-    //             else
-    //             {
-    //                 currentObj.Drop(lookDir);
-    //                 isPicking = false;
-    //             }
-    //
-    //             break;
-    //     }
-    // }
-    #endregion
 
     private IEnumerator InteractionWait()
     {
@@ -192,6 +153,16 @@ public class PlayerMovement : MonoBehaviour
         }
         
         EndOfInteraction: print("end of interaction");
+    }
+    
+    private void Act(InputAction.CallbackContext obj)
+    {
+        if (isPicking)
+        {
+            currentObj.Throw(lookDir);
+            currentObj = null;
+            isPicking = false;
+        }
     }
 
     private void OnDrawGizmos()

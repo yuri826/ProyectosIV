@@ -127,6 +127,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
   _type: a
+  xThrowSpeed: 8
+  maxYThrowSpeed: 0.04
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &5460506336576043442
 GameObject:
   m_ObjectHideFlags: 0
