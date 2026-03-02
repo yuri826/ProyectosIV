@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GunObj : ToolObj
 {
+    //DEPRECATED
+    
     [SerializeField] private GameObject playerBullet;
     [SerializeField] private Vector3 shootOffset;
     

@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float maxDashTimer;
     private float dashTimer;
+    
+    [Header("Shoot")]
+    [SerializeField] private GameObject playerBullet;
+    [SerializeField] private Vector3 shootOffset;
 
     [Header("Pickables")] 
     private PickableObj currentObj;
@@ -93,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController.Move(lookDir * (dashSpeed * Time.deltaTime));
     }
-
+    
     private void StartDash(InputAction.CallbackContext obj)
     {
         dashTimer = maxDashTimer;
@@ -206,6 +210,11 @@ public class PlayerMovement : MonoBehaviour
                 currentObj = null;
                 isPicking = false;
             }
+        }
+        else
+        {
+            PlayerBullet b = Instantiate(playerBullet, this.transform.position + shootOffset, Quaternion.identity).GetComponent<PlayerBullet>();
+            b.shootDir = lookDir;
         }
     }
 
