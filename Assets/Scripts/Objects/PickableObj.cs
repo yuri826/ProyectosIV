@@ -71,8 +71,10 @@ public class PickableObj : MonoBehaviour, IInteractable
         state = "ground";
     }
 
-    public virtual void Throw(Vector2 throwDir)
+    public virtual void Throw(Vector3 throwDir, out bool dropObj)
     {
+        dropObj = true;
+        
         throwDirection = throwDir;
         yThrowSpeed = maxYThrowSpeed;
         state = "throw";

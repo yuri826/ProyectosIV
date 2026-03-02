@@ -159,9 +159,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isPicking)
         {
-            currentObj.Throw(lookDir);
-            currentObj = null;
-            isPicking = false;
+            currentObj.Throw(lookDir, out var dropObj);
+
+            if (dropObj)
+            {
+                currentObj = null;
+                isPicking = false;
+            }
         }
     }
 
