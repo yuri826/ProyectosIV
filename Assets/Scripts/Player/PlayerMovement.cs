@@ -11,15 +11,23 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 movementInputDirection;
 
+    private string state = "move";
+
     [Header("Movement")] 
     [SerializeField] private float walkSpeed;
     private Vector3 movementDirection;
     private Vector3 lookDir = Vector3.right;
+    
+    [Header("Dash")]
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float maxDashTimer;
+    private float dashTimer;
 
     [Header("Pickables")] 
     private PickableObj currentObj;
     private bool isPicking = false;
 
+    [Header("Interaction")]
     [SerializeField] private float interactionDistance;
     [SerializeField] private float interactionRadius;
     [SerializeField] private Vector3 interactionOffset;
@@ -36,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].canceled += UpdateMovementInput;
         playerInput.actions["Interact"].started += Interact;
         playerInput.actions["Act"].started += Act;
+        playerInput.actions["Dash"].started += StartDash;
     }
 
 
@@ -44,12 +53,32 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed -= UpdateMovementInput;
         playerInput.actions["Move"].canceled -= UpdateMovementInput;
         playerInput.actions["Interact"].started -= Interact;
-        
+        playerInput.actions["Dash"].started -= StartDash;
     }
 
     private void Update()
     {
-        Movement();
+        switch (state)
+        {
+            case "move":
+
+                Movement();
+                
+                break;
+            
+            case "dash":
+                
+                dashTimer -= Time.deltaTime;
+
+                if (dashTimer <= 0)
+                {
+                    state = "move";
+                }
+
+                Dash();
+
+                break;
+        }
     }
 
     private void Movement()
@@ -58,6 +87,17 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(movementDirection * (walkSpeed * Time.deltaTime));
         
         if (movementDirection != Vector3.zero) lookDir = movementDirection;
+    }
+
+    private void Dash()
+    {
+        characterController.Move(lookDir * (dashSpeed * Time.deltaTime));
+    }
+
+    private void StartDash(InputAction.CallbackContext obj)
+    {
+        dashTimer = maxDashTimer;
+        state = "dash";
     }
 
     private void UpdateMovementInput(InputAction.CallbackContext obj)

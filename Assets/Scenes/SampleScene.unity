@@ -435,6 +435,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   walkSpeed: 5
+  dashSpeed: 15
+  maxDashTimer: 0.15
   interactionDistance: 0.58
   interactionRadius: 0.48
   interactionOffset: {x: 0, y: -0.72, z: 0}
