@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,9 +17,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookDir = Vector3.right;
 
     [Header("Pickables")] 
-    private PickableObj currentObj = null;
-    private DepositObj depositObj = null;
+    private PickableObj currentObj;
     private bool isPicking = false;
+
+    [SerializeField] private float interactionDistance;
+    [SerializeField] private float interactionRadius;
+    [SerializeField] private Vector3 interactionOffset;
 
     private void Awake()
     {
@@ -46,35 +50,6 @@ public class PlayerMovement : MonoBehaviour
         Movement();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<PickableObj>(out var pickableObj) && !isPicking)
-        {
-            currentObj = pickableObj;
-        }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.TryGetComponent<DepositObj>(out var depositObj))
-        {
-            this.depositObj = depositObj;
-        }
-    }
-    
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent<PickableObj>(out var pickableObj) && !isPicking)
-        {
-            currentObj = null;
-        }
-        
-        if (other.TryGetComponent<DepositObj>(out var depositObj))
-        {
-            this.depositObj = null;
-        }
-    }
-
     private void Movement()
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
@@ -90,43 +65,113 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
-        StartCoroutine(_Interact());
+        StartCoroutine(InteractionWait());
     }
 
-    private IEnumerator _Interact()
+    #region Old interaction (Deprecated)
+    // private IEnumerator _Interact()
+    // {
+    //     yield return new WaitForEndOfFrame();
+    //     
+    //     
+    //     
+    //     switch (isPicking)
+    //     {
+    //         case false:
+    //             
+    //             if (currentObj != null)
+    //             {
+    //                 currentObj.OnPick(this.transform);
+    //                 isPicking = true;
+    //             }
+    //
+    //             break;
+    //
+    //         case true:
+    //
+    //             if (depositObj != null)
+    //             {
+    //                 depositObj.OnObject(currentObj, out var correctObject);
+    //                 
+    //                 if (correctObject) Destroy(currentObj.gameObject);
+    //                 else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
+    //                 
+    //                 isPicking = false;
+    //             }
+    //             else
+    //             {
+    //                 currentObj.Drop(lookDir);
+    //                 isPicking = false;
+    //             }
+    //
+    //             break;
+    //     }
+    // }
+    #endregion
+
+    private IEnumerator InteractionWait()
     {
         yield return new WaitForEndOfFrame();
-        
-        switch (isPicking)
+        Interaction();
+    }
+
+    private void Interaction()
+    {
+        Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
+
+        foreach (Collider col in cols)
         {
-            case false:
-                
-                if (currentObj != null)
+            //Not picking
+            //Can pick objects from ground and box
+            if (!isPicking)
+            {
+                if (col.TryGetComponent<IInteractable>(out var interactable))
                 {
-                    currentObj.OnPick(this.transform);
-                    isPicking = true;
+                    if (col.TryGetComponent<PickableObj>(out var pickableObj))
+                    {
+                        pickableObj.OnPick(this.transform);
+                        currentObj = pickableObj;
+                        isPicking = true;
+
+                        return;
+                    }
+                    
+                    if (col.TryGetComponent<ObjectBox>(out var objectBox))
+                    {
+                        PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
+                        newPickable.OnPick(this.transform);
+                        currentObj = newPickable;
+                        isPicking = true;
+
+                        return;
+                    }
+
+                    throw new WarningException("Object with IInteractable which doesn't need it");
                 }
-
-                break;
-
-            case true:
-
-                if (depositObj != null)
+            }
+            else
+            {
+                if (col.TryGetComponent<DepositObj>(out var deposit))
                 {
-                    depositObj.OnObject(currentObj, out var correctObject);
+                    deposit.OnObject(currentObj, out var correctObject);
                     
                     if (correctObject) Destroy(currentObj.gameObject);
                     else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
                     
                     isPicking = false;
-                }
-                else
-                {
-                    currentObj.Drop(lookDir);
-                    isPicking = false;
-                }
 
-                break;
+                    return;
+                }
+                
+                currentObj.Drop(lookDir);
+                currentObj = null;
+                isPicking = false;
+            }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
     }
 }
