@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<PickableObj>(out var pickableObj))
+        if (other.TryGetComponent<PickableObj>(out var pickableObj) && !isPicking)
         {
             currentObj = null;
         }
@@ -89,6 +90,13 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
+        StartCoroutine(_Interact());
+    }
+
+    private IEnumerator _Interact()
+    {
+        yield return new WaitForEndOfFrame();
+        
         switch (isPicking)
         {
             case false:

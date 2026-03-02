@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class DepositObj : MonoBehaviour
 {
-    [SerializeField] private string objectType;
+    [SerializeField] private string[] objectTypeList;
+    private int objectIndex = 0;
 
-    public void OnObject(PickableObj pickableObj, out bool isCorrectObject)
+    public virtual void OnObject(PickableObj pickableObj, out bool isCorrectObject)
     {
-        if (pickableObj.type == objectType)
+        if (pickableObj.type == objectTypeList[objectIndex])
         {
-            ExecuteAction();
+            objectIndex++;
 
+            if (objectIndex == objectTypeList.Length)
+            {
+                ExecuteAction();
+            }
+            
             isCorrectObject = true;
         }
         else
@@ -20,6 +26,6 @@ public class DepositObj : MonoBehaviour
 
     protected virtual void ExecuteAction()
     {
-        
+        Debug.Log("DONE");    
     }
 }
