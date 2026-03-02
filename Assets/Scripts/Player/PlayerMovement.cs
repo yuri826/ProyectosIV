@@ -119,6 +119,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
 
+        print("interaction");
+        print($"{cols.Length} colliders found");
+        print($"isPicking: {isPicking}");
+
+        bool canDrop = false;
+        
         foreach (Collider col in cols)
         {
             //Not picking
@@ -127,27 +133,36 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (col.TryGetComponent<IInteractable>(out var interactable))
                 {
+                    print ("interactable collider");
+                    
                     if (col.TryGetComponent<PickableObj>(out var pickableObj))
                     {
+                        print("pickable object");
+                        print($"Type: {pickableObj.type}");
+                        
                         pickableObj.OnPick(this.transform);
                         currentObj = pickableObj;
                         isPicking = true;
 
-                        return;
+                        goto EndOfInteraction;
                     }
                     
                     if (col.TryGetComponent<ObjectBox>(out var objectBox))
                     {
+                        print("object box");
+                        
                         PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
                         newPickable.OnPick(this.transform);
                         currentObj = newPickable;
                         isPicking = true;
 
-                        return;
+                        goto EndOfInteraction;
                     }
 
                     throw new WarningException("Object with IInteractable which doesn't need it");
                 }
+
+                print("non interactable collider");
             }
             else
             {
@@ -159,15 +174,24 @@ public class PlayerMovement : MonoBehaviour
                     else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
                     
                     isPicking = false;
+                    
+                    canDrop = false;
 
-                    return;
+                    goto EndOfInteraction;
                 }
-                
-                currentObj.Drop(lookDir);
-                currentObj = null;
-                isPicking = false;
+
+                canDrop = true;
             }
         }
+
+        if (canDrop)
+        {
+            currentObj.Drop(lookDir);
+            currentObj = null;
+            isPicking = false;
+        }
+        
+        EndOfInteraction: print("end of interaction");
     }
 
     private void OnDrawGizmos()
