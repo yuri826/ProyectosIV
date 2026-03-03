@@ -5,6 +5,9 @@ public class DepositObj : MonoBehaviour
     [SerializeField] private string[] objectTypeList;
     private int objectIndex = 0;
     private bool isCompleted = false;
+    
+    [SerializeField] private float maxRepairTimer;
+    private float repairTimer;
 
     public virtual void OnObject(PickableObj pickableObj, out bool isCorrectObject)
     {
