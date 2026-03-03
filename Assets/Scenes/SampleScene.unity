@@ -827,6 +827,7 @@ GameObject:
   - component: {fileID: 1026388326}
   - component: {fileID: 1026388325}
   - component: {fileID: 1026388327}
+  - component: {fileID: 1026388328}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -887,6 +888,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1026388328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026388324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec987d2ba51f1246a3cd1570049b6c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainLifeManager
+  maxTrainLife: 0
 --- !u!1001 &1077981451
 PrefabInstance:
   m_ObjectHideFlags: 0
