@@ -13,6 +13,10 @@ public class ProgressManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI introNumbers;
 
     private Animator anim;
+
+    private string state = "intro";
+
+    private Coroutine countRoutine;
     
     private void Start()
     {
@@ -39,8 +43,10 @@ public class ProgressManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         introNumbers.text = "GO";
         anim.SetTrigger("numberPop");
+
+        state = "gameplay";
         
-        StartCoroutine(SecondCount());
+        countRoutine = StartCoroutine(SecondCount());
     }
 
     private IEnumerator SecondCount()
@@ -64,6 +70,16 @@ public class ProgressManager : MonoBehaviour
 
     private void CompleteLevel()
     {
+        //Por si acaso se muere justo en el final (improbable pero no imposible :o)
+        if (state != "gameplay") return;
+        
+        state = "win";
         print("Level complete!");
+    }
+
+    public void GameOver()
+    {
+        StopCoroutine(countRoutine);
+        state = "gameover";
     }
 }

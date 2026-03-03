@@ -232,8 +232,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DepositObj
   objectTypeList:
   - a
-  maxRepairTimer: 0
   repairBar: {fileID: 9109370697471070630}
+  repairBarImage: {fileID: 8944234652150912481}
+  maxRepairTimer: 0
 --- !u!1 &5069767817570373010
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,11 +521,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9109370697471070630}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15.44, z: 0}
+  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
+  m_LocalPosition: {x: 0, y: 0.25899997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1003172568666344837}
   m_Father: {fileID: 7538800202801565416}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}

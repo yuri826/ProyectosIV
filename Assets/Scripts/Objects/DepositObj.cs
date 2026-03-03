@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DepositObj : MonoBehaviour
 {
@@ -7,15 +8,25 @@ public class DepositObj : MonoBehaviour
     private int objectIndex = 0;
     public string state { get; private set; }= "objects";
     
+    [SerializeField] private GameObject repairBar;
+    [SerializeField] private Image repairBarImage;
+    
     [SerializeField] private float maxRepairTimer;
     private float repairTimer = 0f;
     private bool repairing = false;
+
+    private void Start()
+    {
+        repairBar.SetActive(false);
+    }
 
     private void Update()
     {
         if (repairing)
         {
             repairTimer += Time.deltaTime;
+            
+            repairBarImage.fillAmount = repairTimer / maxRepairTimer;
 
             if (repairTimer >= maxRepairTimer)
             {
@@ -63,6 +74,7 @@ public class DepositObj : MonoBehaviour
 
     public void OnTool()
     {
+        repairBar.SetActive(true);
         PlayerSystem.instance.SetState("repair");
         repairing = true;
     }
@@ -75,6 +87,7 @@ public class DepositObj : MonoBehaviour
 
     protected virtual void Completed()
     {
+        repairBar.SetActive(false);
         Debug.Log("Completed");
     }
 }
