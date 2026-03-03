@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 movementInputDirection;
 
-    private string state = "move";
+    public string state { get; set; } = "move";
 
     [Header("Movement")] 
     [SerializeField] private float walkSpeed;
@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float interactionDistance;
     [SerializeField] private float interactionRadius;
     [SerializeField] private Vector3 interactionOffset;
+    private DepositObj currentRepairDeposit;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].canceled += UpdateMovementInput;
         playerInput.actions["Interact"].started += Interact;
         playerInput.actions["Act"].started += Act;
+        playerInput.actions["Act"].canceled += UnAct;
         playerInput.actions["Dash"].started += StartDash;
     }
 
@@ -57,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed -= UpdateMovementInput;
         playerInput.actions["Move"].canceled -= UpdateMovementInput;
         playerInput.actions["Interact"].started -= Interact;
+        playerInput.actions["Act"].started -= Act;
+        playerInput.actions["Act"].canceled -= UnAct;
         playerInput.actions["Dash"].started -= StartDash;
     }
 
@@ -82,6 +86,10 @@ public class PlayerMovement : MonoBehaviour
                 Dash();
 
                 break;
+            
+            case "repair":
+
+                break;
         }
     }
 
@@ -100,8 +108,11 @@ public class PlayerMovement : MonoBehaviour
     
     private void StartDash(InputAction.CallbackContext obj)
     {
-        dashTimer = maxDashTimer;
-        state = "dash";
+        if (state == "move")
+        {
+            dashTimer = maxDashTimer;
+            state = "dash";
+        }
     }
 
     private void UpdateMovementInput(InputAction.CallbackContext obj)
@@ -122,11 +133,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Interaction()
     {
+        if (state != "move") return;
+        
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
 
-        print("interaction");
-        print($"{cols.Length} colliders found");
-        print($"isPicking: {isPicking}");
+        // print("interaction");
+        // print($"{cols.Length} colliders found");
+        // print($"isPicking: {isPicking}");
 
         bool canDrop = false;
         
@@ -138,12 +151,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (col.TryGetComponent<IInteractable>(out var interactable))
                 {
-                    print ("interactable collider");
+                    //print ("interactable collider");
                     
                     if (col.TryGetComponent<PickableObj>(out var pickableObj))
                     {
-                        print("pickable object");
-                        print($"Type: {pickableObj.type}");
+                        // print("pickable object");
+                        // print($"Type: {pickableObj.type}");
                         
                         pickableObj.OnPick(this.transform);
                         currentObj = pickableObj;
@@ -154,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
                     
                     if (col.TryGetComponent<ObjectBox>(out var objectBox))
                     {
-                        print("object box");
+                        //print("object box");
                         
                         PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
                         newPickable.OnPick(this.transform);
@@ -167,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
                     throw new WarningException("Object with IInteractable which doesn't need it");
                 }
 
-                print("non interactable collider");
+                //print("non interactable collider");
             }
             else
             {
@@ -196,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
             isPicking = false;
         }
         
-        EndOfInteraction: print("end of interaction");
+        EndOfInteraction: ; //print("end of interaction");
     }
     
     private void Act(InputAction.CallbackContext obj)
@@ -213,11 +226,32 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
+
+            foreach (Collider col in cols)
+            {
+                if (col.TryGetComponent<DepositObj>(out var deposit) && deposit.state == "tool")
+                {
+                    Debug.Log("Omg deposit to repair omg");
+                    currentRepairDeposit = deposit;
+                    deposit.OnTool();
+                    goto EndOfAct;
+                }
+            }
+            
             PlayerBullet b = Instantiate(playerBullet, this.transform.position + shootOffset, Quaternion.identity).GetComponent<PlayerBullet>();
             b.shootDir = lookDir;
+            
+            EndOfAct:;
         }
     }
 
+    private void UnAct(InputAction.CallbackContext obj)
+    {
+        currentRepairDeposit?.RemoveTool();
+        currentRepairDeposit = null;
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
