@@ -4,16 +4,16 @@ using UnityEngine.UI;
 
 public class DepositObj : MonoBehaviour
 {
-    [SerializeField] private string[] objectTypeList;
-    private int objectIndex = 0;
-    public string state { get; private set; }= "objects";
+    [SerializeField] protected string[] objectTypeList;
+    protected int objectIndex = 0;
+    public string state { get; protected set; }= "objects";
     
-    [SerializeField] private GameObject repairBar;
-    [SerializeField] private Image repairBarImage;
+    [SerializeField] protected GameObject repairBar;
+    [SerializeField] protected Image repairBarImage;
     
-    [SerializeField] private float maxRepairTimer;
-    private float repairTimer = 0f;
-    private bool repairing = false;
+    [SerializeField] protected float maxRepairTimer;
+    protected float repairTimer = 0f;
+    protected bool repairing = false;
 
     private void Start()
     {

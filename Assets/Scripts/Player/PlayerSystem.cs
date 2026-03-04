@@ -17,4 +17,9 @@ public class PlayerSystem : MonoBehaviour
     {
         playerMovement.state = state;
     }
+
+    public void ForcePick(PickableObj p)
+    {
+        playerMovement.ForcePick(p);
+    }
 }

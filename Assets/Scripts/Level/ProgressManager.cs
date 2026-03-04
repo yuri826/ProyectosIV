@@ -53,8 +53,6 @@ public class ProgressManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         
-        Debug.Log(levelTimer);
-        
         levelTimer++;
         progressBar.fillAmount = (float)levelTimer / (float)levelDuration;
 

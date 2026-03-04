@@ -11,8 +11,8 @@ public class MapNode : MonoBehaviour
     [Tooltip("SOLO PARA EL PRIMERO! / para debugear")][SerializeField] private bool activeInit;
     [SerializeField] private MapNode nextNode;
     
-    [SerializeField] private Button nodeButton;
-    [SerializeField] private Button playButton;
+    //[SerializeField] private Button nodeButton;
+    //[SerializeField] private Button playButton;
     public string state = "locked"; //Should be private, public for debugging
 
     [SerializeField] private GameObject nodeInfo;
@@ -20,9 +20,7 @@ public class MapNode : MonoBehaviour
     private void Start()
     {
         if (activeInit) state = "unlocked";
-        
-        MapManager.instance.mapNodes.Add(this);
-        nodeButton.onClick.AddListener(NodeClicked);
+        //nodeButton.onClick.AddListener(NodeClicked);
     }
 
     private void NodeClicked()
@@ -31,19 +29,7 @@ public class MapNode : MonoBehaviour
         {
             case "locked": break;
             
-            case "unlocked":
-
-                foreach (var mapNode in MapManager.instance.mapNodes)
-                {
-                    if (mapNode != this)
-                    {
-                        mapNode.CloseInfo();
-                    }
-                }
-
-                OpenInfo();
-
-                break;
+            case "unlocked": break;
             
             case "completed": break;
         }

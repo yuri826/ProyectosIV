@@ -211,6 +211,19 @@ public class PlayerMovement : MonoBehaviour
         
         EndOfInteraction: ; //print("end of interaction");
     }
+
+    public void ForcePick(PickableObj p)
+    {
+        if (isPicking)
+        {
+            throw new ArgumentException("Forcing pick when picking");
+            return;
+        }
+            
+        p.OnPick(this.transform);
+        currentObj = p;
+        isPicking = true;
+    }
     
     private void Act(InputAction.CallbackContext obj)
     {
