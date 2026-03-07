@@ -22,6 +22,7 @@ public class DepositObj : MonoBehaviour
 
     private void Update()
     {
+        //Aquí se maneja la lógica de mantener pulsado y reparar el objeto
         if (repairing)
         {
             repairTimer += Time.deltaTime;
@@ -38,12 +39,14 @@ public class DepositObj : MonoBehaviour
         }
     }
 
+    //Este método se llama cuando el jugador interactua con el depósito con un objeto
     public virtual void OnObject(PickableObj pickableObj, out bool isCorrectObject)
     {
         isCorrectObject = false;
         
         switch (state)
         {
+            //Al estar en este estado acepta objetos
             case "objects":
                 
                 if (pickableObj.type == objectTypeList[objectIndex])
@@ -66,8 +69,10 @@ public class DepositObj : MonoBehaviour
 
                 break;
             
+            //En este estado se puede ejecutar la reparación
             case "tool":
-            
+                
+            //Aquí ya se completó
             case "completed": break;
         }
     }
