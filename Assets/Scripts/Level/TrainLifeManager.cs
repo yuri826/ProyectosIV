@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class TrainLifeManager : MonoBehaviour
 {
+    public static TrainLifeManager instance;
+    
     [SerializeField] private int maxTrainLife;
     private float currentTrainLife;
     
     private ProgressManager progressManager;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

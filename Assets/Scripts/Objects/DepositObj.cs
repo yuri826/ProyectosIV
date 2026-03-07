@@ -15,7 +15,7 @@ public class DepositObj : MonoBehaviour
     protected float repairTimer = 0f;
     protected bool repairing = false;
 
-    private void Start()
+    protected virtual void Start()
     {
         repairBar.SetActive(false);
     }

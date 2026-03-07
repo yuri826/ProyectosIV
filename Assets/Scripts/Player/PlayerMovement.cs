@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private PlayerInput playerInput;
     private CharacterController characterController;
+    private PlayerWeapon playerWeapon;
 
     private Vector2 movementInputDirection;
 
@@ -23,9 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxDashTimer;
     private float dashTimer;
     
-    [Header("Shoot")]
-    [SerializeField] private GameObject playerBullet;
-    [SerializeField] private Vector3 shootOffset;
+    
 
     [Header("Pickables")] 
     private PickableObj currentObj;
@@ -41,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
+        playerWeapon = GetComponent<PlayerWeapon>();
     }
 
     private void OnEnable()
@@ -252,8 +252,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             
-            PlayerBullet b = Instantiate(playerBullet, this.transform.position + shootOffset, Quaternion.identity).GetComponent<PlayerBullet>();
-            b.shootDir = lookDir;
+            playerWeapon.Shoot(lookDir);
             
             EndOfAct:;
         }
