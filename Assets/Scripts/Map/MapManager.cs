@@ -8,6 +8,8 @@ public class MapManager : MonoBehaviour
     public static MapManager instance;
     
     [Tooltip("RESPETAR ORDEN NUMERICO!")][SerializeField] private MapNode[] nodeList;
+    [SerializeField] private GameObject mapCursor;
+    [SerializeField] private MapCamera mapCamera;
     
     private PlayerInput playerInput;
     
@@ -23,6 +25,8 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         currentNode = nodeList[0];
+        mapCursor.transform.position = currentNode.CursorPos.position;
+        mapCamera.MoveToPos(currentNode.CameraPosition);
     }
 
     private void OnEnable()
@@ -38,8 +42,10 @@ public class MapManager : MonoBehaviour
     private void MoveNode(int direction)
     {
         currentNodeIndex += direction;
-        Mathf.Clamp(currentNodeIndex,0,nodeList.Length-1);
+        currentNodeIndex = Mathf.Clamp(currentNodeIndex,0,nodeList.Length-1);
         
         currentNode = nodeList[currentNodeIndex];
+        mapCursor.transform.position = currentNode.CursorPos.position;
+        mapCamera.MoveToPos(currentNode.CameraPosition);
     }
 }

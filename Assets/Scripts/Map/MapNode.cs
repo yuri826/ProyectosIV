@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class MapNode : MonoBehaviour
 {
-    [SerializeField] private int nodePosition;
-    
+    [SerializeField] private Transform cursorPosition;
+    [SerializeField] private Transform cameraPosition;
+
+    public Transform CursorPos => cursorPosition;
+    public Transform CameraPosition => cameraPosition;
+
     [Tooltip("SOLO PARA EL PRIMERO! / para debugear")][SerializeField] private bool activeInit;
     [SerializeField] private MapNode nextNode;
     
