@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class DepositObj : MonoBehaviour
     [SerializeField] protected float maxRepairTimer;
     protected float repairTimer = 0f;
     protected bool repairing = false;
+
+    protected int currentPlayer;
 
     protected virtual void Start()
     {
@@ -77,16 +80,21 @@ public class DepositObj : MonoBehaviour
         }
     }
 
-    public void OnTool()
+    public void OnTool(int playerN)
     {
-        repairBar.SetActive(true);
-        PlayerSystem.instance.SetState("repair");
-        repairing = true;
+        if (!repairing)
+        {
+            currentPlayer = playerN;
+            repairBar.SetActive(true);
+            PlayerSystem.instance.SetState("repair", playerN);
+            repairing = true;
+        }
     }
 
     public void RemoveTool()
     {
-        PlayerSystem.instance.SetState("move");
+        Debug.Log(currentPlayer);
+        if (currentPlayer >= 0)PlayerSystem.instance.SetState("move", currentPlayer);
         repairing = false;
     }
 

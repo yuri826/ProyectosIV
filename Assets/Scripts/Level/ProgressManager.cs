@@ -45,6 +45,8 @@ public class ProgressManager : MonoBehaviour
         anim.SetTrigger("numberPop");
 
         state = "gameplay";
+
+        PlayerSystem.instance.ActivatePlayers();
         
         countRoutine = StartCoroutine(SecondCount());
     }

@@ -19,7 +19,7 @@ public class TreatmentDeposit : DepositObj
             {
                 state = "completed";
                 RemoveTool();
-                Completed();
+                GiveObj();
                 return;
             }
         }
@@ -53,15 +53,13 @@ public class TreatmentDeposit : DepositObj
         }
     }
 
-    protected override void Completed()
+    private void GiveObj()
     {
         repairBar.SetActive(false);
         
-        Debug.Log(objectIndex);
-        Debug.Log(treatedObjects.Length);
-        
-        PickableObj pickableObj = Instantiate(treatedObjects[objectIndex], treatedObjectSpawn).GetComponent<PickableObj>();
-        PlayerSystem.instance.ForcePick(pickableObj);
+        GameObject pickableObj = Instantiate(treatedObjects[objectIndex], treatedObjectSpawn);
+        pickableObj.transform.parent = null;
+        PlayerSystem.instance.ForcePick(pickableObj.GetComponent<PickableObj>(), currentPlayer);
         
         state = "objects";
     }

@@ -6,13 +6,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private int playerN;
+    public int PlayerN => playerN;
+    
     private PlayerInput playerInput;
     private CharacterController characterController;
     private PlayerWeapon playerWeapon;
 
     private Vector2 movementInputDirection;
 
-    public string state { get; set; } = "move";
+    public string state { get; set; } = "locked";
 
     [Header("Movement")] 
     [SerializeField] private float walkSpeed;
@@ -23,8 +26,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float maxDashTimer;
     private float dashTimer;
-    
-    
 
     [Header("Pickables")] 
     private PickableObj currentObj;
@@ -41,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         playerWeapon = GetComponent<PlayerWeapon>();
+    }
+
+    private void Start()
+    {
+        PlayerSystem.instance.AddPlayer(this, playerN);
     }
 
     private void OnEnable()
@@ -247,7 +253,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("Omg deposit to repair omg");
                     currentRepairDeposit = deposit;
-                    deposit.OnTool();
+                    deposit.OnTool(playerN);
                     goto EndOfAct;
                 }
             }

@@ -1242,13 +1242,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967975541}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: -0.31442627, y: -0.14585099, z: 0.93673205, w: -0.048956774}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 162.3, y: -217.11, z: 0}
 --- !u!114 &967975544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,12 +1727,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5267f18456ed30e4f896eee5147e7f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
+  nodeInfo: {fileID: 1640044166}
+  infoTypewriter: {fileID: 0}
   cursorPosition: {fileID: 0}
   cameraPosition: {fileID: 0}
   activeInit: 0
   nextNode: {fileID: 0}
   state: unlocked
-  nodeInfo: {fileID: 1640044166}
 --- !u!114 &1045023813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2580,12 +2581,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5267f18456ed30e4f896eee5147e7f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
+  nodeInfo: {fileID: 1573352123}
+  infoTypewriter: {fileID: 0}
   cursorPosition: {fileID: 0}
   cameraPosition: {fileID: 0}
   activeInit: 0
   nextNode: {fileID: 0}
   state: unlocked
-  nodeInfo: {fileID: 1573352123}
 --- !u!114 &1709399665
 MonoBehaviour:
   m_ObjectHideFlags: 0

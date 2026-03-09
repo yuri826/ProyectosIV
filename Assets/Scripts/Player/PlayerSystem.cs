@@ -1,25 +1,40 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSystem : MonoBehaviour
 {
     public static PlayerSystem instance;
     
-    private PlayerMovement playerMovement;
+    private PlayerMovement[] players = new PlayerMovement[4];
 
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
         instance = this;
     }
 
-    public void SetState(string state)
+    public void SetState(string state, int playerN)
     {
-        playerMovement.state = state;
+        players[playerN].state = state;
     }
 
-    public void ForcePick(PickableObj p)
+    public void ForcePick(PickableObj p, int playerN)
     {
-        playerMovement.ForcePick(p);
+        Debug.Log(playerN);
+        players[playerN].ForcePick(p);
+    }
+
+    public void AddPlayer(PlayerMovement p, int playerN)
+    {
+        players[playerN] = p;
+    }
+
+    public void ActivatePlayers()
+    {
+        foreach (PlayerMovement p in players)
+        {
+            if (p is not null) p.state = "move";
+        }
     }
 }
