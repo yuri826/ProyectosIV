@@ -45,6 +45,8 @@ public class MapManager : MonoBehaviour
         currentNodeIndex = Mathf.Clamp(currentNodeIndex,0,nodeList.Length-1);
         
         currentNode = nodeList[currentNodeIndex];
+        
+        currentNode.ActivateNodeInfo();
         mapCursor.transform.position = currentNode.CursorPos.position;
         mapCamera.MoveToPos(currentNode.CameraPosition);
     }
