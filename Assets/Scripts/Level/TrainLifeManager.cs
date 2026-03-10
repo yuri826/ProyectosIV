@@ -10,6 +10,8 @@ public class TrainLifeManager : MonoBehaviour
     
     private ProgressManager progressManager;
 
+    private bool isDead = false;
+
     private void Awake()
     {
         instance = this;
@@ -24,7 +26,7 @@ public class TrainLifeManager : MonoBehaviour
     {
         currentTrainLife -= amount;
 
-        if (currentTrainLife <= 0)
+        if (currentTrainLife <= 0 && !isDead)
         {
             TrainDead();
         }
@@ -32,6 +34,7 @@ public class TrainLifeManager : MonoBehaviour
 
     private void TrainDead()
     {
+        isDead = true;
         progressManager.GameOver();
     }
 }
