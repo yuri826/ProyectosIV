@@ -11,6 +11,10 @@ public class ProgressManager : MonoBehaviour
     
     [SerializeField] private Image progressBar;
     [SerializeField] private TextMeshProUGUI introNumbers;
+    
+    [Header("Menus")]
+    [SerializeField] private GameObject winMenu;
+    [SerializeField] private GameObject loseMenu;
 
     private Animator anim;
 
@@ -64,7 +68,7 @@ public class ProgressManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(SecondCount());
+            if (state == "gameplay") StartCoroutine(SecondCount());
         }
     }
 
@@ -73,12 +77,18 @@ public class ProgressManager : MonoBehaviour
         //Por si acaso se muere justo en el final (improbable pero no imposible :o)
         if (state != "gameplay") return;
         
+        PlayerSystem.instance.DeactivatePlayers("win");
+        winMenu.SetActive(true);
+        
         state = "win";
         print("Level complete!");
     }
 
     public void GameOver()
     {
+        PlayerSystem.instance.DeactivatePlayers("gameOver");
+        loseMenu.SetActive(true);
+        
         StopCoroutine(countRoutine);
         state = "gameover";
     }
