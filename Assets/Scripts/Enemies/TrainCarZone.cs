@@ -1,0 +1,250 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class TrainCarZone : MonoBehaviour
+{
+    [Header("Puntos de spawn de enemigos")]
+    // Aquí meteremos a mano los puntos donde puede aparecer un forajido
+    [SerializeField] private Transform[] outlawSpawnPoints;
+
+    [Header("Puntos sabotables de este vagón")]
+    // Aquí meteremos a mano todas las casillas sabotables del vagón
+    [SerializeField] private SabotagePoint[] sabotagePoints;
+
+    [Header("Límite de puntos rotos")]
+    // Máximo de puntos rotos permitidos a la vez en este vagón
+    [SerializeField] private int maxBrokenPoints = 5;
+
+    [Header("Players en el vagón")]
+    // Esta lista se rellena sola cuando jugadores entran y salen del vagón
+    [SerializeField] private List<PlayerMovement> playersInsideCar = new List<PlayerMovement>();
+    
+    private Collider zoneCollider;
+    
+    private void Awake()
+    {
+        zoneCollider = GetComponent<Collider>();
+    }
+    
+    // MÉTODOS DE ACCESO BÁSICOS
+
+    public Transform[] GetSpawnPoints()
+    {
+        return outlawSpawnPoints;
+    }
+
+    public SabotagePoint[] GetSabotagePoints()
+    {
+        return sabotagePoints;
+    }
+
+    public List<PlayerMovement> GetPlayersInsideCar()
+    {
+        // Antes de devolver la lista, limpiamos referencias nulas por seguridad
+        RemoveNullPlayers();
+
+        return playersInsideCar;
+    }
+    
+    // MÉTODOS PARA GESTIONAR PUNTOS SABOTABLES
+
+    public int GetBrokenPointsCount()
+    {
+        int brokenPointsCount = 0;
+
+        for (int i = 0; i < sabotagePoints.Length; i++)
+        {
+            if (sabotagePoints[i] == null)
+            {
+                continue;
+            }
+
+            if (sabotagePoints[i].state == "broken")
+            {
+                brokenPointsCount++;
+            }
+        }
+
+        return brokenPointsCount;
+    }
+    
+    public bool CanBreakMorePoints()
+    {
+        return GetBrokenPointsCount() < maxBrokenPoints;
+    }
+    
+    public SabotagePoint GetRandomFreeSabotagePoint()
+    {
+        // Si ya hemos llegado al máximo de puntos rotos, no devolvemos ninguno
+        if (!CanBreakMorePoints())
+        {
+            return null;
+        }
+
+        List<SabotagePoint> freePoints = new List<SabotagePoint>();
+
+        for (int i = 0; i < sabotagePoints.Length; i++)
+        {
+            if (sabotagePoints[i] == null)
+            {
+                continue;
+            }
+
+            if (sabotagePoints[i].CanBeTargeted())
+            {
+                freePoints.Add(sabotagePoints[i]);
+            }
+        }
+
+        if (freePoints.Count == 0)
+        {
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, freePoints.Count);
+        SabotagePoint selectedPoint = freePoints[randomIndex];
+
+        // Lo reservamos aquí mismo para que otro enemigo no elija el mismo punto
+        bool pointReserved = selectedPoint.ReservePoint();
+
+        if (!pointReserved)
+        {
+            return null;
+        }
+
+        return selectedPoint;
+    }
+    
+    // MÉTODOS PARA JUGADORES DENTRO DEL VAGÓN
+
+    public bool HasPlayersInside()
+    {
+        RemoveNullPlayers();
+
+        return playersInsideCar.Count > 0;
+    }
+
+    public List<PlayerMovement> GetPlayersInRange(Vector3 centerPoint, float range)
+    {
+        RemoveNullPlayers();
+
+        List<PlayerMovement> playersInRange = new List<PlayerMovement>();
+
+        for (int i = 0; i < playersInsideCar.Count; i++)
+        {
+            if (playersInsideCar[i] == null)
+            {
+                continue;
+            }
+
+            float distanceToPlayer = Vector3.Distance(centerPoint, playersInsideCar[i].transform.position);
+
+            if (distanceToPlayer <= range)
+            {
+                playersInRange.Add(playersInsideCar[i]);
+            }
+        }
+
+        return playersInRange;
+    }
+    
+    // MÉTODOS DE POSICIONES RANDOM DEL VAGÓN
+
+    public Vector3 GetRandomPointInCarFarFrom(Vector3 originPoint, float minDistance)
+    {
+        List<Vector3> validPoints = new List<Vector3>();
+
+        // Podemos usar los spawn points como posibles puntos de paseo
+        for (int i = 0; i < outlawSpawnPoints.Length; i++)
+        {
+            if (outlawSpawnPoints[i] == null)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(originPoint, outlawSpawnPoints[i].position);
+
+            if (distance >= minDistance)
+            {
+                validPoints.Add(outlawSpawnPoints[i].position);
+            }
+        }
+
+        // También podemos usar los puntos sabotables como posibles puntos de paseo
+        for (int i = 0; i < sabotagePoints.Length; i++)
+        {
+            if (sabotagePoints[i] == null)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(originPoint, sabotagePoints[i].transform.position);
+
+            if (distance >= minDistance)
+            {
+                validPoints.Add(sabotagePoints[i].transform.position);
+            }
+        }
+
+        if (validPoints.Count == 0)
+        {
+            // Si no encuentra ninguno suficientemente lejos, devolvemos el centro del vagón
+            return transform.position;
+        }
+
+        int randomIndex = Random.Range(0, validPoints.Count);
+        return validPoints[randomIndex];
+    }
+
+
+    public bool ContainsPoint(Vector3 worldPoint)
+    {
+        if (zoneCollider == null)
+        {
+            return false;
+        }
+
+        return zoneCollider.bounds.Contains(worldPoint);
+    }
+    
+    // DETECCIÓN DE JUGADORES
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerMovement player = other.GetComponent<PlayerMovement>();
+
+        if (player != null)
+        {
+            if (!playersInsideCar.Contains(player))
+            {
+                playersInsideCar.Add(player);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        PlayerMovement player = other.GetComponent<PlayerMovement>();
+
+        if (player != null)
+        {
+            if (playersInsideCar.Contains(player))
+            {
+                playersInsideCar.Remove(player);
+            }
+        }
+    }
+    
+    // LIMPIEZA DE REFERENCIAS
+
+    private void RemoveNullPlayers()
+    {
+        for (int i = playersInsideCar.Count - 1; i >= 0; i--)
+        {
+            if (playersInsideCar[i] == null)
+            {
+                playersInsideCar.RemoveAt(i);
+            }
+        }
+    }
+}
