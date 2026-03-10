@@ -34,6 +34,7 @@ public class TrainLifeManager : MonoBehaviour
 
     private void TrainDead()
     {
+        PlayerSystem.instance.DeactivatePlayers("gameOver");
         isDead = true;
         progressManager.GameOver();
     }

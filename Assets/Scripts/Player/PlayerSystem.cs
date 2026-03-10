@@ -37,4 +37,12 @@ public class PlayerSystem : MonoBehaviour
             if (p is not null) p.state = "move";
         }
     }
+
+    public void DeactivatePlayers(string state)
+    {
+        foreach (PlayerMovement p in players)
+        {
+            if (p is not null) p.state = "gameOver";
+        }
+    }
 }
