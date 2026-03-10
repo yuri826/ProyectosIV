@@ -45,7 +45,7 @@ public class OutlawDynamite : MonoBehaviour
     
     private void Explode()
     {
-        Debug.Log("La dinamita ha explotado");
+        Debug.Log("La dinamita ha explotado", this.gameObject);
         targetSabotagePoint.BreakPoint();
         
         TrainLifeManager.instance.TakeDamage(damageToTrain);

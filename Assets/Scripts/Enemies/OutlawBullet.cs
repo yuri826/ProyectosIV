@@ -34,6 +34,16 @@ public class OutlawBullet : MonoBehaviour
         {
             return;
         }
+
+        if (other.TryGetComponent(out OutlawHealth health))
+        {
+            health.TakeDamage(damage);
+        }
+        
+        // if (other.TryGetComponent(out PlayerHealth playerHealth))
+        // {
+        //     playerHealth.TakeDamage(damage);
+        // }
         
         other.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
         Destroy(gameObject);

@@ -140,7 +140,7 @@ public class OutlawCombat : MonoBehaviour
                 CancelReposition();
             }
         }
-
+#region step 8
         // 8. Si todavía tengo cooldown, no quiero que el enemigo se vuelva loco moviéndose.
         // Se queda quieto, mirando al jugador.
         if (currentShootCooldown > 0f)
@@ -148,7 +148,7 @@ public class OutlawCombat : MonoBehaviour
             StopMoving();
             return true;
         }
-
+#endregion
         // 9. Si ya puedo disparar, compruebo si tengo tiro claro
         bool hasClearShot = HasClearShotToPlayer(currentTargetPlayer);
 

@@ -69,6 +69,9 @@ public class SabotagePoint : MonoBehaviour
     }
     
     // Cuando el jugador repara el suelo
+    /// <summary>
+    /// 
+    /// </summary>
     public void RepairPoint()
     {
         state = "free";

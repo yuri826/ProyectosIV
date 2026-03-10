@@ -34,7 +34,6 @@ public class OutlawSystem : MonoBehaviour
     private Vector3 lastPatrolPoint;
     private bool isSandstormActive;
 
-
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -43,8 +42,7 @@ public class OutlawSystem : MonoBehaviour
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
     }
-
-
+    
     private void Start()
     {
         if (currentCarZone == null)
@@ -52,7 +50,6 @@ public class OutlawSystem : MonoBehaviour
             currentCarZone = GetComponentInParent<TrainCarZone>();
         }
     }
-
 
     private void Update()
     {
@@ -111,6 +108,8 @@ public class OutlawSystem : MonoBehaviour
 
             case "sandstorm":
                 // No hace nada. Lo bloquea al principio del Update.
+                break;
+            default:
                 break;
         }
     }
