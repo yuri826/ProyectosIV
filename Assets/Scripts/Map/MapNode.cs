@@ -47,4 +47,14 @@ public class MapNode : MonoBehaviour
     {
         infoTypewriter.TypeText(nodeInfo.Title, nodeInfo.Info, 0.6f);
     }
+
+    public void SetState(string state)
+    {
+        this.state = state;
+    }
+
+    public void DeactivateNodeInfo()
+    {
+        infoTypewriter.StopTyping();
+    }
 }
