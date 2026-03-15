@@ -8,13 +8,16 @@ public class MapInfoTypewriter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bodyText;
     [SerializeField] private float textSpeed;
     
+    private Coroutine titleWrite;
+    private Coroutine bodyWrite;
+    
     public void TypeText(string titleText, string bodyText, float secondsTillWrite)
     {
         this.titleText.text = "";
         this.bodyText.text = "";
         
-        StartCoroutine(TypeBody(bodyText, secondsTillWrite));
-        StartCoroutine(TypeTitle(titleText, secondsTillWrite));
+        bodyWrite = StartCoroutine(TypeBody(bodyText, secondsTillWrite));
+        titleWrite = StartCoroutine(TypeTitle(titleText, secondsTillWrite));
     }
 
     private IEnumerator TypeBody(string text, float secondsTillWrite)
@@ -37,5 +40,13 @@ public class MapInfoTypewriter : MonoBehaviour
             titleText.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+    }
+
+    public void StopTyping()
+    {
+        StopCoroutine(titleWrite);
+        titleText.text = "";
+        StopCoroutine(bodyWrite);
+        bodyText.text = "";
     }
 }

@@ -703,6 +703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560279d2737a76e4caa7b9fa298ff2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
+  levelManager: {fileID: 11400000, guid: 0ff786f1e422ebe46befe885717808b8, type: 2}
   nodeList:
   - {fileID: 633108379}
   - {fileID: 1946694634}
