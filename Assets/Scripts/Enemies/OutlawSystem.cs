@@ -27,11 +27,14 @@ public class OutlawSystem : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     private OutlawCombat outlawCombat;
+    
     private SabotagePoint currentTargetSabotagePoint;
     private OutlawDynamite currentDynamite;
+    
     private float currentStateTimer;
     private int currentPatrolPointsDone;
     private Vector3 lastPatrolPoint;
+    
     private bool isSandstormActive;
 
     private void Awake()
@@ -41,8 +44,9 @@ public class OutlawSystem : MonoBehaviour
         
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
+        
     }
-    
+
     private void Start()
     {
         if (currentCarZone == null)
@@ -53,7 +57,7 @@ public class OutlawSystem : MonoBehaviour
 
     private void Update()
     {
-        // 1. Si hay tormenta de arena, eso tiene prioridad total
+        // Si hay tormenta de arena, este estado tiene prioridad total.
         if (isSandstormActive)
         {
             currentState = OutlawState.Sandstorm;
@@ -61,7 +65,13 @@ public class OutlawSystem : MonoBehaviour
             return;
         }
 
-        // 2. Si no estoy en risa y detecto un jugador en rango, el combate tiene prioridad
+        if (currentCarZone == null)
+        {
+            return;
+        }
+
+        // Si no estoy ya en combate o en risa, y aparece un jugador cerca,
+        // el combate tiene prioridad.
         if (currentState != OutlawState.Combat && currentState != OutlawState.Laugh)
         {
             if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
@@ -71,7 +81,6 @@ public class OutlawSystem : MonoBehaviour
             }
         }
 
-        // 3. Ejecutamos la lógica del estado actual
         switch (currentState)
         {
             case OutlawState.PickSabotage:
@@ -108,7 +117,6 @@ public class OutlawSystem : MonoBehaviour
 
             case OutlawState.Sandstorm:
                 break;
-            
             default:
                 break;
         }
@@ -134,7 +142,7 @@ public class OutlawSystem : MonoBehaviour
         }
         else
         {
-            currentState = OutlawState.Sandstorm;
+            currentState = OutlawState.PickSabotage;
         }
     }
 
@@ -142,44 +150,41 @@ public class OutlawSystem : MonoBehaviour
     {
         outlawCombat.OnPlayerLeftCar(player, lastPosition);
     }
-    
+
     public void OnPlayerFell(PlayerMovement player)
     {
-        
         outlawCombat.OnPlayerFell(player);
-
-        currentState = OutlawState.Laugh;
         currentStateTimer = laughTime;
         navMeshAgent.isStopped = true;
+        currentState = OutlawState.Laugh;
     }
-    
+
     public void OnDead()
     {
         CancelCurrentSabotage();
     }
-    
-    // ESTADOS DE SABOTAJE
 
+    
+    // SABOTAJE
+    
     private void PickSabotagePoint()
     {
         currentTargetSabotagePoint = currentCarZone.GetRandomFreeSabotagePoint();
-
-        // Si no hay puntos válidos, patrullamos
+        
         if (currentTargetSabotagePoint == null)
         {
             StartPatrol();
             return;
         }
-        
+
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(currentTargetSabotagePoint.transform.position);
-
-        currentState = OutlawState.Laugh;
+        
+        currentState = OutlawState.MoveToSabotage;
     }
 
     private void UpdateMoveToSabotage()
     {
-        // Si aparece un jugador, cancelamos sabotaje y vamos a combate
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             CancelCurrentSabotage();
@@ -189,21 +194,21 @@ public class OutlawSystem : MonoBehaviour
 
         if (currentTargetSabotagePoint == null)
         {
-            currentState = OutlawState.Combat;
+            currentState = OutlawState.PickSabotage;
             return;
         }
 
         if (HasReachedDestination())
         {
             navMeshAgent.isStopped = true;
+            
             currentStateTimer = plantDynamiteTime;
-            currentState = OutlawState.PickSabotage;
+            currentState = OutlawState.PlantDynamite;
         }
     }
-    
+
     private void UpdatePlantDynamite()
     {
-        // Si aparece un jugador, cancelamos antes de terminar de plantar
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             CancelCurrentSabotage();
@@ -223,10 +228,7 @@ public class OutlawSystem : MonoBehaviour
         {
             SpawnDynamite();
 
-            Vector3 safePosition = currentCarZone.GetRandomPointInCarFarFrom(
-                currentTargetSabotagePoint.transform.position,
-                safeDistanceAfterPlant
-            );
+            Vector3 safePosition = currentCarZone.GetRandomPointInCarFarFrom(currentTargetSabotagePoint.transform.position, safeDistanceAfterPlant);
             
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(safePosition);
@@ -253,15 +255,13 @@ public class OutlawSystem : MonoBehaviour
 
     private void UpdateWaitExplosion()
     {
-        // Espera quieto hasta que la dinamita desaparece al explotar
         if (currentDynamite == null)
         {
             StartPatrol();
         }
     }
     
-    
-    // ESTADO DE PATRULLA
+    // PATRULLA
 
     private void StartPatrol()
     {
@@ -272,10 +272,8 @@ public class OutlawSystem : MonoBehaviour
         currentState = OutlawState.Patrol;
     }
 
-
     private void UpdatePatrol()
     {
-        // Si aparece un jugador, entramos en combate
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             currentState = OutlawState.Combat;
@@ -299,18 +297,15 @@ public class OutlawSystem : MonoBehaviour
         PickNextPatrolPoint();
     }
 
-
     private void PickNextPatrolPoint()
     {
         Vector3 randomPoint = currentCarZone.GetRandomPointInCarFarFrom(lastPatrolPoint, minDistanceBetweenPatrolPoints);
         
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(randomPoint);
-        
     }
-
-
-    // ESTADO DE COMBATE
+    
+    // COMBATE
 
     private void UpdateCombat()
     {
@@ -327,9 +322,9 @@ public class OutlawSystem : MonoBehaviour
             currentState = OutlawState.PickSabotage;
         }
     }
+
     
-    
-    // ESTADO DE RISA
+    // RISA
 
     private void UpdateLaugh()
     {
@@ -347,22 +342,22 @@ public class OutlawSystem : MonoBehaviour
             }
         }
     }
-
-
+    
     // AYUDAS
 
     private void SpawnDynamite()
     {
+        if (outlawDynamitePrefab == null)
+        {
+            return;
+        }
+
         if (currentTargetSabotagePoint == null)
         {
             return;
         }
 
-        GameObject dynamiteObject = Instantiate(
-            outlawDynamitePrefab,
-            currentTargetSabotagePoint.GetDynamitePoint().position,
-            Quaternion.identity
-        );
+        GameObject dynamiteObject = Instantiate(outlawDynamitePrefab, currentTargetSabotagePoint.GetDynamitePoint().position, Quaternion.identity);
 
         currentDynamite = dynamiteObject.GetComponent<OutlawDynamite>();
 
@@ -380,15 +375,18 @@ public class OutlawSystem : MonoBehaviour
 
     private void CancelCurrentSabotage()
     {
-        if (currentTargetSabotagePoint != null)
-        {
-            currentTargetSabotagePoint.CancelReservation();
-            currentTargetSabotagePoint = null;
-        }
+        
+        currentTargetSabotagePoint.CancelReservation();
+        currentTargetSabotagePoint = null;
     }
-    
+
     private bool HasReachedDestination()
     {
+        if (navMeshAgent == null)
+        {
+            return false;
+        }
+
         if (navMeshAgent.pathPending)
         {
             return false;

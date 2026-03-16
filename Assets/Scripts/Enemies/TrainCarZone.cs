@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class TrainCarZone : MonoBehaviour
 {
@@ -232,6 +233,45 @@ public class TrainCarZone : MonoBehaviour
         }
     }
     
+    public bool TryGetRandomNavMeshPointInCar(Vector3 originPoint, float minDistance, out Vector3 randomPoint)
+    {
+        randomPoint = transform.position;
+
+        // Hacemos varios intentos para encontrar un punto válido dentro del vagón
+        for (int i = 0; i < 20; i++)
+        {
+            // Cogemos un punto random dentro de los bounds del collider del vagón
+            Vector3 candidatePoint = new Vector3(
+                Random.Range(zoneCollider.bounds.min.x, zoneCollider.bounds.max.x),
+                transform.position.y,
+                Random.Range(zoneCollider.bounds.min.z, zoneCollider.bounds.max.z)
+            );
+
+            // Si está demasiado cerca del origen, no nos vale
+            if (Vector3.Distance(originPoint, candidatePoint) < minDistance)
+            {
+                continue;
+            }
+
+            // Si no cae dentro del NavMesh, no nos vale
+            NavMeshHit navMeshHit;
+            if (!NavMesh.SamplePosition(candidatePoint, out navMeshHit, 1.5f, NavMesh.AllAreas))
+            {
+                continue;
+            }
+
+            // Comprobamos que el punto final sigue estando dentro del vagón
+            if (!ContainsPoint(navMeshHit.position))
+            {
+                continue;
+            }
+
+            randomPoint = navMeshHit.position;
+            return true;
+        }
+
+        return false;
+    }
     // LIMPIEZA DE REFERENCIAS
 
     private void RemoveNullPlayers()
