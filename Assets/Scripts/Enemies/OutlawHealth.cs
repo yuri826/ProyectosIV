@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class OutlawHealth : MonoBehaviour
 {
-    [Header("Vida del forajido")]
+    [Header("Outlaw Health")]
     [SerializeField] private float maxHealth;
     
     private float currentHealth;

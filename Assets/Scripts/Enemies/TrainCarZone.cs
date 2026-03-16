@@ -3,19 +3,18 @@ using System.Collections.Generic;
 
 public class TrainCarZone : MonoBehaviour
 {
-    [Header("Puntos de spawn de enemigos")]
-    // Aquí meteremos a mano los puntos donde puede aparecer un forajido
+    [Header("PEnemy Spawn Points")]
     [SerializeField] private Transform[] outlawSpawnPoints;
 
-    [Header("Puntos sabotables de este vagón")]
+    [Header("Sabotage Points")]
     // Aquí meteremos a mano todas las casillas sabotables del vagón
     [SerializeField] private SabotagePoint[] sabotagePoints;
 
-    [Header("Límite de puntos rotos")]
+    [Header("Broken Points Limit")]
     // Máximo de puntos rotos permitidos a la vez en este vagón
     [SerializeField] private int maxBrokenPoints = 5;
 
-    [Header("Players en el vagón")]
+    [Header("Players in Car")]
     // Esta lista se rellena sola cuando jugadores entran y salen del vagón
     [SerializeField] private List<PlayerMovement> playersInsideCar = new List<PlayerMovement>();
     
@@ -40,9 +39,7 @@ public class TrainCarZone : MonoBehaviour
 
     public List<PlayerMovement> GetPlayersInsideCar()
     {
-        // Antes de devolver la lista, limpiamos referencias nulas por seguridad
         RemoveNullPlayers();
-
         return playersInsideCar;
     }
     
@@ -59,7 +56,7 @@ public class TrainCarZone : MonoBehaviour
                 continue;
             }
 
-            if (sabotagePoints[i].state == "broken")
+            if (sabotagePoints[i].IsBroken())
             {
                 brokenPointsCount++;
             }

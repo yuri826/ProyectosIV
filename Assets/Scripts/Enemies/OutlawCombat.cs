@@ -4,22 +4,22 @@ using UnityEngine.AI;
 
 public class OutlawCombat : MonoBehaviour
 {
-    [Header("Referencias")]
+    [Header("References")]
     [SerializeField] private Transform shootPoint;
     [SerializeField] private GameObject outlawBulletPrefab;
 
-    [Header("Ajustes de combate")]
+    [Header("Combat Settings")]
     [SerializeField] private float detectionRange;
     [SerializeField] private float attackDistance;
     [SerializeField] private float tooCloseDistance;
     [SerializeField] private float shootCooldown;
     [SerializeField] private float aimLastPositionTime;
 
-    [Header("Capas que bloquean disparos")]
+    [Header("Shot Blocking Layer")]
     [SerializeField] private LayerMask obstacleMask;
 
     private NavMeshAgent navMeshAgent;
-    private PlayerMovement currentTargetPlayer;
+    private PlayerMovement currentTarget;
     private PlayerMovement lastPlayerShot;
     private Vector3 lastKnownPlayerPosition;
     private float currentShootCooldown;
@@ -34,15 +34,7 @@ public class OutlawCombat : MonoBehaviour
     
     private void Update()
     {
-        if (currentShootCooldown > 0f)
-        {
-            currentShootCooldown -= Time.deltaTime;
-        }
-        
-        if (currentAimLastPositionTimer > 0f)
-        {
-            currentAimLastPositionTimer -= Time.deltaTime;
-        }
+        UpdateCooldowns();
     }
     
     // MÉTODOS PÚBLICOS
@@ -56,13 +48,13 @@ public class OutlawCombat : MonoBehaviour
     public bool UpdateCombat(TrainCarZone currentCar)
     {
         // 1. Si no tengo objetivo, intento conseguir uno
-        if (currentTargetPlayer == null)
+        if (currentTarget == null)
         {
-            currentTargetPlayer = GetNextTargetPlayer(currentCar, lastPlayerShot);
+            currentTarget = GetNextTargetPlayer(currentCar, lastPlayerShot);
         }
 
         // 2. Si sigo sin objetivo, miro un rato hacia la última posición conocida
-        if (currentTargetPlayer == null)
+        if (currentTarget == null)
         {
             if (currentAimLastPositionTimer > 0f)
             {
@@ -76,34 +68,34 @@ public class OutlawCombat : MonoBehaviour
         }
 
         // 3. Si el jugador ya no está en el vagón, lo pierdo
-        if (!IsPlayerStillInsideCar(currentCar, currentTargetPlayer))
+        if (!IsPlayerStillInsideCar(currentCar, currentTarget))
         {
-            SaveLastKnownPlayerPosition(currentTargetPlayer.transform.position);
-            currentTargetPlayer = null;
+            SaveLastKnownPlayerPosition(currentTarget.transform.position);
+            currentTarget = null;
             CancelReposition();
             return true;
         }
 
         // 4. Comprobamos la distancia al jugador
-        float distanceToTarget = Vector3.Distance(transform.position, currentTargetPlayer.transform.position);
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
 
         // Si se ha ido demasiado lejos, lo pierdo
         if (distanceToTarget > detectionRange)
         {
-            SaveLastKnownPlayerPosition(currentTargetPlayer.transform.position);
-            currentTargetPlayer = null;
+            SaveLastKnownPlayerPosition(currentTarget.transform.position);
+            currentTarget = null;
             CancelReposition();
             return true;
         }
 
         // 5. Mientras haya combate, el enemigo siempre mira al jugador
-        LookAtPosition(currentTargetPlayer.transform.position);
+        LookAtPosition(currentTarget.transform.position);
 
         // 6. Si el jugador está demasiado cerca, intento retroceder un poco
         if (distanceToTarget < tooCloseDistance)
         {
             CancelReposition();
-            MoveAwayFromPlayer(currentCar, currentTargetPlayer.transform.position);
+            MoveAwayFromTarget(currentCar, currentTarget.transform.position);
             return true;
         }
 
@@ -111,7 +103,7 @@ public class OutlawCombat : MonoBehaviour
         // Si ahora ya puedo disparar, cancelo la recolocación y disparo.
         if (isRepositioning)
         {
-            bool hasClearShotWhileRepositioning = HasClearShotToPlayer(currentTargetPlayer);
+            bool hasClearShotWhileRepositioning = HasClearShotToPlayer(currentTarget);
 
             if (hasClearShotWhileRepositioning && currentShootCooldown <= 0f)
             {
@@ -122,13 +114,13 @@ public class OutlawCombat : MonoBehaviour
 
                 if (playerToShoot == null)
                 {
-                    playerToShoot = currentTargetPlayer;
+                    playerToShoot = currentTarget;
                 }
 
                 Shoot(playerToShoot);
 
                 lastPlayerShot = playerToShoot;
-                currentTargetPlayer = playerToShoot;
+                currentTarget = playerToShoot;
                 currentShootCooldown = shootCooldown;
 
                 return true;
@@ -150,7 +142,7 @@ public class OutlawCombat : MonoBehaviour
         }
 #endregion
         // 9. Si ya puedo disparar, compruebo si tengo tiro claro
-        bool hasClearShot = HasClearShotToPlayer(currentTargetPlayer);
+        bool hasClearShot = HasClearShotToPlayer(currentTarget);
 
         if (hasClearShot)
         {
@@ -161,13 +153,13 @@ public class OutlawCombat : MonoBehaviour
 
             if (playerToShoot == null)
             {
-                playerToShoot = currentTargetPlayer;
+                playerToShoot = currentTarget;
             }
 
             Shoot(playerToShoot);
 
             lastPlayerShot = playerToShoot;
-            currentTargetPlayer = playerToShoot;
+            currentTarget = playerToShoot;
             currentShootCooldown = shootCooldown;
 
             return true;
@@ -176,7 +168,7 @@ public class OutlawCombat : MonoBehaviour
         // 10. Si no tengo línea de tiro y no estoy ya recolocándome, busco una posición nueva
         if (!isRepositioning)
         {
-            bool foundNewPosition = TryFindBetterAttackPosition(currentCar, currentTargetPlayer.transform.position);
+            bool foundNewPosition = TryFindBetterAttackPosition(currentCar, currentTarget.transform.position);
 
             if (foundNewPosition)
             {
@@ -199,19 +191,19 @@ public class OutlawCombat : MonoBehaviour
     
     public void OnPlayerLeftCar(PlayerMovement player, Vector3 lastPosition)
     {
-        if (currentTargetPlayer == player)
+        if (currentTarget == player)
         {
             SaveLastKnownPlayerPosition(lastPosition);
-            currentTargetPlayer = null;
+            currentTarget = null;
             CancelReposition();
         }
     }
     
     public void OnPlayerFell(PlayerMovement player)
     {
-        if (currentTargetPlayer == player)
+        if (currentTarget == player)
         {
-            currentTargetPlayer = null;
+            currentTarget = null;
             currentAimLastPositionTimer = 0f;
             CancelReposition();
         }
@@ -219,7 +211,7 @@ public class OutlawCombat : MonoBehaviour
 
     public void ClearCombatData()
     {
-        currentTargetPlayer = null;
+        currentTarget = null;
         lastPlayerShot = null;
         currentAimLastPositionTimer = 0f;
         CancelReposition();
@@ -376,7 +368,7 @@ public class OutlawCombat : MonoBehaviour
         return false;
     }
 
-    private void MoveAwayFromPlayer(TrainCarZone currentCar, Vector3 playerPosition)
+    private void MoveAwayFromTarget(TrainCarZone currentCar, Vector3 playerPosition)
     {
         if (currentCar == null)
         {
@@ -462,5 +454,18 @@ public class OutlawCombat : MonoBehaviour
         }
 
         transform.forward = lookDirection.normalized;
+    }
+    
+    private void UpdateCooldowns()
+    {
+        if (currentShootCooldown > 0f)
+        {
+            currentShootCooldown -= Time.deltaTime;
+        }
+
+        if (currentAimLastPositionTimer > 0f)
+        {
+            currentAimLastPositionTimer -= Time.deltaTime;
+        }
     }
 }

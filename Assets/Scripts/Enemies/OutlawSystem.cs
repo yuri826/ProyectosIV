@@ -3,14 +3,14 @@ using UnityEngine.AI;
 
 public class OutlawSystem : MonoBehaviour
 {
-    [Header("Estado actual")]
-    [SerializeField] private string currentState = "pickSabotage";
+    [Header("Current State")]
+    [SerializeField] private OutlawState currentState = OutlawState.PickSabotage;
 
-    [Header("Referencias")]
+    [Header("References")]
     [SerializeField] private TrainCarZone currentCarZone;
     [SerializeField] private GameObject outlawDynamitePrefab;
 
-    [Header("Ajustes de sabotaje")]
+    [Header("Sabitage")]
     [SerializeField] private float plantDynamiteTime;
     [SerializeField] private float dynamiteFuseTime;
     [SerializeField] private float safeDistanceAfterPlant;
@@ -18,11 +18,11 @@ public class OutlawSystem : MonoBehaviour
     [SerializeField] private float dynamiteExplosionDamage;
     [SerializeField] private float dynamiteExplosionRadius;
 
-    [Header("Ajustes de patrulla")]
+    [Header("Patrol")]
     [SerializeField] private int patrolPointsAfterExplosion;
     [SerializeField] private float minDistanceBetweenPatrolPoints;
 
-    [Header("Reacciones")]
+    [Header("Laugh")]
     [SerializeField] private float laughTime;
 
     private NavMeshAgent navMeshAgent;
@@ -56,59 +56,59 @@ public class OutlawSystem : MonoBehaviour
         // 1. Si hay tormenta de arena, eso tiene prioridad total
         if (isSandstormActive)
         {
-            currentState = "sandstorm";
+            currentState = OutlawState.Sandstorm;
             navMeshAgent.isStopped = true;
             return;
         }
 
         // 2. Si no estoy en risa y detecto un jugador en rango, el combate tiene prioridad
-        if (currentState != "laugh" && currentState != "combat")
+        if (currentState != OutlawState.Combat && currentState != OutlawState.Laugh)
         {
             if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
             {
                 CancelCurrentSabotage();
-                currentState = "combat";
+                currentState = OutlawState.Combat;
             }
         }
 
         // 3. Ejecutamos la lógica del estado actual
         switch (currentState)
         {
-            case "pickSabotage":
+            case OutlawState.PickSabotage:
                 PickSabotagePoint();
                 break;
 
-            case "moveToSabotage":
+            case OutlawState.MoveToSabotage:
                 UpdateMoveToSabotage();
                 break;
 
-            case "plantDynamite":
+            case OutlawState.PlantDynamite:
                 UpdatePlantDynamite();
                 break;
 
-            case "moveToSafePosition":
+            case OutlawState.MoveToSafePosition:
                 UpdateMoveToSafePosition();
                 break;
 
-            case "waitExplosion":
+            case OutlawState.WaitExplosion:
                 UpdateWaitExplosion();
                 break;
 
-            case "patrol":
+            case OutlawState.Patrol:
                 UpdatePatrol();
                 break;
 
-            case "combat":
+            case OutlawState.Combat:
                 UpdateCombat();
                 break;
 
-            case "laugh":
+            case OutlawState.Laugh:
                 UpdateLaugh();
                 break;
 
-            case "sandstorm":
-                // No hace nada. Lo bloquea al principio del Update.
+            case OutlawState.Sandstorm:
                 break;
+            
             default:
                 break;
         }
@@ -130,11 +130,11 @@ public class OutlawSystem : MonoBehaviour
             CancelCurrentSabotage();
             outlawCombat.ClearCombatData();
             navMeshAgent.isStopped = true;
-            currentState = "sandstorm";
+            currentState = OutlawState.Sandstorm;
         }
         else
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.Sandstorm;
         }
     }
 
@@ -148,7 +148,7 @@ public class OutlawSystem : MonoBehaviour
         
         outlawCombat.OnPlayerFell(player);
 
-        currentState = "laugh";
+        currentState = OutlawState.Laugh;
         currentStateTimer = laughTime;
         navMeshAgent.isStopped = true;
     }
@@ -174,7 +174,7 @@ public class OutlawSystem : MonoBehaviour
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(currentTargetSabotagePoint.transform.position);
 
-        currentState = "moveToSabotage";
+        currentState = OutlawState.Laugh;
     }
 
     private void UpdateMoveToSabotage()
@@ -183,13 +183,13 @@ public class OutlawSystem : MonoBehaviour
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             CancelCurrentSabotage();
-            currentState = "combat";
+            currentState = OutlawState.Combat;
             return;
         }
 
         if (currentTargetSabotagePoint == null)
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.Combat;
             return;
         }
 
@@ -197,7 +197,7 @@ public class OutlawSystem : MonoBehaviour
         {
             navMeshAgent.isStopped = true;
             currentStateTimer = plantDynamiteTime;
-            currentState = "plantDynamite";
+            currentState = OutlawState.PickSabotage;
         }
     }
     
@@ -207,13 +207,13 @@ public class OutlawSystem : MonoBehaviour
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             CancelCurrentSabotage();
-            currentState = "combat";
+            currentState = OutlawState.Combat;
             return;
         }
 
         if (currentTargetSabotagePoint == null)
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.PickSabotage;
             return;
         }
 
@@ -232,7 +232,7 @@ public class OutlawSystem : MonoBehaviour
             navMeshAgent.SetDestination(safePosition);
             
             currentTargetSabotagePoint = null;
-            currentState = "moveToSafePosition";
+            currentState = OutlawState.MoveToSafePosition;
         }
     }
 
@@ -247,7 +247,7 @@ public class OutlawSystem : MonoBehaviour
         if (HasReachedDestination())
         {
             navMeshAgent.isStopped = true;
-            currentState = "waitExplosion";
+            currentState = OutlawState.WaitExplosion;
         }
     }
 
@@ -269,7 +269,7 @@ public class OutlawSystem : MonoBehaviour
         lastPatrolPoint = transform.position;
 
         PickNextPatrolPoint();
-        currentState = "patrol";
+        currentState = OutlawState.Patrol;
     }
 
 
@@ -278,7 +278,7 @@ public class OutlawSystem : MonoBehaviour
         // Si aparece un jugador, entramos en combate
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
-            currentState = "combat";
+            currentState = OutlawState.Combat;
             return;
         }
 
@@ -291,7 +291,7 @@ public class OutlawSystem : MonoBehaviour
 
         if (currentPatrolPointsDone >= patrolPointsAfterExplosion)
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.PickSabotage;
             return;
         }
 
@@ -316,7 +316,7 @@ public class OutlawSystem : MonoBehaviour
     {
         if (outlawCombat == null)
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.PickSabotage;
             return;
         }
 
@@ -324,7 +324,7 @@ public class OutlawSystem : MonoBehaviour
 
         if (!shouldStayInCombat)
         {
-            currentState = "pickSabotage";
+            currentState = OutlawState.PickSabotage;
         }
     }
     
@@ -339,11 +339,11 @@ public class OutlawSystem : MonoBehaviour
         {
             if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
             {
-                currentState = "combat";
+                currentState = OutlawState.Combat;
             }
             else
             {
-                currentState = "pickSabotage";
+                currentState = OutlawState.PickSabotage;
             }
         }
     }
