@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     [SerializeField] private float shootSpd;
+    [SerializeField] private float damage = 1f;
     public Vector3 shootDir { get; set; }
     private Rigidbody rb;
 
@@ -20,6 +21,15 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger)
+        {
+            return;
+        }
+
+        IDamageable damageable = other.GetComponent<IDamageable>();
         
+        damageable.TakeDamage(damage);
+        
+        Destroy(gameObject);
     }
 }

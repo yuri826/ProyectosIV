@@ -132,7 +132,7 @@ public class OutlawCombat : MonoBehaviour
                 CancelReposition();
             }
         }
-#region step 8
+        
         // 8. Si todavía tengo cooldown, no quiero que el enemigo se vuelva loco moviéndose.
         // Se queda quieto, mirando al jugador.
         if (currentShootCooldown > 0f)
@@ -140,7 +140,7 @@ public class OutlawCombat : MonoBehaviour
             StopMoving();
             return true;
         }
-#endregion
+        
         // 9. Si ya puedo disparar, compruebo si tengo tiro claro
         bool hasClearShot = HasClearShotToPlayer(currentTarget);
 
@@ -285,10 +285,8 @@ public class OutlawCombat : MonoBehaviour
         shootDirection.y = 0f;
 
         GameObject bulletObject = Instantiate(outlawBulletPrefab, shootPoint.position, Quaternion.identity);
-
-        OutlawBullet outlawBullet = bulletObject.GetComponent<OutlawBullet>();
-
-        outlawBullet.shootDirection = shootDirection;
+        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        bullet.Init(shootDirection, gameObject);
     }
 
     private bool HasClearShotToPlayer(PlayerMovement targetPlayer)

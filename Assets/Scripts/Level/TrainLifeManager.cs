@@ -20,20 +20,52 @@ public class TrainLifeManager : MonoBehaviour
     private void Start()
     {
         progressManager = GetComponent<ProgressManager>();
+        currentTrainLife = maxTrainLife;
     }
 
     public void TakeDamage(float amount)
     {
+        if (isDead)
+        {
+            return;
+        }
+        
         currentTrainLife -= amount;
+        currentTrainLife = Mathf.Clamp(currentTrainLife, 0f, maxTrainLife);
 
         if (currentTrainLife <= 0 && !isDead)
         {
             TrainDead();
         }
     }
+    public void RepairTrain(float amount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        currentTrainLife += amount;
+        currentTrainLife = Mathf.Clamp(currentTrainLife, 0f, maxTrainLife);
+    }
+
+    public float GetCurrentTrainLife()
+    {
+        return currentTrainLife;
+    }
+
+    public float GetMaxTrainLife()
+    {
+        return maxTrainLife;
+    }
 
     private void TrainDead()
     {
+        if (isDead)
+        {
+            return;
+        }
+        
         PlayerSystem.instance.DeactivatePlayers("gameOver");
         isDead = true;
         progressManager.GameOver();

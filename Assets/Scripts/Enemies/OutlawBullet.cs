@@ -28,24 +28,11 @@ public class OutlawBullet : MonoBehaviour
         {
             return;
         }
-        
-        //Queremos fuego amigo? Podria ser interesante entre los enemigos?
-        if (other.GetComponent<OutlawHealth>() != null)
-        {
-            return;
-        }
 
-        if (other.TryGetComponent(out OutlawHealth health))
-        {
-            health.TakeDamage(damage);
-        }
+        IDamageable damageable = other.GetComponent<IDamageable>();
         
-        // if (other.TryGetComponent(out PlayerHealth playerHealth))
-        // {
-        //     playerHealth.TakeDamage(damage);
-        // }
+        damageable.TakeDamage(damage);
         
-        other.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
         Destroy(gameObject);
     }
 }

@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc8c87392660c442b6d13f590f79a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlawSystem
-  currentState: pickSabotage
+  currentState: 0
   currentCarZone: {fileID: 0}
   outlawDynamitePrefab: {fileID: 7819088694921146989, guid: 8d8f193e81fba974f8035dded6341451, type: 3}
   plantDynamiteTime: 3
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlawCombat
   shootPoint: {fileID: 4895524004601486651}
-  outlawBulletPrefab: {fileID: 1135131833612359753, guid: b14533207f015f449a133d02db2ae89c, type: 3}
+  outlawBulletPrefab: {fileID: 2257593463338473087, guid: b14533207f015f449a133d02db2ae89c, type: 3}
   detectionRange: 7
   attackDistance: 5
   tooCloseDistance: 2.5

@@ -31,6 +31,7 @@ public class PlayerWeapon : MonoBehaviour
         
         PlayerBullet b = Instantiate(playerBullet, this.transform.position + shootOffset, Quaternion.identity).GetComponent<PlayerBullet>();
         b.shootDir = dir;
+        
         bulletAmount--;
     }
 

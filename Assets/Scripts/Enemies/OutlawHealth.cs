@@ -6,7 +6,12 @@ public class OutlawHealth : MonoBehaviour
     [SerializeField] private float maxHealth;
     
     private float currentHealth;
+    private OutlawSystem outlawSystem;
 
+    private void Awake()
+    {
+        outlawSystem = GetComponent<OutlawSystem>();
+    }
 
     private void Start()
     {
@@ -18,8 +23,6 @@ public class OutlawHealth : MonoBehaviour
     {
         currentHealth -= damageAmount;
         
-        Debug.Log(gameObject.name + " ha recibido daño. Vida restante: " + currentHealth);
-        
         if (currentHealth <= 0f)
         {
             Die();
@@ -29,10 +32,7 @@ public class OutlawHealth : MonoBehaviour
 
     private void Die()
     {
-        // Más adelante hay que meter:
-        // - animación de muerte
-        // - sonido
-        // - avisar al spawner -1 forgido
+        outlawSystem.OnDead();
         Destroy(gameObject);
     }
 }

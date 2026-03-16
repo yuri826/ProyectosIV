@@ -25,14 +25,13 @@ public class PlayerHealthManager : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            StartCoroutine(Stun());
+            Die();
         }
     }
 
-    private IEnumerator Stun()
+    private void Die()
     {
-        playerMovement.state = "stun";
-        yield return new WaitForSeconds(3f);
-        playerMovement.state = "move";
+        playerMovement.state = "gameOver";
+        gameObject.SetActive(false);
     }
 }
