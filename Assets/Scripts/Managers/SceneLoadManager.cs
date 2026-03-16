@@ -9,7 +9,7 @@ public class SceneLoadManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void LoadMapScene(int mapIndex)
+    public void LoadMapScene([Tooltip("Poner el número del nivel aquí")] int mapIndex)
     {
         int thisLevel = mapIndex;
         int nextLevel = thisLevel+1;
