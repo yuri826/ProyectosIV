@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ProgressManager : MonoBehaviour
@@ -15,13 +16,20 @@ public class ProgressManager : MonoBehaviour
     [Header("Menus")]
     [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject loseMenu;
+    
+    [Header("Events")]
+    [Tooltip("Que corresponda con los tiempos")][SerializeField] private UnityEvent[] spawnEvents;
+    [Tooltip("Que corresponda con los eventos")][SerializeField] private int[] spawnTimes;
+    [Tooltip("Que corresponda con todo lo demás")][SerializeField] private GameObject[] spawnIcons;
+    [SerializeField] private Transform iconParent;
+    [SerializeField] private int iconYOffset;
 
     private Animator anim;
 
     private string state = "intro";
 
     private Coroutine countRoutine;
-    
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -69,6 +77,27 @@ public class ProgressManager : MonoBehaviour
         else
         {
             if (state == "gameplay") StartCoroutine(SecondCount());
+
+            for (var i = 0; i < spawnTimes.Length; i++)
+            {
+                if (levelTimer == spawnTimes[i])
+                {
+                    spawnEvents[i].Invoke();
+                }
+            }
+        }
+    }
+
+    private void SetupAnomalyIcons()
+    {
+        int totalLength = 1400; //-700 : 700
+
+        for (var i = 0; i < spawnEvents.Length; i++)
+        {
+            float percent = (float)spawnTimes[i] / levelDuration;
+            int xPos = (int)(totalLength * percent);
+            RectTransform icon = Instantiate(spawnIcons[i], iconParent).GetComponent<RectTransform>();
+            icon.position = new Vector2(xPos, icon.position.y + iconYOffset);
         }
     }
 

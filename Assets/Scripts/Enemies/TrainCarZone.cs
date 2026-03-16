@@ -6,6 +6,7 @@ public class TrainCarZone : MonoBehaviour
 {
     [Header("PEnemy Spawn Points")]
     [SerializeField] private Transform[] outlawSpawnPoints;
+    [SerializeField] private GameObject outlawObject;
 
     [Header("Sabotage Points")]
     // Aquí meteremos a mano todas las casillas sabotables del vagón
@@ -282,6 +283,14 @@ public class TrainCarZone : MonoBehaviour
             {
                 playersInsideCar.RemoveAt(i);
             }
+        }
+    }
+
+    public void SpawnOutlaws()
+    {
+        foreach (var spawnPoint in outlawSpawnPoints)
+        {
+            Instantiate(outlawObject, spawnPoint.position, spawnPoint.rotation);
         }
     }
 }

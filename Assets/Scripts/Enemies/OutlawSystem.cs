@@ -375,8 +375,7 @@ public class OutlawSystem : MonoBehaviour
 
     private void CancelCurrentSabotage()
     {
-        
-        currentTargetSabotagePoint.CancelReservation();
+        currentTargetSabotagePoint?.CancelReservation();
         currentTargetSabotagePoint = null;
     }
 
