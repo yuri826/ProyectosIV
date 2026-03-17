@@ -17,7 +17,7 @@ public class TreatmentDeposit : DepositObj
 
             if (repairTimer >= maxRepairTimer)
             {
-                state = "completed";
+                currentState = DepositState.Completed;
                 RemoveTool();
                 GiveObj();
                 return;
@@ -29,9 +29,9 @@ public class TreatmentDeposit : DepositObj
     {
         isCorrectObject = false;
         
-        switch (state)
+        switch (currentState)
         {
-            case "objects":
+            case DepositState.Objects:
 
                 for (var i = 0; i < objectTypeList.Length; i++)
                 {
@@ -39,7 +39,7 @@ public class TreatmentDeposit : DepositObj
                     Debug.Log("Correct object");
             
                     objectIndex = i;
-                    state = "tool";
+                    currentState = DepositState.Tool;
             
                     isCorrectObject = true;
                     return;
@@ -47,9 +47,9 @@ public class TreatmentDeposit : DepositObj
 
                 break;
             
-            case "tool":
+            case DepositState.Tool:
             
-            case "completed": break;
+            case DepositState.Completed: break;
         }
     }
 
@@ -61,6 +61,6 @@ public class TreatmentDeposit : DepositObj
         pickableObj.transform.parent = null;
         PlayerSystem.instance.ForcePick(pickableObj.GetComponent<PickableObj>(), currentPlayer);
         
-        state = "objects";
+        currentState = DepositState.Objects;;
     }
 }

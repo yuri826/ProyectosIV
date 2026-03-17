@@ -7,7 +7,7 @@ public class DepositObj : MonoBehaviour
 {
     [SerializeField] protected string[] objectTypeList;
     protected int objectIndex = 0;
-    public string state { get; protected set; }= "objects";
+    public DepositState currentState = DepositState.Objects;
     
     [SerializeField] protected GameObject repairBar;
     [SerializeField] protected Image repairBarImage;
@@ -34,7 +34,7 @@ public class DepositObj : MonoBehaviour
 
             if (repairTimer >= maxRepairTimer)
             {
-                state = "completed";
+                currentState = DepositState.Completed;
                 RemoveTool();
                 Completed();
                 return;
@@ -47,10 +47,10 @@ public class DepositObj : MonoBehaviour
     {
         isCorrectObject = false;
         
-        switch (state)
+        switch (currentState)
         {
             //Al estar en este estado acepta objetos
-            case "objects":
+            case DepositState.Objects:
                 
                 if (pickableObj.type == objectTypeList[objectIndex])
                 {
@@ -60,7 +60,7 @@ public class DepositObj : MonoBehaviour
 
                     if (objectIndex == objectTypeList.Length)
                     {
-                        state = "tool";
+                        currentState = DepositState.Tool;
                     }
             
                     isCorrectObject = true;
@@ -73,10 +73,10 @@ public class DepositObj : MonoBehaviour
                 break;
             
             //En este estado se puede ejecutar la reparación
-            case "tool":
+            case DepositState.Tool:
                 
             //Aquí ya se completó
-            case "completed": break;
+            case DepositState.Completed: break;
         }
     }
 

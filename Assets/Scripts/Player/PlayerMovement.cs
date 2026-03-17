@@ -252,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
 
             foreach (Collider col in cols)
             {
-                if (col.TryGetComponent<DepositObj>(out var deposit) && deposit.state == "tool")
+                if (col.TryGetComponent<DepositObj>(out var deposit) && deposit.currentState == DepositState.Tool)
                 {
                     Debug.Log("Omg deposit to repair omg");
                     currentRepairDeposit = deposit;
