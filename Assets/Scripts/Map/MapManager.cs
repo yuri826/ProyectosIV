@@ -31,14 +31,14 @@ public class MapManager : MonoBehaviour
         
         for (var i = 0; i < levelManager.CurrentLevel; i++)
         {
-            nodeList[i].SetState("Done");
+            nodeList[i].SetState(MapNodeState.Completed);
         }
         
-        nodeList[levelManager.NewLevel].SetState("Unlocked");
+        nodeList[levelManager.NewLevel].SetState(MapNodeState.Unlocked);
         
         for (var i = levelManager.NewLevel+1; i < nodeList.Length; i++)
         {
-            nodeList[i].SetState("Locked");
+            nodeList[i].SetState(MapNodeState.Locked);
         }
         
         currentNode.ActivateNodeInfo();

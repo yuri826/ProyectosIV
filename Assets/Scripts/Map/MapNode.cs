@@ -22,24 +22,22 @@ public class MapNode : MonoBehaviour
     
     //[SerializeField] private Button nodeButton;
     //[SerializeField] private Button playButton;
-    public string state = "locked"; //Should be private, public for debugging
+    public MapNodeState currentState = MapNodeState.Locked; //Should be private, public for debugging
 
 
     private void Start()
     {
-        if (activeInit) state = "unlocked";
+        if (activeInit) currentState = MapNodeState.Unlocked;
         //nodeButton.onClick.AddListener(NodeClicked);
     }
 
     private void NodeClicked()
     {
-        switch (state)
+        switch (currentState)
         {
-            case "locked": break;
-            
-            case "unlocked": break;
-            
-            case "completed": break;
+            case MapNodeState.Locked: break;
+            case MapNodeState.Unlocked: break;
+            case MapNodeState.Completed: break;
         }
     }
 
@@ -48,9 +46,9 @@ public class MapNode : MonoBehaviour
         infoTypewriter.TypeText(nodeInfo.Title, nodeInfo.Info, 0.6f);
     }
 
-    public void SetState(string state)
+    public void SetState(MapNodeState state)
     {
-        this.state = state;
+        currentState = state;
     }
 
     public void DeactivateNodeInfo()

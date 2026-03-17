@@ -57,3 +57,10 @@ public enum SabotagePointState
     Reserved,
     Broken
 }
+
+public enum PickableState
+{
+    Ground,
+    Picked,
+    Throw
+}

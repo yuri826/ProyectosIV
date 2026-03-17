@@ -8,7 +8,7 @@ public class PickableObj : MonoBehaviour, IInteractable
     
     private Transform parentTransform;
 
-    private string state = "ground";
+    private PickableState currentState = PickableState.Ground;
 
     [SerializeField] private float xThrowSpeed;
     [SerializeField] private float maxYThrowSpeed;
@@ -25,19 +25,19 @@ public class PickableObj : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        switch (state)
+        switch (currentState)
         {
-            case "ground":
+            case PickableState.Ground:
                 
                 break;
             
-            case "picked":
+            case PickableState.Picked:
                 
                 this.transform.position = parentTransform.position + new Vector3(0, 1f, 0);
 
                 break;
             
-            case "throw":
+            case PickableState.Throw:
                 
                 yThrowSpeed -= gravity * Time.deltaTime;
                 
@@ -51,7 +51,7 @@ public class PickableObj : MonoBehaviour, IInteractable
                     Debug.Log(Vector3.Dot(hit.normal, Vector3.up));
                     if (Vector3.Dot(hit.normal, Vector3.up) > 0.9f)
                     {
-                        state = "ground";
+                        currentState = PickableState.Ground;
                     }
                 }
                 
@@ -62,13 +62,13 @@ public class PickableObj : MonoBehaviour, IInteractable
     public void OnPick(Transform transform)
     {
         parentTransform = transform;
-        state = "picked";
+        currentState = PickableState.Picked;
     }
 
     public void Drop(Vector3 lookDir)
     {
         this.transform.position = parentTransform.position + lookDir - new Vector3(0, 1f, 0);
-        state = "ground";
+        currentState = PickableState.Ground;
     }
 
     public virtual void Throw(Vector3 throwDir, out bool dropObj)
@@ -77,7 +77,7 @@ public class PickableObj : MonoBehaviour, IInteractable
         
         throwDirection = throwDir;
         yThrowSpeed = maxYThrowSpeed;
-        state = "throw";
+        currentState = PickableState.Throw;
     }
 
     public string GetType()

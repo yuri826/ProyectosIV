@@ -16,7 +16,7 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] private int lowSpeedThreshold;
     [SerializeField] private int highSpeedThreshold;
     
-    public string speedState { get; set; } = "middle";
+    public SpeedState currentState = SpeedState.Middle;
     private bool isOnIntro = true;
 
     private int currentSpeed;
@@ -74,9 +74,9 @@ public class SpeedManager : MonoBehaviour
 
             //Cambia el estado de la velocidad, para que los objetos necesarios puedan leer qué deben hacer
             //según la velocidad actual
-            if (currentSpeed < lowSpeedThreshold) speedState = "low";
-            else if (currentSpeed > highSpeedThreshold) speedState = "high";
-            else speedState = "middle";
+            if (currentSpeed < lowSpeedThreshold) currentState = SpeedState.Low;
+            else if (currentSpeed > highSpeedThreshold) currentState = SpeedState.High;
+            else currentState = SpeedState.Middle;
         }
     }
 
