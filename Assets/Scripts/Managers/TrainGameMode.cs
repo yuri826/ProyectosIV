@@ -31,6 +31,7 @@ public class TrainGameMode : MonoBehaviour
 
     public void Win()
     {
-        throw new System.NotImplementedException();
+        levelFlow.OnWin();
+        uiUpdater.OnWin();
     }
 }
