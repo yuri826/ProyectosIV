@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PickableObj : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string _type;
-    public string type { get; private set; }
+    [SerializeField] private ResourceType _type;
+    public ResourceType type => _type;
     
     private Transform parentTransform;
 
@@ -17,11 +17,6 @@ public class PickableObj : MonoBehaviour, IInteractable
     private float gravity = 0.2f;
 
     [SerializeField] private LayerMask groundLayer;
-
-    private void Awake()
-    {
-        type = _type;
-    }
 
     private void Update()
     {
@@ -78,11 +73,6 @@ public class PickableObj : MonoBehaviour, IInteractable
         throwDirection = throwDir;
         yThrowSpeed = maxYThrowSpeed;
         currentState = PickableState.Throw;
-    }
-
-    public string GetType()
-    {
-        return type;
     }
 
     private void OnDrawGizmos()
