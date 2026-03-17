@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DepositObj : MonoBehaviour
 {
-    [SerializeField] protected string[] objectTypeList;
+    [SerializeField] protected ResourceType[] objectTypeList;
     protected int objectIndex = 0;
     public DepositState currentState = DepositState.Objects;
     
