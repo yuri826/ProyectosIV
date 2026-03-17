@@ -108,6 +108,7 @@ public class ProgressManager : MonoBehaviour
         
         PlayerSystem.instance.DeactivatePlayers(PlayerState.Locked);
         winMenu.SetActive(true);
+       // winMenu.GetComponent<WinCanvasMenu>().StarShow(Ge);
 
         currentState = LevelFlowState.Win;
         print("Level complete!");

@@ -20,6 +20,7 @@ public class LevelFlowManager : MonoBehaviour
 
     [Header("External Systems")]
     [SerializeField] private LevelEventManager levelEventManager;
+    [SerializeField] private TrainLifeManager trainLifeManager;
 
     [Header("Intro Settings")]
     [SerializeField] private float introStepDuration = 1f;
@@ -105,8 +106,42 @@ public class LevelFlowManager : MonoBehaviour
 
         currentState = LevelFlowState.Win;
         PlayerSystem.instance.DeactivatePlayers(PlayerState.Locked);
+        
         winMenu.SetActive(true);
+        winMenu.GetComponent<WinCanvasMenu>().StarShow(CalculateScore());
+        
         StopLevelTimerRoutine();
+    }
+
+    private int CalculateScore()
+    {
+        int stars = 0;
+        
+        float starPercent3 = 0.9f;
+        float starPercent2 = 0.7f;
+        float starPercent1 = 0.5f;
+
+        if (trainLifeManager.CurrentTrainLife > trainLifeManager.MaxTrainLife * starPercent3)
+        {
+            stars = 3;
+            goto RETURN;
+        }
+        
+        if (trainLifeManager.CurrentTrainLife > trainLifeManager.MaxTrainLife * starPercent2)
+        {
+            stars = 2;
+            goto RETURN;
+        }
+        
+        if (trainLifeManager.CurrentTrainLife > trainLifeManager.MaxTrainLife * starPercent1)
+        {
+            stars = 1;
+            goto RETURN;
+        }
+        
+        RETURN:
+
+        return stars;
     }
 
     public void GameOver()

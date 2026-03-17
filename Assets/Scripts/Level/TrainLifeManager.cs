@@ -6,7 +6,10 @@ public class TrainLifeManager : MonoBehaviour
     public static TrainLifeManager instance;
     
     [SerializeField] private int maxTrainLife;
+    public int MaxTrainLife => maxTrainLife;
+    
     private float currentTrainLife;
+    public float CurrentTrainLife => currentTrainLife;
     
     private ProgressManager progressManager;
 
@@ -21,6 +24,12 @@ public class TrainLifeManager : MonoBehaviour
     {
         progressManager = GetComponent<ProgressManager>();
         currentTrainLife = maxTrainLife;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow)) TakeDamage(10);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) TakeDamage(-10);
     }
 
     public void TakeDamage(float amount)

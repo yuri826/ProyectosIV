@@ -70,3 +70,17 @@ public enum LevelEventType
     OutlawWave,
     Sandstorm
 }
+
+public enum ResourceType
+{
+    Log,
+    Rope,
+    Nail,
+    Gunpowder,
+    Metal,
+    Coal,
+    Planks,
+    Lasso,
+    Dynamite,
+    Bullets
+}
