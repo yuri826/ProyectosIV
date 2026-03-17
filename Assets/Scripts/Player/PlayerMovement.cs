@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 movementInputDirection;
 
-    public string state { get; set; } = "locked";
+    public PlayerState currentState = PlayerState.Locked;
 
     [Header("Movement")] 
     [SerializeField] private float walkSpeed;
@@ -72,29 +72,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        switch (state)
+        switch (currentState)
         {
-            case "move":
+            case PlayerState.Move:
 
                 Movement();
                 
                 break;
             
-            case "dash":
+            case PlayerState.Dash:
                 
                 dashTimer -= Time.deltaTime;
 
                 if (dashTimer <= 0)
                 {
-                    state = "move";
+                    currentState = PlayerState.Move;
                 }
 
                 Dash();
 
                 break;
             
-            case "repair":
+            case PlayerState.Repair:
 
+                break;
+            
+            default:
                 break;
         }
     }
@@ -114,10 +117,10 @@ public class PlayerMovement : MonoBehaviour
     
     private void StartDash(InputAction.CallbackContext obj)
     {
-        if (state == "move")
+        if (currentState == PlayerState.Move)
         {
             dashTimer = maxDashTimer;
-            state = "dash";
+            currentState = PlayerState.Dash;
         }
     }
 
@@ -139,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Interaction()
     {
-        if (state != "move") return;
+        if (currentState != PlayerState.Move) return;
         
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
 

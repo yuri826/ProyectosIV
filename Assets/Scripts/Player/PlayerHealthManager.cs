@@ -31,7 +31,7 @@ public class PlayerHealthManager : MonoBehaviour
 
     private void Die()
     {
-        playerMovement.state = "gameOver";
+        playerMovement.currentState = PlayerState.GameOver;
         gameObject.SetActive(false);
     }
 }
