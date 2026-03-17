@@ -64,3 +64,9 @@ public enum PickableState
     Picked,
     Throw
 }
+
+public enum LevelEventType
+{
+    OutlawWave,
+    Sandstorm
+}
