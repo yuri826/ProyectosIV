@@ -26,7 +26,7 @@ public class ProgressManager : MonoBehaviour
 
     private Animator anim;
 
-    private string state = "intro";
+    [SerializeField] private LevelFlowState currentState = LevelFlowState.Intro;
 
     private Coroutine countRoutine;
 
@@ -56,7 +56,7 @@ public class ProgressManager : MonoBehaviour
         introNumbers.text = "GO";
         anim.SetTrigger("numberPop");
 
-        state = "gameplay";
+        currentState = LevelFlowState.Gameplay;
 
         PlayerSystem.instance.ActivatePlayers();
         
@@ -76,7 +76,7 @@ public class ProgressManager : MonoBehaviour
         }
         else
         {
-            if (state == "gameplay") StartCoroutine(SecondCount());
+            if (currentState == LevelFlowState.Gameplay) StartCoroutine(SecondCount());
 
             for (var i = 0; i < spawnTimes.Length; i++)
             {
@@ -104,21 +104,21 @@ public class ProgressManager : MonoBehaviour
     private void CompleteLevel()
     {
         //Por si acaso se muere justo en el final (improbable pero no imposible :o)
-        if (state != "gameplay") return;
+        if (currentState != LevelFlowState.Gameplay) return;
         
-        PlayerSystem.instance.DeactivatePlayers("win");
+        PlayerSystem.instance.DeactivatePlayers(PlayerState.Locked);
         winMenu.SetActive(true);
-        
-        state = "win";
+
+        currentState = LevelFlowState.Win;
         print("Level complete!");
     }
 
     public void GameOver()
     {
-        PlayerSystem.instance.DeactivatePlayers("gameOver");
+        PlayerSystem.instance.DeactivatePlayers(PlayerState.GameOver);
         loseMenu.SetActive(true);
         
         StopCoroutine(countRoutine);
-        state = "gameover";
+        currentState = LevelFlowState.GameOver;
     }
 }

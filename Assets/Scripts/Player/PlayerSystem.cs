@@ -14,9 +14,9 @@ public class PlayerSystem : MonoBehaviour
         instance = this;
     }
 
-    public void SetState(string state, int playerN)
+    public void SetState(PlayerState state, int playerN)
     {
-        players[playerN].state = state;
+        players[playerN].currentState = state;
     }
 
     public void ForcePick(PickableObj p, int playerN)
@@ -34,15 +34,15 @@ public class PlayerSystem : MonoBehaviour
     {
         foreach (PlayerMovement p in players)
         {
-            if (p is not null) p.state = "move";
+            if (p is not null) p.currentState = PlayerState.Move;
         }
     }
 
-    public void DeactivatePlayers(string state)
+    public void DeactivatePlayers(PlayerState state)
     {
         foreach (PlayerMovement p in players)
         {
-            if (p is not null) p.state = "gameOver";
+            if (p is not null) p.currentState = state;
         }
     }
 }

@@ -66,7 +66,7 @@ public class TrainLifeManager : MonoBehaviour
             return;
         }
         
-        PlayerSystem.instance.DeactivatePlayers("gameOver");
+        PlayerSystem.instance.DeactivatePlayers(PlayerState.GameOver);
         isDead = true;
         progressManager.GameOver();
     }
