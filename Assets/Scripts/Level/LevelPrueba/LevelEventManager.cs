@@ -44,12 +44,6 @@ public class LevelEventManager : MonoBehaviour
 
     private void TriggerOutlawWave(LevelEventData eventData)
     {
-        if (trainSpawnDirector == null)
-        {
-            Debug.LogWarning("No TrainSpawnDirector assigned in LevelEventManager.");
-            return;
-        }
-
         trainSpawnDirector.SpawnOutlawWave(eventData.outlawCount);
     }
 
