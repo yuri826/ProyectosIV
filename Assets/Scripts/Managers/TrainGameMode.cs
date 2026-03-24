@@ -56,12 +56,24 @@ public class TrainGameMode : MonoBehaviour
         }
     }
 
+    //GameState
     public void StartGameplay()
     {
         currentState = LevelFlowState.Gameplay;
         playerSystem.activatePlayers();
     }
+    
+    private void Win()
+    {
+        currentState = LevelFlowState.Win;
+    }
+    
+    private void GameOver()
+    {
+        currentState = LevelFlowState.GameOver;
+    }
 
+    //UI
     public void UpdateProgressBar(int progress, int maxProgress)
     {
         uiUpdater.UpdateProgressBar(progress, maxProgress);
@@ -72,16 +84,7 @@ public class TrainGameMode : MonoBehaviour
         uiUpdater.UpdateLifeBar(currentLife, maxLife);
     }
 
-    private void Win()
-    {
-        currentState = LevelFlowState.Win;
-    }
-    
-    private void GameOver()
-    {
-        currentState = LevelFlowState.GameOver;
-    }
-    
+    //PlayerSystem
     public void SetPlayerState(PlayerState state, int currentPlayer)
     {
         playerSystem.SetState(state, currentPlayer);
@@ -90,6 +93,17 @@ public class TrainGameMode : MonoBehaviour
     public void ForcePick(PickableObj p, int playerN)
     {
         playerSystem.ForcePick(p, playerN);
+    }
+    
+    //Health
+    public void TakeDamage(float damage)
+    {
+        trainLife.TakeDamage(damage);
+    }
+    
+    public void RepairTrain(float amount)
+    {
+        trainLife.RepairTrain(amount);
     }
     
     public delegate void OnGameOver();

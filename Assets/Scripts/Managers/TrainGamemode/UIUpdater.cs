@@ -19,7 +19,7 @@ public class UIUpdater : GamemodeSubsystem
     [Header("ProgressCanvas")]
     [SerializeField] private Image progressBar;
     
-    [Header("ProgressCanvas")]
+    [Header("HealthCanvas")]
     [SerializeField] private Image healthBar;
 
     public override void OnStart()
