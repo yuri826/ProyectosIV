@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5f357b2810b7345a3d52567a13efea, type: 3}
   m_Name: LevelManager
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  CurrentLevel: 0
+  NewLevel: 0
