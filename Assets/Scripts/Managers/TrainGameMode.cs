@@ -1,18 +1,45 @@
+using System;
 using UnityEngine;
 
 public class TrainGameMode : MonoBehaviour
 {
+    public static TrainGameMode instance;
+    
     [Header("Components")]
     [SerializeField] private float introTime;
     [SerializeField] private UIUpdater uiUpdater;
     [SerializeField] private LevelFlow levelFlow;
+    [SerializeField] private TrainLife trainLife;
+    [SerializeField] private PlayerSubsystem playerSystem;
     
     [Header("Gameplay")]
-
     private LevelFlowState currentState = LevelFlowState.Intro;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
+        uiUpdater.TrainGameMode = this;
+        levelFlow.TrainGameMode = this;
+        
+        uiUpdater.OnStart();
+        levelFlow.OnStart();
+        playerSystem.OnStart();
+        trainLife.OnStart();
+
+        onWin += Win;
+        onWin += uiUpdater.OnWin;
+        onWin += levelFlow.OnWin;
+        onWin += playerSystem.EndGameplay;
+        
+        onGameOver += GameOver;
+        onGameOver += uiUpdater.OnGameOver;
+        onGameOver += levelFlow.OnGameOver;
+        onGameOver += playerSystem.EndGameplay;
+        
         StartCoroutine(uiUpdater.IntroRoutine(introTime)); //Bindear corrutina?
     }
 
@@ -29,9 +56,46 @@ public class TrainGameMode : MonoBehaviour
         }
     }
 
-    public void Win()
+    public void StartGameplay()
     {
-        levelFlow.OnWin();
-        uiUpdater.OnWin();
+        currentState = LevelFlowState.Gameplay;
+        playerSystem.activatePlayers();
     }
+
+    public void UpdateProgressBar(int progress, int maxProgress)
+    {
+        uiUpdater.UpdateProgressBar(progress, maxProgress);
+    }
+    
+    public void UpdateLifeBar(float currentLife, int maxLife)
+    {
+        uiUpdater.UpdateLifeBar(currentLife, maxLife);
+    }
+
+    private void Win()
+    {
+        currentState = LevelFlowState.Win;
+    }
+    
+    private void GameOver()
+    {
+        currentState = LevelFlowState.GameOver;
+    }
+    
+    public void SetPlayerState(PlayerState state, int currentPlayer)
+    {
+        playerSystem.SetState(state, currentPlayer);
+    }
+    
+    public void ForcePick(PickableObj p, int playerN)
+    {
+        playerSystem.ForcePick(p, playerN);
+    }
+    
+    public delegate void OnGameOver();
+    public OnGameOver onGameOver;
+    
+    public delegate void OnWin();
+    public OnWin onWin;
+
 }

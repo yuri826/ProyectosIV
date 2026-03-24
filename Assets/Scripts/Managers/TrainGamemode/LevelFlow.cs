@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "LevelFlow", menuName = "GameModeSubsystems/Train/LevelFlow")]
+[Serializable]
 public class LevelFlow : GamemodeSubsystem
 {
     [Header("Level Time")]
@@ -15,11 +16,12 @@ public class LevelFlow : GamemodeSubsystem
     public override void OnUpdate()
     {
         currentLevelTime += Time.deltaTime;
-        levelDuration = currentLevelTimeRound;
+        
+        TrainGameMode.UpdateProgressBar(currentLevelTimeRound, levelDuration);
 
         if (currentLevelTime >= levelDuration)
         {
-            TrainGameMode.Win();
+            TrainGameMode.onWin();
         }
     }
 }

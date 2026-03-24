@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GamemodeSubsystem
@@ -19,7 +20,7 @@ public class GamemodeSubsystem
         
     }
 
-    public void OnGameOver()
+    public virtual void OnGameOver()
     {
         
     }

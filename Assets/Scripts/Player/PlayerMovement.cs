@@ -44,11 +44,6 @@ public class PlayerMovement : MonoBehaviour
         playerWeapon = GetComponent<PlayerWeapon>();
     }
 
-    private void Start()
-    {
-        PlayerSystem.instance.AddPlayer(this, playerN);
-    }
-
     private void OnEnable()
     {
         playerInput.actions["Move"].performed += UpdateMovementInput;
@@ -271,6 +266,16 @@ public class PlayerMovement : MonoBehaviour
     {
         currentRepairDeposit?.RemoveTool();
         currentRepairDeposit = null;
+    }
+
+    public void EnablePlayer()
+    {
+        currentState = PlayerState.Move;
+    }
+    
+    public void DisablePlayer()
+    {
+        currentState = PlayerState.Locked;
     }
     
     private void OnDrawGizmos()

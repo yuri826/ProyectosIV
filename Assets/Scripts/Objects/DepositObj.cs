@@ -86,7 +86,7 @@ public class DepositObj : MonoBehaviour
         {
             currentPlayer = playerN;
             repairBar.SetActive(true);
-            PlayerSystem.instance.SetState(PlayerState.Repair, playerN);
+            TrainGameMode.instance.SetPlayerState(PlayerState.Repair, playerN);
             repairing = true;
         }
     }
@@ -94,7 +94,7 @@ public class DepositObj : MonoBehaviour
     public void RemoveTool()
     {
         Debug.Log(currentPlayer);
-        PlayerSystem.instance.SetState(PlayerState.Move, currentPlayer);
+        TrainGameMode.instance.SetPlayerState(PlayerState.Move, currentPlayer);
         repairing = false;
     }
 

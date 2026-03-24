@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlayerSystem : GamemodeSubsystem
+public class PlayerSubsystem : GamemodeSubsystem
 {
     [SerializeField] private PlayerMovement[] players = new PlayerMovement[4];
 

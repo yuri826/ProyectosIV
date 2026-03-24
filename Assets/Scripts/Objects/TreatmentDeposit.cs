@@ -59,7 +59,7 @@ public class TreatmentDeposit : DepositObj
         
         GameObject pickableObj = Instantiate(treatedObjects[objectIndex], treatedObjectSpawn);
         pickableObj.transform.parent = null;
-        PlayerSystem.instance.ForcePick(pickableObj.GetComponent<PickableObj>(), currentPlayer);
+        TrainGameMode.instance.ForcePick(pickableObj.GetComponent<PickableObj>(), currentPlayer);
         
         currentState = DepositState.Objects;;
     }

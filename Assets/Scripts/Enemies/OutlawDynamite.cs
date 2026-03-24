@@ -48,7 +48,7 @@ public class OutlawDynamite : MonoBehaviour
         Debug.Log("La dinamita ha explotado", this.gameObject);
         targetSabotagePoint.BreakPoint();
         
-        TrainLifeManager.instance.TakeDamage(damageToTrain);
+        //TrainLifeManager.instance.TakeDamage(damageToTrain);
         
         Collider[] collidersHit = Physics.OverlapSphere(transform.position, explosionRadius);
 
