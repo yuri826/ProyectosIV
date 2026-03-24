@@ -158,10 +158,10 @@ MonoBehaviour:
     progressBar: {fileID: 1142570131}
     healthBar: {fileID: 1082270683}
   levelFlow:
-    levelDuration: 5
+    levelDuration: 60
   trainLife:
     <maxTrainLife>k__BackingField: 90
-    <currentTrainLife>k__BackingField: 0
+    <currentTrainLife>k__BackingField: 90
   playerSystem:
     players:
     - {fileID: 439867395}
