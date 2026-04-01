@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealthManager : MonoBehaviour
+public class PlayerHealthManager : MonoBehaviour, IDamageable
 {
     private PlayerMovement playerMovement;
     
-    [SerializeField] private int maxHealth = 3;
-    private int currentHealth;
+    [SerializeField] private float maxHealth = 3f;
+    private float currentHealth;
 
     private void Awake()
     {
@@ -19,11 +19,11 @@ public class PlayerHealthManager : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0f)
         {
             Die();
         }

@@ -14,6 +14,7 @@ public class TrainLife : GamemodeSubsystem
     public override void OnStart()
     {
         currentTrainLife = maxTrainLife;
+        UpdateLifeBar();
     }
 
     public void TakeDamage(float amount)

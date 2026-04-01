@@ -10,14 +10,17 @@ public class LevelFlow : GamemodeSubsystem
     [Header("Level Time")]
     [Tooltip("In seconds")]
     [SerializeField] private int levelDuration;
+    [SerializeField] private LevelEventManager levelEventManager;
     private float currentLevelTime;
     private int currentLevelTimeRound => Mathf.RoundToInt(currentLevelTime);
 
     public override void OnUpdate()
     {
         currentLevelTime += Time.deltaTime;
-        
+    
         TrainGameMode.UpdateProgressBar(currentLevelTimeRound, levelDuration);
+
+        levelEventManager.UpdateEventTimeline(currentLevelTimeRound);
 
         if (currentLevelTime >= levelDuration)
         {

@@ -24,7 +24,9 @@ public class TrainGameMode : MonoBehaviour
     {
         uiUpdater.TrainGameMode = this;
         levelFlow.TrainGameMode = this;
-        
+        playerSystem.TrainGameMode = this;
+        trainLife.TrainGameMode = this;
+    
         uiUpdater.OnStart();
         levelFlow.OnStart();
         playerSystem.OnStart();
@@ -34,7 +36,7 @@ public class TrainGameMode : MonoBehaviour
         onWin += uiUpdater.OnWin;
         onWin += levelFlow.OnWin;
         onWin += playerSystem.EndGameplay;
-        
+    
         onGameOver += GameOver;
         onGameOver += uiUpdater.OnGameOver;
         onGameOver += levelFlow.OnGameOver;
