@@ -9,9 +9,9 @@ public class SandstormSystem : MonoBehaviour
     [Header("Wind Settings")]
     [SerializeField] [Range(0f, 2f)] private float windStrengthMultiplier = 0.8f;
     [SerializeField] private Vector3 currentWindDirection = Vector3.right;
-
+    
     [Header("Visual & Audio")]
-    [SerializeField] private GameObject sandstormVfx;
+    [SerializeField] private SandstormVfxController sandstormVfxController;
     [SerializeField] private AudioSource sandstormAudioSource;
 
     [Header("Outlaws")]
@@ -106,9 +106,16 @@ public class SandstormSystem : MonoBehaviour
 
     private void UpdateVisuals(bool sandstormActive)
     {
-        if (sandstormVfx != null)
+        if (sandstormVfxController != null)
         {
-            sandstormVfx.SetActive(sandstormActive);
+            if (sandstormActive)
+            {
+                sandstormVfxController.PlayVfx(currentWindDirection);
+            }
+            else
+            {
+                sandstormVfxController.StopVfx();
+            }
         }
 
         if (sandstormAudioSource != null)
