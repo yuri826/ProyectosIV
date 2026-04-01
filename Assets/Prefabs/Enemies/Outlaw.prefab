@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4895524004601486651}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 7939377902348088671}
   - component: {fileID: 7936477000478090883}
   - component: {fileID: 1013983076722205761}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Outlaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}

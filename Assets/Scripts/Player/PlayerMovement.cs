@@ -100,14 +100,36 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
-        characterController.Move(movementDirection * (walkSpeed * Time.deltaTime));
+
+        Vector3 playerDisplacement = movementDirection * (walkSpeed * Time.deltaTime);
+        Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
+
+        characterController.Move(playerDisplacement + sandstormDisplacement);
         
         if (movementDirection != Vector3.zero) lookDir = movementDirection;
     }
 
     private void Dash()
     {
+        Vector3 dashDisplacement = lookDir * (dashSpeed * Time.deltaTime);
+        Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
+        
         characterController.Move(lookDir * (dashSpeed * Time.deltaTime));
+    }
+    
+    private Vector3 GetSandstormDisplacement(float baseSpeed)
+    {
+        if (SandstormSystem.Instance == null)
+        {
+            return Vector3.zero;
+        }
+
+        if (!SandstormSystem.Instance.IsSandstormActive())
+        {
+            return Vector3.zero;
+        }
+
+        return SandstormSystem.Instance.GetWindDisplacement(baseSpeed) * Time.deltaTime;
     }
     
     private void StartDash(InputAction.CallbackContext obj)

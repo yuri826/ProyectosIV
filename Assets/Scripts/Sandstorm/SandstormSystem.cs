@@ -7,7 +7,7 @@ public class SandstormSystem : MonoBehaviour
     [SerializeField] private float remainingDuration = 0f;
 
     [Header("Wind Settings")]
-    [SerializeField] private float windStrength = 4f;
+    [SerializeField] [Range(0f, 2f)] private float windStrengthMultiplier = 0.8f;
     [SerializeField] private Vector3 currentWindDirection = Vector3.right;
 
     [Header("Visual & Audio")]
@@ -69,14 +69,14 @@ public class SandstormSystem : MonoBehaviour
         return currentWindDirection.normalized;
     }
 
-    public float GetWindStrength()
+    public float GetWindStrengthMultiplier()
     {
-        return windStrength;
+        return windStrengthMultiplier;
     }
-
-    public Vector3 GetWindForce()
+    
+    public Vector3 GetWindDisplacement(float baseSpeed)
     {
-        return currentWindDirection.normalized * windStrength;
+        return currentWindDirection.normalized * (baseSpeed * windStrengthMultiplier);
     }
 
     public float GetRemainingDuration()

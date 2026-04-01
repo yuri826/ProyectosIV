@@ -5173,7 +5173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SandstormSystem
   isSandstormActive: 0
   remainingDuration: 0
-  windStrengthMultiplier: 0.6
+  windStrength: 4
   currentWindDirection: {x: 1, y: 0, z: 0}
   sandstormVfx: {fileID: 0}
   sandstormAudioSource: {fileID: 942061762}
@@ -6635,26 +6635,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelEventManager
   levelEvents:
-  - eventType: 1
+  - eventType: 0
     triggerTime: 10
     iconPrefab: {fileID: 72203253}
-    outlawCount: 0
-    duration: 20
+    outlawCount: 2
+    duration: 10
     hasTriggered: 0
   - eventType: 0
-    triggerTime: 30
+    triggerTime: 15
     iconPrefab: {fileID: 72203253}
     outlawCount: 3
     duration: 10
     hasTriggered: 0
   - eventType: 1
-    triggerTime: 40
+    triggerTime: 20
     iconPrefab: {fileID: 72203253}
     outlawCount: 0
     duration: 10
     hasTriggered: 0
   - eventType: 0
-    triggerTime: 50
+    triggerTime: 25
     iconPrefab: {fileID: 72203253}
     outlawCount: 3
     duration: 10
@@ -7994,7 +7994,7 @@ MonoBehaviour:
   uiUpdater:
     introNumbers: {fileID: 1974798663}
     numberAnim: {fileID: 1974798662}
-    gameOverCanvas: {fileID: 612219869}
+    gameOverCanvas: {fileID: 1386352386}
     winCanvas: {fileID: 1945189729}
     winCanvasMenu: {fileID: 0}
     progressBar: {fileID: 1939628142}
