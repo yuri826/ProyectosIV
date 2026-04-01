@@ -1858,7 +1858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon
   playerBullet: {fileID: 2257593463338473087, guid: b14533207f015f449a133d02db2ae89c, type: 3}
   shootOffset: {x: 0, y: -1, z: 0}
-  initBulletAmount: 0
+  initBulletAmount: 99
   bulletText: {fileID: 785166830}
 --- !u!1 &441597433
 GameObject:
@@ -3797,7 +3797,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1026388326}
   - component: {fileID: 1026388330}
-  - component: {fileID: 1026388325}
   - component: {fileID: 1026388327}
   - component: {fileID: 1026388328}
   - component: {fileID: 1026388329}
@@ -3808,29 +3807,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1026388325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026388324}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306dc45fac30c2a4da3d05c586bba0c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProgressManager
-  levelDuration: 360
-  progressBar: {fileID: 1142570131}
-  introNumbers: {fileID: 931952892}
-  winMenu: {fileID: 1026388324}
-  loseMenu: {fileID: 1026388324}
-  spawnEvents: []
-  spawnTimes: 
-  spawnIcons: []
-  iconParent: {fileID: 0}
-  iconYOffset: 0
-  currentState: 0
 --- !u!4 &1026388326
 Transform:
   m_ObjectHideFlags: 0
@@ -3921,6 +3897,7 @@ MonoBehaviour:
   winMenu: {fileID: 1026388324}
   loseMenu: {fileID: 1026388324}
   levelEventManager: {fileID: 1240237078}
+  trainLifeManager: {fileID: 0}
   introStepDuration: 1
   currentState: 0
 --- !u!1 &1038971873
@@ -6926,7 +6903,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3124726855200935403, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
       propertyPath: _type
-      value: coal
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3563471165934401149, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7935,7 +7912,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144853972}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 887365801792c6c4ea901d3e45e8f1eb, type: 3}
   m_Name: 
@@ -8052,13 +8029,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144853972}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 37.44, y: 7.85, z: -5.4}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: 12, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!1001 &5483894010271221879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8077,7 +8054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3600487206607117295, guid: 3d9379b1f7668c94b93157b430157b3e, type: 3}
       propertyPath: 'objectTypeList.Array.data[1]'
-      value: coal
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3600487206607117295, guid: 3d9379b1f7668c94b93157b430157b3e, type: 3}
       propertyPath: 'treatedObjects.Array.data[0]'

@@ -8,6 +8,7 @@ public class LevelEventManager : MonoBehaviour
 
     [Header("External Systems")]
     [SerializeField] private TrainSpawnDirector trainSpawnDirector;
+    [SerializeField] private SandstormSystem sandstormSystem;
 
     public void UpdateEventTimeline(int currentLevelTime)
     {
@@ -49,6 +50,6 @@ public class LevelEventManager : MonoBehaviour
 
     private void TriggerSandstorm(LevelEventData eventData)
     {
-        Debug.Log("Sandstorm triggered. Duration: " + eventData.duration);
+        sandstormSystem.StartSandstorm(eventData.duration);
     }
 }

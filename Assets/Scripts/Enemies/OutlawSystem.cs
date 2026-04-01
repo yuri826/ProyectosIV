@@ -10,7 +10,7 @@ public class OutlawSystem : MonoBehaviour
     [SerializeField] private TrainCarZone currentCarZone;
     [SerializeField] private GameObject outlawDynamitePrefab;
 
-    [Header("Sabitage")]
+    [Header("Sabotage")]
     [SerializeField] private float plantDynamiteTime;
     [SerializeField] private float dynamiteFuseTime;
     [SerializeField] private float safeDistanceAfterPlant;
@@ -52,6 +52,11 @@ public class OutlawSystem : MonoBehaviour
         if (currentCarZone == null)
         {
             currentCarZone = GetComponentInParent<TrainCarZone>();
+        }
+        
+        if (SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive())
+        {
+            SetSandstormState(true);
         }
     }
 
