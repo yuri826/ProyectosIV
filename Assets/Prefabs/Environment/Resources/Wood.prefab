@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360517603646161502, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
       propertyPath: m_Name
-      value: PickableObject
+      value: Wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553873410962750520, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -21,6 +21,8 @@ public class DepositObj : MonoBehaviour
     protected virtual void Start()
     {
         repairBar.SetActive(false);
+
+        repairBarImage.fillAmount = 0f;
     }
 
     private void Update()
@@ -96,11 +98,17 @@ public class DepositObj : MonoBehaviour
         Debug.Log(currentPlayer);
         TrainGameMode.instance.SetPlayerState(PlayerState.Move, currentPlayer);
         repairing = false;
+        
+        repairTimer = 0f;
+        repairBarImage.fillAmount = 0f;
+
+        repairBar.SetActive(false);
+        
     }
 
     protected virtual void Completed()
     {
         repairBar.SetActive(false);
-        Debug.Log("Completed");
+        repairBarImage.fillAmount = 0f;
     }
 }

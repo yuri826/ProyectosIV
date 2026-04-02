@@ -12,6 +12,18 @@ public class SabotagePoint : MonoBehaviour
     [Header("Dinamite Appear Point")]
     [SerializeField] private Transform dynamitePoint;
 
+    [Header("Damage Settings")]
+    [SerializeField] private float damageAmount = 10f;
+
+    [Header("Repair")]
+    [SerializeField] private GameObject repairRoot;
+    [SerializeField] private TrainDamageRepairDeposit repairDeposit;
+    
+    public float GetDamageValue()
+    {
+        return damageAmount;
+    }
+    
     public Transform GetDynamitePoint()
     {
         return dynamitePoint;
@@ -22,6 +34,11 @@ public class SabotagePoint : MonoBehaviour
         currentState = SabotagePointState.Free;
         brokenVisual.SetActive(false);
         brokenCollider.enabled = false;
+    
+        if (repairRoot != null)
+        {
+            repairRoot.SetActive(false);
+        }
     }
     
     public bool CanBeTargeted()
@@ -58,6 +75,16 @@ public class SabotagePoint : MonoBehaviour
         currentState = SabotagePointState.Broken;
         brokenVisual.SetActive(true);
         brokenCollider.enabled = true;
+    
+        if (repairRoot != null)
+        {
+            repairRoot.SetActive(true);
+        }
+
+        if (repairDeposit != null)
+        {
+            repairDeposit.ResetRepairDeposit();
+        }
     }
 
     public void RepairPoint()
@@ -65,5 +92,10 @@ public class SabotagePoint : MonoBehaviour
         currentState = SabotagePointState.Free;
         brokenVisual.SetActive(false);
         brokenCollider.enabled = false;
+    
+        if (repairRoot != null)
+        {
+            repairRoot.SetActive(false);
+        }
     }
 }

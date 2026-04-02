@@ -57,6 +57,10 @@ PrefabInstance:
       value: Nail
       objectReference: {fileID: 0}
     - target: {fileID: 4553873410962750520, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553873410962750520, guid: 30cdbbd4138e30f46aef2b24323c7cdd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1dac1af68f007114c8f3ff201120888a, type: 2}
