@@ -10,7 +10,7 @@ public class PlayerRespawnManager : MonoBehaviour
     [SerializeField] private LevelCamera levelCamera;
     [SerializeField] private float respawnCameraSmoothSpeed = 1f;
 
-    public void HandleDeath(PlayerHealthManager deadPlayerHealth)
+    public void HandleDeath(PlayerHealthManager deadPlayerHealth, TrainCarZone forcedCarZone = null)
     {
         if (deadPlayerHealth == null)
         {
@@ -20,7 +20,7 @@ public class PlayerRespawnManager : MonoBehaviour
         GameObject deadPlayer = deadPlayerHealth.gameObject;
         PlayerMovement deadPlayerMovement = deadPlayer.GetComponent<PlayerMovement>();
 
-        TrainCarZone deadCarZone = FindCarZoneForPosition(deadPlayer.transform.position);
+        TrainCarZone deadCarZone = forcedCarZone != null ? forcedCarZone : FindCarZoneForPosition(deadPlayer.transform.position);
         
         if (levelCamera != null && deadCarZone != null)
         {
