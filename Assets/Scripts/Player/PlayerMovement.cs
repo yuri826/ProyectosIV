@@ -134,11 +134,18 @@ public class PlayerMovement : MonoBehaviour
     
     private void StartDash(InputAction.CallbackContext obj)
     {
-        if (currentState == PlayerState.Move)
+        if (currentState != PlayerState.Move)
         {
-            dashTimer = maxDashTimer;
-            currentState = PlayerState.Dash;
+            return;
         }
+
+        if (playerWeapon != null && playerWeapon.IsReloading())
+        {
+            return;
+        }
+
+        dashTimer = maxDashTimer;
+        currentState = PlayerState.Dash;
     }
 
     private void UpdateMovementInput(InputAction.CallbackContext obj)
@@ -148,6 +155,16 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
+        if (currentState != PlayerState.Move)
+        {
+            return;
+        }
+
+        if (playerWeapon != null && playerWeapon.IsReloading())
+        {
+            return;
+        }
+
         StartCoroutine(InteractionWait());
     }
 
@@ -270,6 +287,16 @@ public class PlayerMovement : MonoBehaviour
     
     private void Act(InputAction.CallbackContext obj)
     {
+        if (currentState != PlayerState.Move)
+        {
+            return;
+        }
+
+        if (playerWeapon != null && playerWeapon.IsReloading())
+        {
+            return;
+        }
+
         if (isPicking)
         {
             currentObj.Throw(lookDir, out var dropObj);
@@ -282,7 +309,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
+            Collider[] cols = Physics.OverlapSphere(
+                this.transform.position + ((lookDir + interactionOffset) * interactionDistance),
+                interactionRadius
+            );
 
             foreach (Collider col in cols)
             {
@@ -294,9 +324,9 @@ public class PlayerMovement : MonoBehaviour
                     goto EndOfAct;
                 }
             }
-            
+
             playerWeapon.Shoot(lookDir);
-            
+
             EndOfAct:;
         }
     }

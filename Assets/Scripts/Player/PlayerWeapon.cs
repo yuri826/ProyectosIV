@@ -28,7 +28,7 @@ public class PlayerWeapon : MonoBehaviour
     private void Start()
     {
         currentChamberAmmo = maxChamberAmmo;
-        currentBeltAmmo = 3;
+        currentBeltAmmo = 12;
 
         UpdateBulletText();
     }
