@@ -6,7 +6,10 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     [Header("References")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerWeapon playerWeapon;
-    [SerializeField] private CharacterController characterController;
+    
+    [Header("Respawn")]
+    [SerializeField] private PlayerRespawnManager playerRespawnManager;
+    [SerializeField] private float respawnInvulnerabilityTime = 1.5f;
 
     [Header("Health")]
     [SerializeField] private float maxHealth = 3f;
@@ -16,6 +19,9 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     private bool isDead = false;
     private bool canTakeDamage = true;
     private Coroutine damageCooldownRoutine;
+    
+    private bool isInvulnerable = false;
+    private Coroutine invulnerabilityRoutine;
 
     private void Awake()
     {
@@ -27,11 +33,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         if (playerWeapon == null)
         {
             playerWeapon = GetComponent<PlayerWeapon>();
-        }
-
-        if (characterController == null)
-        {
-            characterController = GetComponent<CharacterController>();
         }
     }
 
@@ -47,6 +48,12 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             return;
         }
 
+        if (isInvulnerable)
+        {
+            Debug.Log($"{gameObject.name} ignored damage because it is invulnerable.");
+            return;
+        }
+
         if (!canTakeDamage)
         {
             return;
@@ -54,6 +61,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        Debug.Log($"{gameObject.name} took damage. Current health: {currentHealth}/{maxHealth}");
 
         if (currentHealth <= 0f)
         {
@@ -76,9 +84,43 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         canTakeDamage = true;
         damageCooldownRoutine = null;
     }
+    
+    public void StartInvulnerability()
+    {
+        if (invulnerabilityRoutine != null)
+        {
+            StopCoroutine(invulnerabilityRoutine);
+        }
+
+        invulnerabilityRoutine = StartCoroutine(InvulnerabilityRoutine());
+    }
+
+    private IEnumerator InvulnerabilityRoutine()
+    {
+        isInvulnerable = true;
+
+        yield return new WaitForSeconds(respawnInvulnerabilityTime);
+
+        isInvulnerable = false;
+        invulnerabilityRoutine = null;
+    }
 
     private void Die()
     {
+        if (isDead)
+        {
+            return;
+        }
+
+        isDead = true;
+        canTakeDamage = false;
+
+        if (damageCooldownRoutine != null)
+        {
+            StopCoroutine(damageCooldownRoutine);
+            damageCooldownRoutine = null;
+        }
+
         if (playerWeapon != null)
         {
             playerWeapon.CancelReload();
@@ -89,49 +131,23 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             playerMovement.currentState = PlayerState.Locked;
         }
 
-        if (characterController != null)
+        if (playerRespawnManager != null)
         {
-            characterController.enabled = false;
+            playerRespawnManager.HandleDeath(this);
         }
+    }
 
-        TrainCarZone deadCarZone = null;
-        TrainCarZone[] trainCarZones = FindObjectsByType<TrainCarZone>(FindObjectsSortMode.None);
+    public void ReviveToFullHealth()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+        canTakeDamage = true;
 
-        for (int i = 0; i < trainCarZones.Length; i++)
+        if (damageCooldownRoutine != null)
         {
-            if (trainCarZones[i] == null)
-            {
-                continue;
-            }
-
-            if (trainCarZones[i].ContainsPoint(transform.position))
-            {
-                deadCarZone = trainCarZones[i];
-                break;
-            }
+            StopCoroutine(damageCooldownRoutine);
+            damageCooldownRoutine = null;
         }
-
-        if (deadCarZone != null)
-        {
-            OutlawSystem[] outlaws = FindObjectsByType<OutlawSystem>(FindObjectsSortMode.None);
-
-            for (int i = 0; i < outlaws.Length; i++)
-            {
-                if (outlaws[i] == null)
-                {
-                    continue;
-                }
-
-                if (!deadCarZone.ContainsPoint(outlaws[i].transform.position))
-                {
-                    continue;
-                }
-
-                outlaws[i].OnPlayerFell(playerMovement);
-            }
-        }
-
-        gameObject.SetActive(false);
     }
 
     public float GetCurrentHealth()

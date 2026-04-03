@@ -9,16 +9,16 @@ public class TrainCarZone : MonoBehaviour
     [SerializeField] private GameObject outlawObject;
 
     [Header("Sabotage Points")]
-    // Aquí meteremos a mano todas las casillas sabotables del vagón
     [SerializeField] private SabotagePoint[] sabotagePoints;
 
     [Header("Broken Points Limit")]
-    // Máximo de puntos rotos permitidos a la vez en este vagón
     [SerializeField] private int maxBrokenPoints = 5;
 
     [Header("Players in Car")]
-    // Esta lista se rellena sola cuando jugadores entran y salen del vagón
     [SerializeField] private List<PlayerMovement> playersInsideCar = new List<PlayerMovement>();
+    
+    [Header("Player Respawn")]
+    [SerializeField] private Transform playerRespawnPoint;
     
     private Collider zoneCollider;
     
@@ -43,6 +43,11 @@ public class TrainCarZone : MonoBehaviour
     {
         RemoveNullPlayers();
         return playersInsideCar;
+    }
+    
+    public Transform GetPlayerRespawnPoint()
+    {
+        return playerRespawnPoint;
     }
     
     // MÉTODOS PARA GESTIONAR PUNTOS SABOTABLES
