@@ -76,6 +76,16 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         damageCooldownRoutine = StartCoroutine(DamageCooldownRoutine());
     }
+    
+    public void KillFromCarZone(TrainCarZone sourceCarZone)
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        ForceDie(sourceCarZone);
+    }
 
     private IEnumerator DamageCooldownRoutine()
     {
@@ -104,8 +114,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         isInvulnerable = false;
         invulnerabilityRoutine = null;
     }
-
-    private void Die()
+    
+    private void ForceDie(TrainCarZone forcedCarZone)
     {
         if (isDead)
         {
@@ -133,8 +143,13 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         if (playerRespawnManager != null)
         {
-            playerRespawnManager.HandleDeath(this);
+            playerRespawnManager.HandleDeath(this, forcedCarZone);
         }
+    }
+    
+    private void Die()
+    {
+        ForceDie(null);
     }
 
     public void ReviveToFullHealth()
