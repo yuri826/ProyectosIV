@@ -22,6 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movementDirection;
     private Vector3 lookDir = Vector3.right;
     
+    [Header("Grounding")]
+    [SerializeField] private float gravity = -25f;
+    [SerializeField] private float groundedVerticalSpeed = -2f;
+    private float verticalVelocity;
+    
     [Header("Dash")]
     [SerializeField] private float dashSpeed;
     [SerializeField] private float maxDashTimer;
@@ -97,24 +102,43 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private Vector3 GetVerticalDisplacement()
+    {
+        if (characterController.isGrounded && verticalVelocity < 0f)
+        {
+            verticalVelocity = groundedVerticalSpeed;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
+        return Vector3.up * (verticalVelocity * Time.deltaTime);
+    }
+    
     private void Movement()
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
 
         Vector3 playerDisplacement = movementDirection * (walkSpeed * Time.deltaTime);
         Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
+        Vector3 verticalDisplacement = GetVerticalDisplacement();
 
-        characterController.Move(playerDisplacement + sandstormDisplacement);
-        
-        if (movementDirection != Vector3.zero) lookDir = movementDirection;
+        characterController.Move(playerDisplacement + sandstormDisplacement + verticalDisplacement);
+    
+        if (movementDirection != Vector3.zero)
+        {
+            lookDir = movementDirection;
+        }
     }
 
     private void Dash()
     {
         Vector3 dashDisplacement = lookDir * (dashSpeed * Time.deltaTime);
         Vector3 sandstormDisplacement = GetSandstormDisplacement(dashSpeed);
+        Vector3 verticalDisplacement = GetVerticalDisplacement();
 
-        characterController.Move(dashDisplacement + sandstormDisplacement);
+        characterController.Move(dashDisplacement + sandstormDisplacement + verticalDisplacement);
     }
     
     private Vector3 GetSandstormDisplacement(float baseSpeed)
