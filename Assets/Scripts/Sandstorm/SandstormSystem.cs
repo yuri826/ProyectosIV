@@ -7,9 +7,15 @@ public class SandstormSystem : MonoBehaviour
     [SerializeField] private float remainingDuration = 0f;
 
     [Header("Wind Settings")]
-    [SerializeField] [Range(0f, 2f)] private float windStrengthMultiplier = 0.8f;
+    [SerializeField] [Range(0f, 2f)] private float baseWindStrengthMultiplier = 0.8f;
+    [SerializeField] [Range(0f, 2f)] private float currentWindStrengthMultiplier = 0.8f;
     [SerializeField] private Vector3 currentWindDirection = Vector3.right;
-    
+
+    [Header("Speed Modifiers")]
+    [SerializeField] private float lowSpeedStormMultiplier = 0.7f;
+    [SerializeField] private float middleSpeedStormMultiplier = 1f;
+    [SerializeField] private float highSpeedStormMultiplier = 1.3f;
+
     [Header("Visual & Audio")]
     [SerializeField] private SandstormVfxController sandstormVfxController;
     [SerializeField] private AudioSource sandstormAudioSource;
@@ -23,14 +29,15 @@ public class SandstormSystem : MonoBehaviour
     {
         Instance = this;
     }
-    
+
     private void Update()
     {
         if (!isSandstormActive)
         {
             return;
         }
-
+        currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
+        
         remainingDuration -= Time.deltaTime;
 
         if (remainingDuration <= 0f)
@@ -45,6 +52,7 @@ public class SandstormSystem : MonoBehaviour
         isSandstormActive = true;
 
         currentWindDirection = GetRandomWindDirection();
+        currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
 
         ApplySandstormToOutlaws(true);
         UpdateVisuals(true);
@@ -54,6 +62,7 @@ public class SandstormSystem : MonoBehaviour
     {
         isSandstormActive = false;
         remainingDuration = 0f;
+        currentWindStrengthMultiplier = baseWindStrengthMultiplier;
 
         ApplySandstormToOutlaws(false);
         UpdateVisuals(false);
@@ -71,17 +80,42 @@ public class SandstormSystem : MonoBehaviour
 
     public float GetWindStrengthMultiplier()
     {
-        return windStrengthMultiplier;
+        return currentWindStrengthMultiplier;
     }
-    
+
     public Vector3 GetWindDisplacement(float baseSpeed)
     {
-        return currentWindDirection.normalized * (baseSpeed * windStrengthMultiplier);
+        return currentWindDirection.normalized * (baseSpeed * currentWindStrengthMultiplier);
     }
 
     public float GetRemainingDuration()
     {
         return remainingDuration;
+    }
+
+    private float GetModifiedStormStrengthMultiplier()
+    {
+        float speedModifier = middleSpeedStormMultiplier;
+
+        if (SpeedManager.instance != null)
+        {
+            switch (SpeedManager.instance.GetCurrentSpeedState())
+            {
+                case SpeedState.Low:
+                    speedModifier = lowSpeedStormMultiplier;
+                    break;
+
+                case SpeedState.Middle:
+                    speedModifier = middleSpeedStormMultiplier;
+                    break;
+
+                case SpeedState.High:
+                    speedModifier = highSpeedStormMultiplier;
+                    break;
+            }
+        }
+
+        return baseWindStrengthMultiplier * speedModifier;
     }
 
     private void ApplySandstormToOutlaws(bool sandstormActive)
@@ -145,7 +179,6 @@ public class SandstormSystem : MonoBehaviour
             (Vector3.back + Vector3.left).normalized
         };
 
-        int randomIndex = Random.Range(0, possibleDirections.Length);
-        return possibleDirections[randomIndex];
+        return possibleDirections[Random.Range(0, possibleDirections.Length)];
     }
 }

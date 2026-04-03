@@ -16,6 +16,11 @@ public class TrainSpawnDirector : MonoBehaviour
     [Header("Enemy Prefabs")]
     [SerializeField] private GameObject outlawPrefab;
 
+    [Header("Speed Modifiers")]
+    [SerializeField] private int lowSpeedOutlawExtra = 4;
+    [SerializeField] private int middleSpeedOutlawExtra = 2;
+    [SerializeField] private int highSpeedOutlawExtra = 0;
+
     private List<SpawnPointData> allOutlawSpawnPoints = new List<SpawnPointData>();
 
     private void Awake()
@@ -52,7 +57,7 @@ public class TrainSpawnDirector : MonoBehaviour
         }
     }
 
-    public void SpawnOutlawWave(int outlawCount)
+    public void SpawnOutlawWave(int baseOutlawCount)
     {
         if (outlawPrefab == null)
         {
@@ -66,6 +71,8 @@ public class TrainSpawnDirector : MonoBehaviour
             return;
         }
 
+        int finalOutlawCount = GetModifiedOutlawCount(baseOutlawCount);
+
         List<int> availableIndexes = new List<int>();
 
         for (int i = 0; i < allOutlawSpawnPoints.Count; i++)
@@ -73,7 +80,7 @@ public class TrainSpawnDirector : MonoBehaviour
             availableIndexes.Add(i);
         }
 
-        int spawnAmount = Mathf.Min(outlawCount, allOutlawSpawnPoints.Count);
+        int spawnAmount = Mathf.Min(finalOutlawCount, allOutlawSpawnPoints.Count);
 
         for (int i = 0; i < spawnAmount; i++)
         {
@@ -91,7 +98,35 @@ public class TrainSpawnDirector : MonoBehaviour
 
             OutlawSystem outlawSystem = outlawObject.GetComponent<OutlawSystem>();
 
-            outlawSystem.SetCurrentCarZone(selectedSpawn.carZone);
+            if (outlawSystem != null)
+            {
+                outlawSystem.SetCurrentCarZone(selectedSpawn.carZone);
+            }
         }
+    }
+
+    private int GetModifiedOutlawCount(int baseOutlawCount)
+    {
+        int modifier = 0;
+
+        if (SpeedManager.instance != null)
+        {
+            switch (SpeedManager.instance.GetCurrentSpeedState())
+            {
+                case SpeedState.Low:
+                    modifier = lowSpeedOutlawExtra;
+                    break;
+
+                case SpeedState.Middle:
+                    modifier = middleSpeedOutlawExtra;
+                    break;
+
+                case SpeedState.High:
+                    modifier = highSpeedOutlawExtra;
+                    break;
+            }
+        }
+
+        return Mathf.Max(0, baseOutlawCount + modifier);
     }
 }
