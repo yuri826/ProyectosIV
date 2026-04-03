@@ -60,7 +60,35 @@ public class PlayerRespawnManager : MonoBehaviour
 
         deadPlayer.SetActive(false);
 
-        yield return new WaitForSeconds(respawnDelay);
+        RespawnCountdownDisplay countdownDisplay = null;
+
+        if (deadCarZone != null)
+        {
+            Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
+
+            if (respawnPoint != null)
+            {
+                countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
+            }
+        }
+
+        float remainingRespawnTime = respawnDelay;
+
+        while (remainingRespawnTime > 0f)
+        {
+            if (countdownDisplay != null)
+            {
+                countdownDisplay.ShowTime(remainingRespawnTime);
+            }
+
+            yield return null;
+            remainingRespawnTime -= Time.deltaTime;
+        }
+
+        if (countdownDisplay != null)
+        {
+            countdownDisplay.Hide();
+        }
 
         if (deadPlayer == null)
         {
