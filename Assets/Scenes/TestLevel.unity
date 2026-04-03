@@ -249,7 +249,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765d0f1f1f154a2439ceca50125886f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  playerN: 0
+  currentState: 0
   walkSpeed: 5
+  rotationSpeed: 12
+  gravity: -25
+  groundedVerticalSpeed: -2
+  dashSpeed: 0
+  maxDashTimer: 0
+  interactionDistance: 0
+  interactionRadius: 0
+  interactionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &146877543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +322,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dce0e7acda721d4a9f60939dc04730d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
-  _type: b
+  _type: 0
+  xThrowSpeed: 0
+  maxYThrowSpeed: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &222287571
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -493,13 +508,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 7.85, z: -5.4}
+  m_LocalRotation: {x: 0.47443652, y: -0, z: -0, w: 0.8802898}
+  m_LocalPosition: {x: 0, y: 7.27, z: -6.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 56.645, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,7 +1148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dce0e7acda721d4a9f60939dc04730d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableObj
-  _type: a
+  _type: 0
+  xThrowSpeed: 0
+  maxYThrowSpeed: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1377357437
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1552,7 +1572,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ae990c372f17b429759a822d53b87f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepositObj
-  objectType: a
+  objectTypeList: 
+  currentState: 0
+  repairBar: {fileID: 0}
+  repairBarImage: {fileID: 0}
+  maxRepairTimer: 0
 --- !u!135 &1720023446
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1874,6 +1898,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033253541}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &5871810771170570187
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003423497943536952, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7691019211845581612, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
+      propertyPath: m_Name
+      value: CarroBase
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 07c192b14cf100b4d8b76204fb184967, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1887,3 +1968,4 @@ SceneRoots:
   - {fileID: 632185451}
   - {fileID: 222287574}
   - {fileID: 1720023449}
+  - {fileID: 5871810771170570187}
