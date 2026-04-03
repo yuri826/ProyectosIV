@@ -9,6 +9,7 @@ public class RepairRequirementSlot
 
     [Header("UI")]
     public Image slotImage;
+    public Sprite emptySprite;
     public Sprite filledSprite;
 
     [HideInInspector] public bool isFilled = false;

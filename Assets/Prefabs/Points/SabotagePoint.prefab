@@ -482,10 +482,12 @@ MonoBehaviour:
   requirementSlots:
   - requiredResource: 6
     slotImage: {fileID: 443627407626133615}
+    emptySprite: {fileID: -1511959487, guid: 705a2263058968a41a3aa6be7dbae91b, type: 3}
     filledSprite: {fileID: 907600952, guid: 705a2263058968a41a3aa6be7dbae91b, type: 3}
     isFilled: 0
   - requiredResource: 2
     slotImage: {fileID: 6743413733269891503}
+    emptySprite: {fileID: -1513810915, guid: 705a2263058968a41a3aa6be7dbae91b, type: 3}
     filledSprite: {fileID: 1245562782, guid: 705a2263058968a41a3aa6be7dbae91b, type: 3}
     isFilled: 0
 --- !u!135 &5417827535341911287

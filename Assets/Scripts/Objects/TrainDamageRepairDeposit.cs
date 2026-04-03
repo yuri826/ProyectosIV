@@ -145,5 +145,17 @@ public class TrainDamageRepairDeposit : DepositObj
         {
             return;
         }
+
+        if (requirementSlots[slotIndex].slotImage == null)
+        {
+            return;
+        }
+
+        if (requirementSlots[slotIndex].emptySprite == null)
+        {
+            return;
+        }
+
+        requirementSlots[slotIndex].slotImage.sprite = requirementSlots[slotIndex].emptySprite;
     }
 }

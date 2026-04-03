@@ -112,9 +112,9 @@ public class PlayerMovement : MonoBehaviour
     private void Dash()
     {
         Vector3 dashDisplacement = lookDir * (dashSpeed * Time.deltaTime);
-        Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
-        
-        characterController.Move(lookDir * (dashSpeed * Time.deltaTime));
+        Vector3 sandstormDisplacement = GetSandstormDisplacement(dashSpeed);
+
+        characterController.Move(dashDisplacement + sandstormDisplacement);
     }
     
     private Vector3 GetSandstormDisplacement(float baseSpeed)
@@ -213,12 +213,19 @@ public class PlayerMovement : MonoBehaviour
                 if (col.TryGetComponent<DepositObj>(out var deposit))
                 {
                     deposit.OnObject(currentObj, out var correctObject);
-                    
-                    if (correctObject) Destroy(currentObj.gameObject);
-                    else currentObj.Drop(Quaternion.Euler(0,-90,0) * lookDir);
-                    
+
+                    if (correctObject)
+                    {
+                        Destroy(currentObj.gameObject);
+                        currentObj = null;
+                    }
+                    else
+                    {
+                        currentObj.Drop(Quaternion.Euler(0, -90, 0) * lookDir);
+                        currentObj = null;
+                    }
+
                     isPicking = false;
-                    
                     canDrop = false;
 
                     goto EndOfInteraction;
