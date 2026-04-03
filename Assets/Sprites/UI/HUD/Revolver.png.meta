@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eb079131397f9264bb10b3454e3c1c7c
+guid: c1f6d2a1945c0c645a6f039561dd02f0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CompletionWheel_0
+      name: Revolver_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -112,19 +112,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab9a5a493af4e41468432fe5a44c5f39
-      internalID: -2108125675
+      spriteID: 403c3f05a955ceb479d34936053345fb
+      internalID: 376663965
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_1
+      name: Revolver_1
       rect:
         serializedVersion: 2
-        x: 245
+        x: 500
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -134,19 +134,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02895db5d8f84374c9ed0029754f7bc9
-      internalID: -487769978
+      spriteID: baaec21d89b2ca548a88d45e537ac566
+      internalID: -1707477070
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_2
+      name: Revolver_2
       rect:
         serializedVersion: 2
-        x: 490
+        x: 1000
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -156,19 +156,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9584c1c51c94712449700a3e67bf2ac9
-      internalID: 924652182
+      spriteID: b05857e78be242947b581514b2c6d942
+      internalID: -847161753
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_3
+      name: Revolver_3
       rect:
         serializedVersion: 2
-        x: 735
+        x: 1500
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -178,19 +178,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4132c9b375c00484ca01b35cf8e0b62b
-      internalID: 1798536528
+      spriteID: 69faa078c864b32468ddeb4bab36561b
+      internalID: 2138935238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_4
+      name: Revolver_4
       rect:
         serializedVersion: 2
-        x: 980
+        x: 2000
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -200,19 +200,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a07572a219add4241883b36f8a412090
-      internalID: -1869632810
+      spriteID: 63a4066f2174fb54e9de07d0d9e93800
+      internalID: 1617897255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_5
+      name: Revolver_5
       rect:
         serializedVersion: 2
-        x: 1225
+        x: 2500
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -222,19 +222,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4fca8d51630773408f6cb68dd857069
-      internalID: -372643217
+      spriteID: d91241d7e9937d349ad4c3c779f7593b
+      internalID: 457142269
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CompletionWheel_6
+      name: Revolver_6
       rect:
         serializedVersion: 2
-        x: 1470
+        x: 3000
         y: 0
-        width: 245
+        width: 500
         height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -244,52 +244,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98e6ae0b886fb55449c5f7fb6955f834
-      internalID: 1419382911
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CompletionWheel_7
-      rect:
-        serializedVersion: 2
-        x: 1715
-        y: 0
-        width: 245
-        height: 500
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70d8d38de5294d04894353ee45bb8694
-      internalID: 575269073
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CompletionWheel_8
-      rect:
-        serializedVersion: 2
-        x: 1960
-        y: 0
-        width: 245
-        height: 500
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4634a63bdde2d7429e09f863fbb52f1
-      internalID: -5607919
+      spriteID: e22e172abd352594f9acaaa16ff80db3
+      internalID: 1421215304
       vertices: []
       indices: 
       edges: []
@@ -298,7 +254,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 61bfe77728593204b8e22b827ce1d1ee
+    spriteID: 10990aa3cbb4d184db525a2c769f75f1
     internalID: 0
     vertices: []
     indices: 
@@ -308,17 +264,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":245.0,"y":500.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":1.0},"gridSpriteSize":{"x":500.0,"y":500.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      CompletionWheel_0: -2108125675
-      CompletionWheel_1: -487769978
-      CompletionWheel_2: 924652182
-      CompletionWheel_3: 1798536528
-      CompletionWheel_4: -1869632810
-      CompletionWheel_5: -372643217
-      CompletionWheel_6: 1419382911
-      CompletionWheel_7: 575269073
-      CompletionWheel_8: -5607919
+      Revolver_0: 376663965
+      Revolver_1: -1707477070
+      Revolver_2: -847161753
+      Revolver_3: 2138935238
+      Revolver_4: 1617897255
+      Revolver_5: 457142269
+      Revolver_6: 1421215304
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
