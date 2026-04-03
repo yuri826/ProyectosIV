@@ -97,6 +97,11 @@ public class TrainGameMode : MonoBehaviour
         playerSystem.ForcePick(p, playerN);
     }
     
+    public PlayerMovement GetPlayer(int playerN)
+    {
+        return playerSystem.GetPlayer(playerN);
+    }
+    
     //Health
     public void TakeDamage(float damage)
     {

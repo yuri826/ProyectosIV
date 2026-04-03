@@ -32,6 +32,16 @@ public class PlayerSubsystem : GamemodeSubsystem
     {
         players[playerN] = p;
     }
+    
+    public PlayerMovement GetPlayer(int playerN)
+    {
+        if (playerN < 0 || playerN >= players.Length)
+        {
+            return null;
+        }
+
+        return players[playerN];
+    }
 
     public delegate void ActivatePlayers();
     public ActivatePlayers activatePlayers;

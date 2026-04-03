@@ -56,11 +56,51 @@ public class TreatmentDeposit : DepositObj
     private void GiveObj()
     {
         repairBar.SetActive(false);
-        
-        GameObject pickableObj = Instantiate(treatedObjects[objectIndex], treatedObjectSpawn);
-        pickableObj.transform.parent = null;
+
+        GameObject treatedPrefab = treatedObjects[objectIndex];
+
+        if (treatedPrefab == null)
+        {
+            currentState = DepositState.Objects;
+            return;
+        }
+
+        PickableObj treatedPickable = treatedPrefab.GetComponent<PickableObj>();
+        bool isBulletOutput = treatedPickable != null && treatedPickable.type == ResourceType.Bullets;
+
+        if (isBulletOutput)
+        {
+            PlayerMovement player = TrainGameMode.instance.GetPlayer(currentPlayer);
+
+            if (player != null)
+            {
+                PlayerWeapon weapon = player.GetComponent<PlayerWeapon>();
+
+                if (weapon != null)
+                {
+                    int ammoBatchAmount = weapon.GetMaxChamberAmmo();
+                    int addedAmmo = weapon.AddBeltAmmo(ammoBatchAmount);
+
+                    // Si al menos una bala cabe en el cinturón, se añade directamente.
+                    // Si sobran, se pierden.
+                    if (addedAmmo > 0)
+                    {
+                        currentState = DepositState.Objects;
+                        return;
+                    }
+                }
+            }
+
+            // Si no cabía ninguna bala en el cinturón, se crea el pack físico en el mundo.
+            Instantiate(treatedPrefab, treatedObjectSpawn.position, treatedObjectSpawn.rotation);
+
+            currentState = DepositState.Objects;
+            return;
+        }
+
+        GameObject pickableObj = Instantiate(treatedPrefab, treatedObjectSpawn.position, treatedObjectSpawn.rotation);
         TrainGameMode.instance.ForcePick(pickableObj.GetComponent<PickableObj>(), currentPlayer);
-        
-        currentState = DepositState.Objects;;
+
+        currentState = DepositState.Objects;
     }
 }

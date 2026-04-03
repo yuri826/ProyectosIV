@@ -181,9 +181,19 @@ public class PlayerMovement : MonoBehaviour
                     
                     if (col.TryGetComponent<PickableObj>(out var pickableObj))
                     {
-                        // print("pickable object");
-                        // print($"Type: {pickableObj.type}");
-                        
+                        // Caso especial: si son balas y tengo hueco en el cinturón, se equipan directamente.
+                        if (pickableObj.type == ResourceType.Bullets)
+                        {
+                            int ammoBatchAmount = playerWeapon.GetMaxChamberAmmo();
+                            int addedAmmo = playerWeapon.AddBeltAmmo(ammoBatchAmount);
+
+                            if (addedAmmo > 0)
+                            {
+                                Destroy(pickableObj.gameObject);
+                                goto EndOfInteraction;
+                            }
+                        }
+
                         pickableObj.OnPick(this.transform);
                         currentObj = pickableObj;
                         isPicking = true;
