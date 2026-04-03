@@ -79,15 +79,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        isDead = true;
-        canTakeDamage = false;
-
-        if (damageCooldownRoutine != null)
-        {
-            StopCoroutine(damageCooldownRoutine);
-            damageCooldownRoutine = null;
-        }
-
         if (playerWeapon != null)
         {
             playerWeapon.CancelReload();
@@ -101,6 +92,43 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         if (characterController != null)
         {
             characterController.enabled = false;
+        }
+
+        TrainCarZone deadCarZone = null;
+        TrainCarZone[] trainCarZones = FindObjectsByType<TrainCarZone>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < trainCarZones.Length; i++)
+        {
+            if (trainCarZones[i] == null)
+            {
+                continue;
+            }
+
+            if (trainCarZones[i].ContainsPoint(transform.position))
+            {
+                deadCarZone = trainCarZones[i];
+                break;
+            }
+        }
+
+        if (deadCarZone != null)
+        {
+            OutlawSystem[] outlaws = FindObjectsByType<OutlawSystem>(FindObjectsSortMode.None);
+
+            for (int i = 0; i < outlaws.Length; i++)
+            {
+                if (outlaws[i] == null)
+                {
+                    continue;
+                }
+
+                if (!deadCarZone.ContainsPoint(outlaws[i].transform.position))
+                {
+                    continue;
+                }
+
+                outlaws[i].OnPlayerFell(playerMovement);
+            }
         }
 
         gameObject.SetActive(false);

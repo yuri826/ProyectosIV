@@ -42,7 +42,16 @@ public class OutlawCombat : MonoBehaviour
     public bool IsAnyPlayerInAttackRange(TrainCarZone currentCar)
     {
         List<PlayerMovement> playersInRange = currentCar.GetPlayersInRange(transform.position, detectionRange);
-        return playersInRange.Count > 0;
+
+        for (int i = 0; i < playersInRange.Count; i++)
+        {
+            if (IsPlayerValid(playersInRange[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool UpdateCombat(TrainCarZone currentCar)
@@ -70,6 +79,20 @@ public class OutlawCombat : MonoBehaviour
         // 3. Si el jugador ya no está en el vagón, lo pierdo
         if (!IsPlayerStillInsideCar(currentCar, currentTarget))
         {
+            if (!IsPlayerValid(currentTarget))
+            {
+                currentTarget = GetNextTargetPlayer(currentCar, lastPlayerShot);
+                CancelReposition();
+
+                if (currentTarget == null)
+                {
+                    currentAimLastPositionTimer = 0f;
+                    return false;
+                }
+
+                return true;
+            }
+
             SaveLastKnownPlayerPosition(currentTarget.transform.position);
             currentTarget = null;
             CancelReposition();
@@ -218,35 +241,53 @@ public class OutlawCombat : MonoBehaviour
     }
     
     // GESTIÓN DE OBJETIVOS
+    private bool IsPlayerValid(PlayerMovement player)
+    {
+        if (player == null)
+        {
+            return false;
+        }
 
+        if (!player.gameObject.activeInHierarchy)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    
     private PlayerMovement GetNextTargetPlayer(TrainCarZone currentCar, PlayerMovement playerToAvoid)
     {
         List<PlayerMovement> playersInRange = currentCar.GetPlayersInRange(transform.position, detectionRange);
 
-        if (playersInRange.Count == 0)
-        {
-            return null;
-        }
-
-        if (playersInRange.Count == 1)
-        {
-            return playersInRange[0];
-        }
+        PlayerMovement fallbackPlayer = null;
 
         for (int i = 0; i < playersInRange.Count; i++)
         {
-            if (playersInRange[i] != playerToAvoid)
+            PlayerMovement candidate = playersInRange[i];
+
+            if (!IsPlayerValid(candidate))
             {
-                return playersInRange[i];
+                continue;
+            }
+
+            if (candidate != playerToAvoid)
+            {
+                return candidate;
+            }
+
+            if (fallbackPlayer == null)
+            {
+                fallbackPlayer = candidate;
             }
         }
 
-        return playersInRange[0];
+        return fallbackPlayer;
     }
 
     private bool IsPlayerStillInsideCar(TrainCarZone currentCar, PlayerMovement player)
     {
-        if (player == null)
+        if (!IsPlayerValid(player))
         {
             return false;
         }

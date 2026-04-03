@@ -94,7 +94,7 @@ MonoBehaviour:
   dynamiteExplosionRadius: 2
   patrolPointsAfterExplosion: 2
   minDistanceBetweenPatrolPoints: 5
-  laughTime: 1
+  laughTime: 2
 --- !u!114 &6508098708299676387
 MonoBehaviour:
   m_ObjectHideFlags: 0
