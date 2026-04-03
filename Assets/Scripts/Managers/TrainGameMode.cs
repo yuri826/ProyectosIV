@@ -63,6 +63,11 @@ public class TrainGameMode : MonoBehaviour
     {
         currentState = LevelFlowState.Gameplay;
         playerSystem.activatePlayers();
+        
+        if (SpeedManager.instance != null)
+        {
+            SpeedManager.instance.StartStartup();
+        }
     }
     
     private void Win()

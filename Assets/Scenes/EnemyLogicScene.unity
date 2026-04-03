@@ -8066,15 +8066,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd703f5c67a59684bbf548a52fb6a3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpeedManager
-  initSpeed: 100
   minSpeed: 60
   maxSpeed: 140
+  initSpeed: 100
   lowSpeedThreshold: 80
   highSpeedThreshold: 120
-  currentState: 1
-  maxSpeedTimer: 0.5
-  speedBar: {fileID: 1559709305}
+  startupDuration: 3
+  startWithStartup: 1
+  coalSpeedBoostDuration: 1
+  speedDecayAmount: 10
+  speedDecayInterval: 5
+  speedBarFill: {fileID: 0}
   speedText: {fileID: 1555341807}
+  currentSpeed: 0
+  currentSpeedState: 0
 --- !u!114 &1026388330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8926,8 +8931,14 @@ MonoBehaviour:
   - eventType: 0
     triggerTime: 10
     iconPrefab: {fileID: 72203253}
-    outlawCount: 10
+    outlawCount: 4
     duration: 10
+    hasTriggered: 0
+  - eventType: 1
+    triggerTime: 15
+    iconPrefab: {fileID: 72203253}
+    outlawCount: 0
+    duration: 30
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
   sandstormSystem: {fileID: 942061763}
@@ -16752,6 +16763,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 511597570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2076598260
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000054053476
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.894943
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000004917383
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123415378078605636, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4554727021775936310, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_Name
+      value: SandstormMovingBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7412217261315613796, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7412217261315613796, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b30918444b2747d4996bbe4449d3a8d4, type: 3}
 --- !u!1 &2115497749
 GameObject:
   m_ObjectHideFlags: 0
@@ -17323,3 +17399,4 @@ SceneRoots:
   - {fileID: 1093361939}
   - {fileID: 294764300}
   - {fileID: 621149246}
+  - {fileID: 2076598260}

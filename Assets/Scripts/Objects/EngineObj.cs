@@ -3,7 +3,7 @@ using UnityEngine;
 public class EngineObj : DepositObj
 {
     [Tooltip("Poner en orden correspondiente al array de strings de objetos aceptados")]
-    [SerializeField] private int speedAdding;
+    [SerializeField] private float speedAdding = 30f;
 
     protected override void Start()
     {
