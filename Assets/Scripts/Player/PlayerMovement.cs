@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movementDirection;
     private Vector3 lookDir = Vector3.right;
     
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed = 12f;
+    
     [Header("Grounding")]
     [SerializeField] private float gravity = -25f;
     [SerializeField] private float groundedVerticalSpeed = -2f;
@@ -100,6 +103,8 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
+        
+        UpdateRotation();
     }
 
     private Vector3 GetVerticalDisplacement()
@@ -114,6 +119,24 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return Vector3.up * (verticalVelocity * Time.deltaTime);
+    }
+    
+    private void UpdateRotation()
+    {
+        Vector3 flatLookDir = new Vector3(lookDir.x, 0f, lookDir.z);
+
+        if (flatLookDir.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(flatLookDir, Vector3.up);
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
     
     private void Movement()

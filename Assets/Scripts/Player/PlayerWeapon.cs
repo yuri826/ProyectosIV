@@ -6,8 +6,9 @@ public class PlayerWeapon : MonoBehaviour
 {
     [Header("Shoot")]
     [SerializeField] private GameObject playerBullet;
-    [SerializeField] private Vector3 shootOffset;
+    [SerializeField] private Transform shootPoint;
     [SerializeField] private float shootCooldown = 0.2f;
+    [SerializeField] private Vector3 fallbackShootOffset = new Vector3(0f, 1f, 1f);
 
     [Header("Ammo")]
     [SerializeField] private int maxChamberAmmo = 6;
@@ -65,9 +66,20 @@ public class PlayerWeapon : MonoBehaviour
             return;
         }
 
+        Vector3 spawnPosition;
+
+        if (shootPoint != null)
+        {
+            spawnPosition = shootPoint.position;
+        }
+        else
+        {
+            spawnPosition = transform.position + fallbackShootOffset;
+        }
+
         GameObject bulletObject = Instantiate(
             playerBullet,
-            transform.position + shootOffset,
+            spawnPosition,
             Quaternion.identity
         );
 
