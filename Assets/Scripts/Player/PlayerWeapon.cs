@@ -16,6 +16,7 @@ public class PlayerWeapon : MonoBehaviour
 
     [Header("Debug UI")]
     [SerializeField] private TextMeshProUGUI bulletText;
+    [SerializeField] private RevolverAmmoHUD revolverAmmoHUD;
 
     private bool canShoot = true;
     private bool isReloading = false;
@@ -31,6 +32,7 @@ public class PlayerWeapon : MonoBehaviour
         currentBeltAmmo = 12;
 
         UpdateBulletText();
+        revolverAmmoHUD.Initialize(currentChamberAmmo);
     }
 
     public void Shoot(Vector3 dir)
@@ -70,6 +72,7 @@ public class PlayerWeapon : MonoBehaviour
 
         currentChamberAmmo--;
         UpdateBulletText();
+        revolverAmmoHUD.OnShot(currentChamberAmmo);
 
         StartCoroutine(ShootCd());
     }
@@ -107,12 +110,14 @@ public class PlayerWeapon : MonoBehaviour
             currentBeltAmmo--;
 
             UpdateBulletText();
+            revolverAmmoHUD.OnReloadBulletInserted(currentChamberAmmo);
         }
 
         isReloading = false;
         reloadRoutine = null;
 
         UpdateBulletText();
+        revolverAmmoHUD.OnReloadComplete();
     }
 
     private IEnumerator ShootCd()
