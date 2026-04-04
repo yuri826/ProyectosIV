@@ -6,26 +6,74 @@ public class WinCanvasMenu : CanvasMenu
 {
     [Header("Stars")]
     [SerializeField] private Image[] stars;
+    [SerializeField] private Sprite emptyStarSprite;
+    [SerializeField] private Sprite filledStarSprite;
+    [SerializeField] private float delayBeforeStart = 0.2f;
+    [SerializeField] private float timeBetweenStars = 0.25f;
+
+    private Coroutine starRoutine;
 
     public void StarShow(int amount)
     {
-        foreach (Image star in stars)
+        amount = Mathf.Clamp(amount, 0, stars.Length);
+
+        if (starRoutine != null)
         {
-            star.enabled = false;
+            StopCoroutine(starRoutine);
         }
-        
-        StartCoroutine(ShowStars(amount));
+
+        SetupEmptyStars();
+        starRoutine = StartCoroutine(ShowStars(amount));
+    }
+
+    public void ResetStars()
+    {
+        if (starRoutine != null)
+        {
+            StopCoroutine(starRoutine);
+            starRoutine = null;
+        }
+
+        SetupEmptyStars();
+    }
+
+    private void SetupEmptyStars()
+    {
+        if (stars == null || stars.Length == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < stars.Length; i++)
+        {
+            if (stars[i] == null)
+            {
+                continue;
+            }
+
+            stars[i].enabled = true;
+
+            if (emptyStarSprite != null)
+            {
+                stars[i].sprite = emptyStarSprite;
+            }
+        }
     }
 
     private IEnumerator ShowStars(int amount)
     {
-        yield return new WaitForSeconds(0.4f);
-        
+        yield return new WaitForSecondsRealtime(delayBeforeStart);
+
         for (int i = 0; i < amount; i++)
         {
-            stars[i].enabled = true;
-            yield return new WaitForSeconds(0.4f);
+            if (stars[i] != null && filledStarSprite != null)
+            {
+                stars[i].sprite = filledStarSprite;
+            }
+
+            yield return new WaitForSecondsRealtime(timeBetweenStars);
         }
+
+        starRoutine = null;
     }
-    
 }

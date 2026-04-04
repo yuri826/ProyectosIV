@@ -10,15 +10,13 @@ public class UIUpdater : GamemodeSubsystem
     [Header("IntroUI")]
     [SerializeField] private TextMeshProUGUI introNumbers;
     [SerializeField] private Animator numberAnim;
-    
-    [Header("EndCanvases")]
-    [SerializeField] private GameObject gameOverCanvas;
-    [SerializeField] private GameObject winCanvas;
-    [SerializeField] private WinCanvasMenu winCanvasMenu;
-    
+
+    [Header("Level Menus")]
+    [SerializeField] private LevelMenuManager levelMenuManager;
+
     [Header("ProgressCanvas")]
     [SerializeField] private Image progressBar;
-    
+
     [Header("HealthCanvas")]
     [SerializeField] private Image healthBar;
 
@@ -62,12 +60,17 @@ public class UIUpdater : GamemodeSubsystem
 
     public override void OnGameOver()
     {
-        gameOverCanvas.SetActive(true);
+        if (levelMenuManager != null)
+        {
+            levelMenuManager.OpenDefeatMenu();
+        }
     }
 
     public override void OnWin()
     {
-        winCanvas.SetActive(true);
-        winCanvasMenu.StarShow(3);
+        if (levelMenuManager != null)
+        {
+            levelMenuManager.OpenVictoryMenu();
+        }
     }
 }

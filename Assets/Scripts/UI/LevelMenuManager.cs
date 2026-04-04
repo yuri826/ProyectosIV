@@ -20,6 +20,11 @@ public class LevelMenuManager : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private PlayerInput gameplayPlayerInput;
+    
+    [Header("Victory Stars")]
+    [SerializeField] [Range(0f, 1f)] private float threeStarsLifePercent = 0.9f;
+    [SerializeField] [Range(0f, 1f)] private float twoStarsLifePercent = 0.7f;
+    [SerializeField] [Range(0f, 1f)] private float oneStarLifePercent = 0.5f;
 
     private bool isPaused = false;
     private GameObject previousCanvasBeforeControls;
@@ -223,6 +228,7 @@ public class LevelMenuManager : MonoBehaviour
         if (victoryMenu != null)
         {
             victoryMenu.ResetSelection();
+            victoryMenu.StarShow(CalculateStars());
         }
 
         isPaused = false;
@@ -338,5 +344,38 @@ public class LevelMenuManager : MonoBehaviour
         {
             gameplayPlayerInput.SwitchCurrentActionMap("Gameplay");
         }
+    }
+
+    private int CalculateStars()
+    {
+        if (TrainGameMode.instance == null)
+        {
+            return 0;
+        }
+
+        float currentLife = TrainGameMode.instance.GetCurrentTrainLife();
+        float maxLife = TrainGameMode.instance.GetMaxTrainLife();
+
+        if (maxLife <= 0f)
+        {
+            return 0;
+        }
+
+        if (currentLife > maxLife * threeStarsLifePercent)
+        {
+            return 3;
+        }
+
+        if (currentLife > maxLife * twoStarsLifePercent)
+        {
+            return 2;
+        }
+
+        if (currentLife > maxLife * oneStarLifePercent)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 }

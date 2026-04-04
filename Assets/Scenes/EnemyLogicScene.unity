@@ -11032,9 +11032,9 @@ MonoBehaviour:
   levelEvents:
   - eventType: 0
     triggerTime: 10
-    iconPrefab: {fileID: 72203253}
-    outlawCount: 15
-    duration: 30
+    iconPrefab: {fileID: 0}
+    outlawCount: 2
+    duration: 0
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
   sandstormSystem: {fileID: 942061763}
@@ -17093,9 +17093,7 @@ MonoBehaviour:
   uiUpdater:
     introNumbers: {fileID: 1974798663}
     numberAnim: {fileID: 1974798662}
-    gameOverCanvas: {fileID: 1386352386}
-    winCanvas: {fileID: 1945189729}
-    winCanvasMenu: {fileID: 0}
+    levelMenuManager: {fileID: 1934825083}
     progressBar: {fileID: 1939628142}
     healthBar: {fileID: 650211626}
   levelFlow:
@@ -19242,6 +19240,10 @@ MonoBehaviour:
   - {fileID: 562597265}
   - {fileID: 647443765}
   - {fileID: 1251622982}
+  emptyStarSprite: {fileID: 48597459, guid: 5d54eff68fb84be489992772d906c28c, type: 3}
+  filledStarSprite: {fileID: 21300000, guid: e39d7cacb315f814fb334bb51c06db0d, type: 3}
+  delayBeforeStart: 0.75
+  timeBetweenStars: 0.75
 --- !u!114 &1945189732
 MonoBehaviour:
   m_ObjectHideFlags: 0
