@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class OutlawHealth : MonoBehaviour
+public class OutlawHealth : MonoBehaviour, IDamageable
 {
     [Header("Outlaw Health")]
-    [SerializeField] private float maxHealth;
-    
+    [SerializeField] private float maxHealth = 3f;
+
     private float currentHealth;
     private OutlawSystem outlawSystem;
 
@@ -18,21 +18,23 @@ public class OutlawHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-
     public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
-        
+
         if (currentHealth <= 0f)
         {
             Die();
         }
     }
 
-
     private void Die()
     {
-        outlawSystem.OnDead();
+        if (outlawSystem != null)
+        {
+            outlawSystem.OnDead();
+        }
+
         Destroy(gameObject);
     }
 }
