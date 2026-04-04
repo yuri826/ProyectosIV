@@ -6,7 +6,7 @@ public class TrainLife : GamemodeSubsystem
 {
     [field: SerializeField]
     public int maxTrainLife { get; set; }
-    
+
     [field: SerializeField] private float currentTrainLife { get; set; }
 
     private bool isDead = false;
@@ -14,6 +14,7 @@ public class TrainLife : GamemodeSubsystem
     public override void OnStart()
     {
         currentTrainLife = maxTrainLife;
+        isDead = false;
         UpdateLifeBar();
     }
 
@@ -23,21 +24,21 @@ public class TrainLife : GamemodeSubsystem
         {
             return;
         }
-        
+
         currentTrainLife -= amount;
         currentTrainLife = Mathf.Clamp(currentTrainLife, 0f, maxTrainLife);
-        
-        UpdateLifeBar();
-        
-        if (currentTrainLife <= 0)
-        {
-            TrainGameMode.onGameOver();
-        }
-    }
 
-    private void UpdateLifeBar()
-    {
-        TrainGameMode.UpdateLifeBar(currentTrainLife, maxTrainLife);
+        UpdateLifeBar();
+
+        if (currentTrainLife <= 0f)
+        {
+            isDead = true;
+
+            if (TrainGameMode.onGameOver != null)
+            {
+                TrainGameMode.onGameOver();
+            }
+        }
     }
 
     public void RepairTrain(float amount)
@@ -46,10 +47,30 @@ public class TrainLife : GamemodeSubsystem
         {
             return;
         }
-    
+
         currentTrainLife += amount;
         currentTrainLife = Mathf.Clamp(currentTrainLife, 0f, maxTrainLife);
-        
+
         UpdateLifeBar();
+    }
+
+    private void UpdateLifeBar()
+    {
+        TrainGameMode.UpdateLifeBar(currentTrainLife, maxTrainLife);
+    }
+
+    public float GetCurrentTrainLife()
+    {
+        return currentTrainLife;
+    }
+
+    public int GetMaxTrainLife()
+    {
+        return maxTrainLife;
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

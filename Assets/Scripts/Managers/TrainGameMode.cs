@@ -18,6 +18,7 @@ public class TrainGameMode : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Time.timeScale = 1;
     }
 
     private void Start()
@@ -73,11 +74,13 @@ public class TrainGameMode : MonoBehaviour
     private void Win()
     {
         currentState = LevelFlowState.Win;
+        Time.timeScale = 0;
     }
     
     private void GameOver()
     {
         currentState = LevelFlowState.GameOver;
+        Time.timeScale = 0;
     }
 
     //UI
@@ -116,6 +119,16 @@ public class TrainGameMode : MonoBehaviour
     public void RepairTrain(float amount)
     {
         trainLife.RepairTrain(amount);
+    }
+    
+    public float GetCurrentTrainLife()
+    {
+        return trainLife.GetCurrentTrainLife();
+    }
+
+    public int GetMaxTrainLife()
+    {
+        return trainLife.GetMaxTrainLife();
     }
     
     public delegate void OnGameOver();
