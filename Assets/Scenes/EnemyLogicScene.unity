@@ -11031,9 +11031,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelEventManager
   levelEvents:
   - eventType: 0
-    triggerTime: 10
+    triggerTime: 5
     iconPrefab: {fileID: 0}
-    outlawCount: 2
+    outlawCount: 1
     duration: 0
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
@@ -18895,6 +18895,9 @@ MonoBehaviour:
   controlsMenu: {fileID: 1058815753}
   sceneLoadManager: {fileID: 1934825082}
   gameplayPlayerInput: {fileID: 8055160176714418460}
+  threeStarsLifePercent: 0.9
+  twoStarsLifePercent: 0.7
+  oneStarLifePercent: 0.5
 --- !u!1001 &1936043177
 PrefabInstance:
   m_ObjectHideFlags: 0
