@@ -5,59 +5,45 @@ public class PlayerRespawnManager : MonoBehaviour
 {
     [Header("Respawn")]
     [SerializeField] private float respawnDelay = 5f;
-    
+
     [Header("Camera")]
     [SerializeField] private LevelCamera levelCamera;
     [SerializeField] private float respawnCameraSmoothSpeed = 1f;
 
+    private Coroutine respawnRoutine;
+
     public void HandleDeath(PlayerHealthManager deadPlayerHealth, TrainCarZone forcedCarZone = null)
     {
-        if (deadPlayerHealth == null)
-        {
-            return;
-        }
-
         GameObject deadPlayer = deadPlayerHealth.gameObject;
         PlayerMovement deadPlayerMovement = deadPlayer.GetComponent<PlayerMovement>();
 
         TrainCarZone deadCarZone = forcedCarZone != null ? forcedCarZone : FindCarZoneForPosition(deadPlayer.transform.position);
-        
-        if (levelCamera != null && deadCarZone != null)
+
+        if (deadCarZone != null)
         {
             Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
 
-            if (respawnPoint != null)
-            {
-                levelCamera.SetOverrideTarget(respawnPoint, respawnCameraSmoothSpeed);
-            }
+            levelCamera.SetOverrideTarget(respawnPoint, respawnCameraSmoothSpeed);
         }
 
         NotifyOutlawsInDeadCar(deadCarZone, deadPlayerMovement);
 
-        StartCoroutine(RespawnRoutine(deadPlayerHealth, deadCarZone));
+        if (respawnRoutine != null)
+        {
+            StopCoroutine(respawnRoutine);
+        }
+
+        respawnRoutine = StartCoroutine(RespawnRoutine(deadPlayerHealth, deadCarZone));
     }
 
     private IEnumerator RespawnRoutine(PlayerHealthManager deadPlayerHealth, TrainCarZone deadCarZone)
     {
-        if (deadPlayerHealth == null)
-        {
-            yield break;
-        }
-
         GameObject deadPlayer = deadPlayerHealth.gameObject;
         PlayerMovement deadPlayerMovement = deadPlayer.GetComponent<PlayerMovement>();
         CharacterController deadCharacterController = deadPlayer.GetComponent<CharacterController>();
 
-        if (deadPlayerMovement != null)
-        {
-            deadPlayerMovement.currentState = PlayerState.Locked;
-        }
-
-        if (deadCharacterController != null)
-        {
-            deadCharacterController.enabled = false;
-        }
-
+        deadPlayerMovement.currentState = PlayerState.Locked;
+        deadCharacterController.enabled = false;
         deadPlayer.SetActive(false);
 
         RespawnCountdownDisplay countdownDisplay = null;
@@ -66,34 +52,20 @@ public class PlayerRespawnManager : MonoBehaviour
         {
             Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
 
-            if (respawnPoint != null)
-            {
-                countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
-            }
+            countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
         }
 
         float remainingRespawnTime = respawnDelay;
 
         while (remainingRespawnTime > 0f)
         {
-            if (countdownDisplay != null)
-            {
-                countdownDisplay.ShowTime(remainingRespawnTime);
-            }
+            countdownDisplay.ShowTime(remainingRespawnTime);
 
             yield return null;
             remainingRespawnTime -= Time.deltaTime;
         }
 
-        if (countdownDisplay != null)
-        {
-            countdownDisplay.Hide();
-        }
-
-        if (deadPlayer == null)
-        {
-            yield break;
-        }
+        countdownDisplay.Hide();
 
         Vector3 respawnPosition = deadPlayer.transform.position;
 
@@ -115,24 +87,16 @@ public class PlayerRespawnManager : MonoBehaviour
         deadPlayer.SetActive(true);
 
         deadCharacterController = deadPlayer.GetComponent<CharacterController>();
-        if (deadCharacterController != null)
-        {
-            deadCharacterController.enabled = true;
-        }
+        deadCharacterController.enabled = true;
 
         deadPlayerHealth.ReviveToFullHealth();
         deadPlayerHealth.StartInvulnerability();
 
         deadPlayerMovement = deadPlayer.GetComponent<PlayerMovement>();
-        if (deadPlayerMovement != null)
-        {
-            deadPlayerMovement.currentState = PlayerState.Move;
-        }
+        deadPlayerMovement.currentState = PlayerState.Move;
+        levelCamera.ClearOverrideTarget();
 
-        if (levelCamera != null)
-        {
-            levelCamera.ClearOverrideTarget();
-        }
+        respawnRoutine = null;
     }
 
     private TrainCarZone FindCarZoneForPosition(Vector3 worldPosition)
@@ -157,7 +121,7 @@ public class PlayerRespawnManager : MonoBehaviour
 
     private void NotifyOutlawsInDeadCar(TrainCarZone deadCarZone, PlayerMovement deadPlayerMovement)
     {
-        if (deadCarZone == null || deadPlayerMovement == null)
+        if (deadCarZone == null)
         {
             return;
         }

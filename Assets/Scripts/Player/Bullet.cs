@@ -8,12 +8,14 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float lifeTime = 5f;
 
     private Rigidbody rb;
+    private Collider bulletCollider;
     private Vector3 shootDirection;
     private GameObject owner;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        bulletCollider = GetComponent<Collider>();
     }
 
     private void Start()
@@ -23,11 +25,6 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb == null)
-        {
-            return;
-        }
-
         rb.linearVelocity = shootDirection * speed;
     }
 
@@ -46,22 +43,10 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        Collider bulletCollider = GetComponent<Collider>();
-
-        if (bulletCollider == null)
-        {
-            return;
-        }
-
         Collider[] ownerColliders = owner.GetComponentsInChildren<Collider>();
 
         for (int i = 0; i < ownerColliders.Length; i++)
         {
-            if (ownerColliders[i] == null)
-            {
-                continue;
-            }
-
             Physics.IgnoreCollision(bulletCollider, ownerColliders[i], true);
         }
     }
@@ -74,7 +59,7 @@ public class Bullet : MonoBehaviour
         }
 
         IDamageable damageable = other.GetComponent<IDamageable>();
-        
+
         if (other.isTrigger && damageable == null)
         {
             return;

@@ -11033,7 +11033,7 @@ MonoBehaviour:
   - eventType: 0
     triggerTime: 5
     iconPrefab: {fileID: 0}
-    outlawCount: 1
+    outlawCount: 2
     duration: 0
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
@@ -17097,7 +17097,7 @@ MonoBehaviour:
     progressBar: {fileID: 1939628142}
     healthBar: {fileID: 650211626}
   levelFlow:
-    levelDuration: 30
+    levelDuration: 20
     levelEventManager: {fileID: 1240237078}
   trainLife:
     <maxTrainLife>k__BackingField: 100

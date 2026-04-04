@@ -6,7 +6,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     [Header("References")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerWeapon playerWeapon;
-    
+
     [Header("Respawn")]
     [SerializeField] private PlayerRespawnManager playerRespawnManager;
     [SerializeField] private float respawnInvulnerabilityTime = 1.5f;
@@ -19,22 +19,9 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     private bool isDead = false;
     private bool canTakeDamage = true;
     private Coroutine damageCooldownRoutine;
-    
+
     private bool isInvulnerable = false;
     private Coroutine invulnerabilityRoutine;
-
-    private void Awake()
-    {
-        if (playerMovement == null)
-        {
-            playerMovement = GetComponent<PlayerMovement>();
-        }
-
-        if (playerWeapon == null)
-        {
-            playerWeapon = GetComponent<PlayerWeapon>();
-        }
-    }
 
     private void Start()
     {
@@ -50,7 +37,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         if (isInvulnerable)
         {
-            Debug.Log($"{gameObject.name} ignored damage because it is invulnerable.");
             return;
         }
 
@@ -61,7 +47,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        Debug.Log($"{gameObject.name} took damage. Current health: {currentHealth}/{maxHealth}");
 
         if (currentHealth <= 0f)
         {
@@ -76,7 +61,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         damageCooldownRoutine = StartCoroutine(DamageCooldownRoutine());
     }
-    
+
     public void KillFromCarZone(TrainCarZone sourceCarZone)
     {
         if (isDead)
@@ -94,7 +79,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         canTakeDamage = true;
         damageCooldownRoutine = null;
     }
-    
+
     public void StartInvulnerability()
     {
         if (invulnerabilityRoutine != null)
@@ -114,7 +99,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         isInvulnerable = false;
         invulnerabilityRoutine = null;
     }
-    
+
     private void ForceDie(TrainCarZone forcedCarZone)
     {
         if (isDead)
@@ -131,22 +116,11 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             damageCooldownRoutine = null;
         }
 
-        if (playerWeapon != null)
-        {
-            playerWeapon.CancelReload();
-        }
-
-        if (playerMovement != null)
-        {
-            playerMovement.currentState = PlayerState.Locked;
-        }
-
-        if (playerRespawnManager != null)
-        {
-            playerRespawnManager.HandleDeath(this, forcedCarZone);
-        }
+        playerWeapon.CancelReload();
+        playerMovement.currentState = PlayerState.Locked;
+        playerRespawnManager.HandleDeath(this, forcedCarZone);
     }
-    
+
     private void Die()
     {
         ForceDie(null);

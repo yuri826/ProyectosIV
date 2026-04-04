@@ -39,24 +39,10 @@ public class WinCanvasMenu : CanvasMenu
 
     private void SetupEmptyStars()
     {
-        if (stars == null || stars.Length == 0)
-        {
-            return;
-        }
-
         for (int i = 0; i < stars.Length; i++)
         {
-            if (stars[i] == null)
-            {
-                continue;
-            }
-
             stars[i].enabled = true;
-
-            if (emptyStarSprite != null)
-            {
-                stars[i].sprite = emptyStarSprite;
-            }
+            stars[i].sprite = emptyStarSprite;
         }
     }
 
@@ -66,11 +52,7 @@ public class WinCanvasMenu : CanvasMenu
 
         for (int i = 0; i < amount; i++)
         {
-            if (stars[i] != null && filledStarSprite != null)
-            {
-                stars[i].sprite = filledStarSprite;
-            }
-
+            stars[i].sprite = filledStarSprite;
             yield return new WaitForSecondsRealtime(timeBetweenStars);
         }
 

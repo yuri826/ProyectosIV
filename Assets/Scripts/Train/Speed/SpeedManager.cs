@@ -192,16 +192,9 @@ public class SpeedManager : MonoBehaviour
 
     private void UpdateHUD()
     {
-        if (speedBarFill != null)
-        {
-            float normalizedSpeed = Mathf.InverseLerp(0f, maxSpeed, currentSpeed);
-            speedBarFill.fillAmount = normalizedSpeed;
-        }
-
-        if (speedText != null)
-        {
-            speedText.text = $"{Mathf.RoundToInt(currentSpeed)} km/h";
-        }
+        float normalizedSpeed = Mathf.InverseLerp(0f, maxSpeed, currentSpeed);
+        speedBarFill.fillAmount = normalizedSpeed;
+        speedText.text = $"{Mathf.RoundToInt(currentSpeed)} km/h";
     }
 
     public void SetCurrentSpeed(float newSpeed)

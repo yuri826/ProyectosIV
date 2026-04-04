@@ -17,77 +17,45 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Start");
         OpenMainMenu();
     }
 
     public void OpenMainMenu()
     {
-        Debug.Log("OpenMainMenu called");
         previousCanvas = null;
 
-        if (controlsCanvas != null)
-        {
-            controlsCanvas.SetActive(false);
-        }
-
-        if (mainMenuCanvas != null)
-        {
-            mainMenuCanvas.SetActive(true);
-        }
-
-        if (mainMenu != null)
-        {
-            mainMenu.ResetSelection();
-        }
+        controlsCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(true);
+        mainMenu.ResetSelection();
     }
 
     public void OpenControlsFromMainMenu()
     {
-        Debug.Log("OpenControlsFromMainMenu called");
-        Debug.Log($"Main active before: {mainMenuCanvas.activeSelf}");
-        Debug.Log($"Controls active before: {controlsCanvas.activeSelf}");
         previousCanvas = mainMenuCanvas;
 
         mainMenuCanvas.SetActive(false);
         controlsCanvas.SetActive(true);
-        Debug.Log($"Main active after: {mainMenuCanvas.activeSelf}");
-        Debug.Log($"Controls active after: {controlsCanvas.activeSelf}");
         controlsMenu.ResetSelection();
     }
 
     public void BackFromControls()
     {
-        if (controlsCanvas != null)
-        {
-            controlsCanvas.SetActive(false);
-        }
+        controlsCanvas.SetActive(false);
 
-        if (previousCanvas == mainMenuCanvas && mainMenuCanvas != null)
+        if (previousCanvas == mainMenuCanvas)
         {
             mainMenuCanvas.SetActive(true);
-
-            if (mainMenu != null)
-            {
-                mainMenu.ResetSelection();
-            }
+            mainMenu.ResetSelection();
         }
     }
 
     public void StartGame()
     {
-        Debug.Log("StartGame called");
-        if (sceneLoadManager != null)
-        {
-            sceneLoadManager.LoadMapScene();
-        }
+        sceneLoadManager.LoadMapScene();
     }
 
     public void QuitGame()
     {
-        if (sceneLoadManager != null)
-        {
-            sceneLoadManager.QuitGame();
-        }
+        sceneLoadManager.QuitGame();
     }
 }

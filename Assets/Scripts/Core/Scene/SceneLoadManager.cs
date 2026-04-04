@@ -27,13 +27,6 @@ public class SceneLoadManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        if (levelManager == null)
-        {
-            Debug.LogWarning("SceneLoadManager: LevelManager no está asignado.");
-            SceneManager.LoadScene("MapScene");
-            return;
-        }
-
         int thisLevel = mapIndex;
         int nextLevel = thisLevel + 1;
 

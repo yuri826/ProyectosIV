@@ -22,7 +22,7 @@ public class UIUpdater : GamemodeSubsystem
 
     public override void OnStart()
     {
-        progressBar.fillAmount = 0;
+        progressBar.fillAmount = 0f;
     }
 
     public IEnumerator IntroRoutine(float timeBetween)
@@ -60,17 +60,11 @@ public class UIUpdater : GamemodeSubsystem
 
     public override void OnGameOver()
     {
-        if (levelMenuManager != null)
-        {
-            levelMenuManager.OpenDefeatMenu();
-        }
+        levelMenuManager.OpenDefeatMenu();
     }
 
     public override void OnWin()
     {
-        if (levelMenuManager != null)
-        {
-            levelMenuManager.OpenVictoryMenu();
-        }
+        levelMenuManager.OpenVictoryMenu();
     }
 }

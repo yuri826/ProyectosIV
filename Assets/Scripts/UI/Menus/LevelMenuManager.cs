@@ -20,7 +20,7 @@ public class LevelMenuManager : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private PlayerInput gameplayPlayerInput;
-    
+
     [Header("Victory Stars")]
     [SerializeField] [Range(0f, 1f)] private float threeStarsLifePercent = 0.9f;
     [SerializeField] [Range(0f, 1f)] private float twoStarsLifePercent = 0.7f;
@@ -34,20 +34,17 @@ public class LevelMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        if (gameplayPlayerInput != null && gameplayPlayerInput.actions != null)
+        InputActionMap gameplayMap = gameplayPlayerInput.actions.FindActionMap("Gameplay", true);
+        InputActionMap uiMap = gameplayPlayerInput.actions.FindActionMap("UI", true);
+
+        if (gameplayMap != null)
         {
-            InputActionMap gameplayMap = gameplayPlayerInput.actions.FindActionMap("Gameplay", true);
-            InputActionMap uiMap = gameplayPlayerInput.actions.FindActionMap("UI", true);
+            gameplayPauseAction = gameplayMap.FindAction("Pause", true);
+        }
 
-            if (gameplayMap != null)
-            {
-                gameplayPauseAction = gameplayMap.FindAction("Pause", true);
-            }
-
-            if (uiMap != null)
-            {
-                uiPauseAction = uiMap.FindAction("Pause", true);
-            }
+        if (uiMap != null)
+        {
+            uiPauseAction = uiMap.FindAction("Pause", true);
         }
     }
 
@@ -98,18 +95,18 @@ public class LevelMenuManager : MonoBehaviour
 
     private void OnPausePressed(InputAction.CallbackContext context)
     {
-        if (controlsCanvas != null && controlsCanvas.activeSelf)
+        if (controlsCanvas.activeSelf)
         {
             BackFromControls();
             return;
         }
 
-        if (victoryCanvas != null && victoryCanvas.activeSelf)
+        if (victoryCanvas.activeSelf)
         {
             return;
         }
 
-        if (defeatCanvas != null && defeatCanvas.activeSelf)
+        if (defeatCanvas.activeSelf)
         {
             return;
         }
@@ -133,15 +130,8 @@ public class LevelMenuManager : MonoBehaviour
     {
         CloseAllMenus();
 
-        if (pauseCanvas != null)
-        {
-            pauseCanvas.SetActive(true);
-        }
-
-        if (pauseMenu != null)
-        {
-            pauseMenu.ResetSelection();
-        }
+        pauseCanvas.SetActive(true);
+        pauseMenu.ResetSelection();
 
         isPaused = true;
         Time.timeScale = 0f;
@@ -176,24 +166,16 @@ public class LevelMenuManager : MonoBehaviour
 
     public void BackFromControls()
     {
-        if (controlsCanvas != null)
-        {
-            controlsCanvas.SetActive(false);
-        }
+        controlsCanvas.SetActive(false);
 
-        if (previousCanvasBeforeControls == pauseCanvas && pauseCanvas != null)
+        if (previousCanvasBeforeControls == pauseCanvas)
         {
             pauseCanvas.SetActive(true);
-
-            if (pauseMenu != null)
-            {
-                pauseMenu.ResetSelection();
-            }
-
+            pauseMenu.ResetSelection();
             return;
         }
 
-        if (previousCanvasBeforeControls == victoryCanvas && victoryCanvas != null)
+        if (previousCanvasBeforeControls == victoryCanvas)
         {
             victoryCanvas.SetActive(true);
 
@@ -205,14 +187,10 @@ public class LevelMenuManager : MonoBehaviour
             return;
         }
 
-        if (previousCanvasBeforeControls == defeatCanvas && defeatCanvas != null)
+        if (previousCanvasBeforeControls == defeatCanvas)
         {
             defeatCanvas.SetActive(true);
-
-            if (defeatMenu != null)
-            {
-                defeatMenu.ResetSelection();
-            }
+            defeatMenu.ResetSelection();
         }
     }
 
@@ -220,14 +198,12 @@ public class LevelMenuManager : MonoBehaviour
     {
         CloseAllMenus();
 
-        if (victoryCanvas != null)
-        {
-            victoryCanvas.SetActive(true);
-        }
+        victoryCanvas.SetActive(true);
 
         if (victoryMenu != null)
         {
             victoryMenu.ResetSelection();
+            victoryMenu.ResetStars();
             victoryMenu.StarShow(CalculateStars());
         }
 
@@ -240,15 +216,8 @@ public class LevelMenuManager : MonoBehaviour
     {
         CloseAllMenus();
 
-        if (defeatCanvas != null)
-        {
-            defeatCanvas.SetActive(true);
-        }
-
-        if (defeatMenu != null)
-        {
-            defeatMenu.ResetSelection();
-        }
+        defeatCanvas.SetActive(true);
+        defeatMenu.ResetSelection();
 
         isPaused = false;
         Time.timeScale = 0f;
@@ -257,93 +226,45 @@ public class LevelMenuManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        if (sceneLoadManager != null)
-        {
-            sceneLoadManager.ReloadScene();
-        }
+        sceneLoadManager.ReloadScene();
     }
 
     public void GoToMainMenu()
     {
-        if (sceneLoadManager != null)
-        {
-            sceneLoadManager.LoadMainMenu();
-        }
+        sceneLoadManager.LoadMainMenu();
     }
 
     public void GoToMapMenu()
     {
-        if (sceneLoadManager != null)
-        {
-            sceneLoadManager.LoadMapScene();
-        }
+        sceneLoadManager.LoadMapScene();
     }
 
     private void OpenControlsCanvas()
     {
-        if (pauseCanvas != null)
-        {
-            pauseCanvas.SetActive(false);
-        }
+        pauseCanvas.SetActive(false);
+        victoryCanvas.SetActive(false);
+        defeatCanvas.SetActive(false);
 
-        if (victoryCanvas != null)
-        {
-            victoryCanvas.SetActive(false);
-        }
-
-        if (defeatCanvas != null)
-        {
-            defeatCanvas.SetActive(false);
-        }
-
-        if (controlsCanvas != null)
-        {
-            controlsCanvas.SetActive(true);
-        }
-
-        if (controlsMenu != null)
-        {
-            controlsMenu.ResetSelection();
-        }
+        controlsCanvas.SetActive(true);
+        controlsMenu.ResetSelection();
     }
 
     private void CloseAllMenus()
     {
-        if (pauseCanvas != null)
-        {
-            pauseCanvas.SetActive(false);
-        }
-
-        if (victoryCanvas != null)
-        {
-            victoryCanvas.SetActive(false);
-        }
-
-        if (defeatCanvas != null)
-        {
-            defeatCanvas.SetActive(false);
-        }
-
-        if (controlsCanvas != null)
-        {
-            controlsCanvas.SetActive(false);
-        }
+        pauseCanvas.SetActive(false);
+        victoryCanvas.SetActive(false);
+        defeatCanvas.SetActive(false);
+        controlsCanvas.SetActive(false);
     }
 
     private void SwitchToUIInput()
     {
-        if (gameplayPlayerInput != null)
-        {
-            gameplayPlayerInput.SwitchCurrentActionMap("UI");
-        }
+        gameplayPlayerInput.SwitchCurrentActionMap("UI");
     }
 
     private void SwitchToGameplayInput()
     {
-        if (gameplayPlayerInput != null)
-        {
-            gameplayPlayerInput.SwitchCurrentActionMap("Gameplay");
-        }
+        gameplayPlayerInput.SwitchCurrentActionMap("Gameplay");
     }
 
     private int CalculateStars()

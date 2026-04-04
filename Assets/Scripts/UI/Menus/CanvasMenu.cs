@@ -67,42 +67,18 @@ public class CanvasMenu : MonoBehaviour
 
     public void ResetSelection()
     {
-        if (buttons == null || buttons.Length == 0)
-        {
-            return;
-        }
-
         for (int i = 0; i < buttons.Length; i++)
         {
-            if (buttons[i] == null)
-            {
-                continue;
-            }
-
             buttons[i].OnDeHover();
         }
 
         currentButtonIndex = Mathf.Clamp(defaultButtonIndex, 0, buttons.Length - 1);
-
-        if (buttons[currentButtonIndex] != null)
-        {
-            buttons[currentButtonIndex].OnHover();
-        }
+        buttons[currentButtonIndex].OnHover();
     }
 
     private void OnClick(InputAction.CallbackContext obj)
     {
         if (!canReceiveInput)
-        {
-            return;
-        }
-
-        if (buttons == null || buttons.Length == 0)
-        {
-            return;
-        }
-
-        if (buttons[currentButtonIndex] == null)
         {
             return;
         }
@@ -117,15 +93,7 @@ public class CanvasMenu : MonoBehaviour
             return;
         }
 
-        if (buttons == null || buttons.Length == 0)
-        {
-            return;
-        }
-
-        if (buttons[currentButtonIndex] != null)
-        {
-            buttons[currentButtonIndex].OnDeHover();
-        }
+        buttons[currentButtonIndex].OnDeHover();
 
         currentButtonIndex++;
 
@@ -134,10 +102,7 @@ public class CanvasMenu : MonoBehaviour
             currentButtonIndex = 0;
         }
 
-        if (buttons[currentButtonIndex] != null)
-        {
-            buttons[currentButtonIndex].OnHover();
-        }
+        buttons[currentButtonIndex].OnHover();
     }
 
     private void ButtonUp(InputAction.CallbackContext obj)
@@ -147,15 +112,7 @@ public class CanvasMenu : MonoBehaviour
             return;
         }
 
-        if (buttons == null || buttons.Length == 0)
-        {
-            return;
-        }
-
-        if (buttons[currentButtonIndex] != null)
-        {
-            buttons[currentButtonIndex].OnDeHover();
-        }
+        buttons[currentButtonIndex].OnDeHover();
 
         currentButtonIndex--;
 
@@ -164,9 +121,6 @@ public class CanvasMenu : MonoBehaviour
             currentButtonIndex = buttons.Length - 1;
         }
 
-        if (buttons[currentButtonIndex] != null)
-        {
-            buttons[currentButtonIndex].OnHover();
-        }
+        buttons[currentButtonIndex].OnHover();
     }
 }

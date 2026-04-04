@@ -14,11 +14,7 @@ public class LevelCamera : MonoBehaviour
 
     private void Start()
     {
-        if (lookAt != null)
-        {
-            lookOffset = transform.position - lookAt.position;
-        }
-
+        lookOffset = transform.position - lookAt.position;
         currentSmoothSpeed = followSmoothSpeed;
     }
 

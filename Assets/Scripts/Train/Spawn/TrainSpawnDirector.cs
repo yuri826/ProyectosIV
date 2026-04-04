@@ -21,7 +21,7 @@ public class TrainSpawnDirector : MonoBehaviour
     [SerializeField] private int middleSpeedOutlawExtra = 2;
     [SerializeField] private int highSpeedOutlawExtra = 0;
 
-    private List<SpawnPointData> allOutlawSpawnPoints = new List<SpawnPointData>();
+    private readonly List<SpawnPointData> allOutlawSpawnPoints = new List<SpawnPointData>();
 
     private void Awake()
     {
@@ -34,23 +34,15 @@ public class TrainSpawnDirector : MonoBehaviour
 
         for (int i = 0; i < trainCarZones.Length; i++)
         {
-            if (trainCarZones[i] == null)
-            {
-                continue;
-            }
-
             Transform[] spawnPoints = trainCarZones[i].GetSpawnPoints();
 
             for (int j = 0; j < spawnPoints.Length; j++)
             {
-                if (spawnPoints[j] == null)
+                SpawnPointData newData = new SpawnPointData
                 {
-                    continue;
-                }
-
-                SpawnPointData newData = new SpawnPointData();
-                newData.spawnPoint = spawnPoints[j];
-                newData.carZone = trainCarZones[i];
+                    spawnPoint = spawnPoints[j],
+                    carZone = trainCarZones[i]
+                };
 
                 allOutlawSpawnPoints.Add(newData);
             }
@@ -59,18 +51,6 @@ public class TrainSpawnDirector : MonoBehaviour
 
     public void SpawnOutlawWave(int baseOutlawCount)
     {
-        if (outlawPrefab == null)
-        {
-            Debug.LogWarning("No outlaw prefab assigned in TrainSpawnDirector.");
-            return;
-        }
-
-        if (allOutlawSpawnPoints.Count == 0)
-        {
-            Debug.LogWarning("No outlaw spawn points found in TrainSpawnDirector.");
-            return;
-        }
-
         int finalOutlawCount = GetModifiedOutlawCount(baseOutlawCount);
 
         List<int> availableIndexes = new List<int>();
@@ -97,11 +77,7 @@ public class TrainSpawnDirector : MonoBehaviour
             );
 
             OutlawSystem outlawSystem = outlawObject.GetComponent<OutlawSystem>();
-
-            if (outlawSystem != null)
-            {
-                outlawSystem.SetCurrentCarZone(selectedSpawn.carZone);
-            }
+            outlawSystem.SetCurrentCarZone(selectedSpawn.carZone);
         }
     }
 

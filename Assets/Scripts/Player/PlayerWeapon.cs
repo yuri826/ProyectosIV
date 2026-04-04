@@ -8,7 +8,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private GameObject playerBullet;
     [SerializeField] private Transform shootPoint;
     [SerializeField] private float shootCooldown = 0.2f;
-    [SerializeField] private Vector3 fallbackShootOffset = new Vector3(0f, 1f, 1f);
 
     [Header("Ammo")]
     [SerializeField] private int maxChamberAmmo = 6;
@@ -60,38 +59,13 @@ public class PlayerWeapon : MonoBehaviour
 
     private void FireBullet(Vector3 dir)
     {
-        if (playerBullet == null)
-        {
-            Debug.LogError($"[{name}] PlayerWeapon: playerBullet no está asignado en el inspector.");
-            return;
-        }
-
-        Vector3 spawnPosition;
-
-        if (shootPoint != null)
-        {
-            spawnPosition = shootPoint.position;
-        }
-        else
-        {
-            spawnPosition = transform.position + fallbackShootOffset;
-        }
-
         GameObject bulletObject = Instantiate(
             playerBullet,
-            spawnPosition,
+            shootPoint.position,
             Quaternion.identity
         );
 
         Bullet bullet = bulletObject.GetComponent<Bullet>();
-
-        if (bullet == null)
-        {
-            Debug.LogError($"[{name}] PlayerWeapon: el prefab de bala no tiene componente Bullet.");
-            Destroy(bulletObject);
-            return;
-        }
-
         bullet.Init(dir, gameObject);
 
         currentChamberAmmo--;
@@ -150,11 +124,6 @@ public class PlayerWeapon : MonoBehaviour
 
     private void UpdateBulletText()
     {
-        if (bulletText == null)
-        {
-            return;
-        }
-
         string reloadText = isReloading ? " RELOADING" : "";
         bulletText.text = $"T:{currentChamberAmmo}/{maxChamberAmmo}  C:{currentBeltAmmo}/{maxBeltAmmo}{reloadText}";
     }

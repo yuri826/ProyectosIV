@@ -27,24 +27,23 @@ public class OutlawSystem : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     private OutlawCombat outlawCombat;
-    
+
     private SabotagePoint currentTargetSabotagePoint;
     private OutlawDynamite currentDynamite;
-    
+
     private float currentStateTimer;
     private int currentPatrolPointsDone;
     private Vector3 lastPatrolPoint;
-    
+
     private bool isSandstormActive;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         outlawCombat = GetComponent<OutlawCombat>();
-        
+
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-        
     }
 
     private void Start()
@@ -53,7 +52,7 @@ public class OutlawSystem : MonoBehaviour
         {
             currentCarZone = GetComponentInParent<TrainCarZone>();
         }
-        
+
         if (SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive())
         {
             SetSandstormState(true);
@@ -62,7 +61,6 @@ public class OutlawSystem : MonoBehaviour
 
     private void Update()
     {
-        // Si hay tormenta de arena, este estado tiene prioridad total.
         if (isSandstormActive)
         {
             currentState = OutlawState.Sandstorm;
@@ -70,13 +68,6 @@ public class OutlawSystem : MonoBehaviour
             return;
         }
 
-        if (currentCarZone == null)
-        {
-            return;
-        }
-
-        // Si no estoy ya en combate o en risa, y aparece un jugador cerca,
-        // el combate tiene prioridad.
         if (currentState != OutlawState.Combat && currentState != OutlawState.Laugh)
         {
             if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
@@ -122,12 +113,8 @@ public class OutlawSystem : MonoBehaviour
 
             case OutlawState.Sandstorm:
                 break;
-            default:
-                break;
         }
     }
-    
-    // MÉTODOS PÚBLICOS
 
     public void SetCurrentCarZone(TrainCarZone newCarZone)
     {
@@ -169,13 +156,10 @@ public class OutlawSystem : MonoBehaviour
         CancelCurrentSabotage();
     }
 
-    
-    // SABOTAJE
-    
     private void PickSabotagePoint()
     {
         currentTargetSabotagePoint = currentCarZone.GetRandomFreeSabotagePoint();
-        
+
         if (currentTargetSabotagePoint == null)
         {
             StartPatrol();
@@ -184,7 +168,7 @@ public class OutlawSystem : MonoBehaviour
 
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(currentTargetSabotagePoint.transform.position);
-        
+
         currentState = OutlawState.MoveToSabotage;
     }
 
@@ -206,7 +190,7 @@ public class OutlawSystem : MonoBehaviour
         if (HasReachedDestination())
         {
             navMeshAgent.isStopped = true;
-            
+
             currentStateTimer = plantDynamiteTime;
             currentState = OutlawState.PlantDynamite;
         }
@@ -233,11 +217,14 @@ public class OutlawSystem : MonoBehaviour
         {
             SpawnDynamite();
 
-            Vector3 safePosition = currentCarZone.GetRandomPointInCarFarFrom(currentTargetSabotagePoint.transform.position, safeDistanceAfterPlant);
-            
+            Vector3 safePosition = currentCarZone.GetRandomPointInCarFarFrom(
+                currentTargetSabotagePoint.transform.position,
+                safeDistanceAfterPlant
+            );
+
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(safePosition);
-            
+
             currentTargetSabotagePoint = null;
             currentState = OutlawState.MoveToSafePosition;
         }
@@ -265,8 +252,6 @@ public class OutlawSystem : MonoBehaviour
             StartPatrol();
         }
     }
-    
-    // PATRULLA
 
     private void StartPatrol()
     {
@@ -304,22 +289,17 @@ public class OutlawSystem : MonoBehaviour
 
     private void PickNextPatrolPoint()
     {
-        Vector3 randomPoint = currentCarZone.GetRandomPointInCarFarFrom(lastPatrolPoint, minDistanceBetweenPatrolPoints);
-        
+        Vector3 randomPoint = currentCarZone.GetRandomPointInCarFarFrom(
+            lastPatrolPoint,
+            minDistanceBetweenPatrolPoints
+        );
+
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(randomPoint);
     }
-    
-    // COMBATE
 
     private void UpdateCombat()
     {
-        if (outlawCombat == null)
-        {
-            currentState = OutlawState.PickSabotage;
-            return;
-        }
-
         bool shouldStayInCombat = outlawCombat.UpdateCombat(currentCarZone);
 
         if (!shouldStayInCombat)
@@ -327,9 +307,6 @@ public class OutlawSystem : MonoBehaviour
             currentState = OutlawState.PickSabotage;
         }
     }
-
-    
-    // RISA
 
     private void UpdateLaugh()
     {
@@ -347,35 +324,29 @@ public class OutlawSystem : MonoBehaviour
             }
         }
     }
-    
-    // AYUDAS
 
     private void SpawnDynamite()
     {
-        if (outlawDynamitePrefab == null)
-        {
-            return;
-        }
-
         if (currentTargetSabotagePoint == null)
         {
             return;
         }
 
-        GameObject dynamiteObject = Instantiate(outlawDynamitePrefab, currentTargetSabotagePoint.GetDynamitePoint().position, Quaternion.identity);
+        GameObject dynamiteObject = Instantiate(
+            outlawDynamitePrefab,
+            currentTargetSabotagePoint.GetDynamitePoint().position,
+            Quaternion.identity
+        );
 
         currentDynamite = dynamiteObject.GetComponent<OutlawDynamite>();
 
-        if (currentDynamite != null)
-        {
-            currentDynamite.Init(
-                currentTargetSabotagePoint,
-                dynamiteFuseTime,
-                trainDamagePerExplosion,
-                dynamiteExplosionDamage,
-                dynamiteExplosionRadius
-            );
-        }
+        currentDynamite.Init(
+            currentTargetSabotagePoint,
+            dynamiteFuseTime,
+            trainDamagePerExplosion,
+            dynamiteExplosionDamage,
+            dynamiteExplosionRadius
+        );
     }
 
     private void CancelCurrentSabotage()
@@ -386,11 +357,6 @@ public class OutlawSystem : MonoBehaviour
 
     private bool HasReachedDestination()
     {
-        if (navMeshAgent == null)
-        {
-            return false;
-        }
-
         if (navMeshAgent.pathPending)
         {
             return false;

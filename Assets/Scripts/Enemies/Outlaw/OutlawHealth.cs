@@ -30,11 +30,7 @@ public class OutlawHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        if (outlawSystem != null)
-        {
-            outlawSystem.OnDead();
-        }
-
+        outlawSystem.OnDead();
         Destroy(gameObject);
     }
 }

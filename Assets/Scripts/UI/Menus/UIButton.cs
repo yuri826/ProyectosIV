@@ -8,8 +8,6 @@ public class UIButton : MonoBehaviour
     [SerializeField] private GameObject buttonAccent;
     [SerializeField] private CanvasMenu parentMenu;
     
-    
-
     private void Awake()
     {
         buttonAccent.SetActive(false);
