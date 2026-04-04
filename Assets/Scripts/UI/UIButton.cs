@@ -10,7 +10,7 @@ public class UIButton : MonoBehaviour
     
     
 
-    private void Start()
+    private void Awake()
     {
         buttonAccent.SetActive(false);
     }
