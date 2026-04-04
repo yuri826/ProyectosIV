@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TrainGameMode : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private UIUpdater uiUpdater;
     [SerializeField] private LevelFlow levelFlow;
     [SerializeField] private TrainLife trainLife;
+    [FormerlySerializedAs("speedManager")] [SerializeField] private SpeedManagerSubsystem speedManager;
     [SerializeField] private PlayerSubsystem playerSystem;
     
     [Header("Gameplay")]
@@ -31,6 +34,7 @@ public class TrainGameMode : MonoBehaviour
         uiUpdater.OnStart();
         levelFlow.OnStart();
         playerSystem.OnStart();
+        speedManager.OnStart();
         trainLife.OnStart();
 
         onWin += Win;
@@ -64,11 +68,7 @@ public class TrainGameMode : MonoBehaviour
     {
         currentState = LevelFlowState.Gameplay;
         playerSystem.activatePlayers();
-        
-        if (SpeedManager.instance != null)
-        {
-            SpeedManager.instance.StartStartup();
-        }
+        speedManager.StartStartup();
     }
     
     private void Win()
@@ -129,6 +129,56 @@ public class TrainGameMode : MonoBehaviour
     public int GetMaxTrainLife()
     {
         return trainLife.GetMaxTrainLife();
+    }
+
+    public float GetCurrentSpeed()
+    {
+        return speedManager.GetCurrentSpeed();
+    }
+    
+    //Speed
+    
+    public void AddSpeed(float amount)
+    {
+        if (amount <= 0f)
+        {
+            return;
+        }
+
+        if (speedManager.CoalBoostRoutine != null)
+        {
+            StopCoroutine(speedManager.CoalBoostRoutine);
+        }
+
+        speedManager.CoalBoostRoutine = StartCoroutine(CoalBoostRoutine(amount));
+    }
+
+    private IEnumerator CoalBoostRoutine(float amount)
+    {
+        float startSpeed = speedManager.CurrentSpeed;
+        float targetSpeed = Mathf.Clamp(speedManager.CurrentSpeed + amount, 0f, speedManager.MaxSpeed);
+
+        float timer = 0f;
+
+        while (timer < speedManager.CoalSpeedBoostDuration)
+        {
+            timer += Time.deltaTime;
+
+            float normalizedTime = Mathf.Clamp01(timer / speedManager.CoalSpeedBoostDuration);
+            float curveValue = speedManager.CoalBoostCurve.Evaluate(normalizedTime);
+
+            speedManager.CurrentSpeed = Mathf.LerpUnclamped(startSpeed, targetSpeed, curveValue);
+
+            yield return null;
+        }
+
+        speedManager.CurrentSpeed = targetSpeed;
+        speedManager.CoalBoostRoutine = null;
+    }
+
+    public SpeedState GetCurrentSpeedState()
+    {
+        return speedManager.CurrentSpeedState;
     }
     
     public delegate void OnGameOver();

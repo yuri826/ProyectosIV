@@ -109,22 +109,19 @@ public class TrainSpawnDirector : MonoBehaviour
     {
         int modifier = 0;
 
-        if (SpeedManager.instance != null)
+        switch (TrainGameMode.instance.GetCurrentSpeedState())
         {
-            switch (SpeedManager.instance.GetCurrentSpeedState())
-            {
-                case SpeedState.Low:
-                    modifier = lowSpeedOutlawExtra;
-                    break;
+            case SpeedState.Low:
+                modifier = lowSpeedOutlawExtra;
+                break;
 
-                case SpeedState.Middle:
-                    modifier = middleSpeedOutlawExtra;
-                    break;
+            case SpeedState.Middle:
+                modifier = middleSpeedOutlawExtra;
+                break;
 
-                case SpeedState.High:
-                    modifier = highSpeedOutlawExtra;
-                    break;
-            }
+            case SpeedState.High:
+                modifier = highSpeedOutlawExtra;
+                break;
         }
 
         return Mathf.Max(0, baseOutlawCount + modifier);
