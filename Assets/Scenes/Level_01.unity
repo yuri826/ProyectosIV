@@ -12189,7 +12189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2172065287316714886, guid: ca3f0679a8b6bc244bc7108d4d1551d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.297
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13609,10 +13609,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelEventManager
   levelEvents:
   - eventType: 0
-    triggerTime: 5
+    triggerTime: 20
+    iconPrefab: {fileID: 0}
+    outlawCount: 1
+    duration: 0
+    hasTriggered: 0
+  - eventType: 0
+    triggerTime: 30
     iconPrefab: {fileID: 0}
     outlawCount: 2
     duration: 0
+    hasTriggered: 0
+  - eventType: 0
+    triggerTime: 45
+    iconPrefab: {fileID: 0}
+    outlawCount: 5
+    duration: 0
+    hasTriggered: 0
+  - eventType: 0
+    triggerTime: 80
+    iconPrefab: {fileID: 0}
+    outlawCount: 4
+    duration: 0
+    hasTriggered: 0
+  - eventType: 1
+    triggerTime: 90
+    iconPrefab: {fileID: 0}
+    outlawCount: 4
+    duration: 20
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
   sandstormSystem: {fileID: 942061763}
@@ -19931,7 +19955,7 @@ MonoBehaviour:
     progressBar: {fileID: 1939628142}
     healthBar: {fileID: 650211626}
   levelFlow:
-    levelDuration: 20
+    levelDuration: 120
     levelEventManager: {fileID: 1240237078}
   trainLife:
     <maxTrainLife>k__BackingField: 100
