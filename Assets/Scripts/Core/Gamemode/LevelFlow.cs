@@ -27,4 +27,9 @@ public class LevelFlow : GamemodeSubsystem
             TrainGameMode.onWin();
         }
     }
+    
+    public int GetLevelDuration()
+    {
+        return levelDuration;
+    }
 }

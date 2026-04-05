@@ -52,4 +52,9 @@ public class LevelEventManager : MonoBehaviour
     {
         sandstormSystem.StartSandstorm(eventData.duration);
     }
+    
+    public List<LevelEventData> GetLevelEvents()
+    {
+        return levelEvents;
+    }
 }

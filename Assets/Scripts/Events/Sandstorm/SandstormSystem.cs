@@ -117,6 +117,28 @@ public class SandstormSystem : MonoBehaviour
 
         return baseWindStrengthMultiplier * speedModifier;
     }
+    
+    public float GetStormModifierForCurrentSpeed()
+    {
+        if (SpeedManager.instance == null)
+        {
+            return 1f;
+        }
+
+        switch (SpeedManager.instance.GetCurrentSpeedState())
+        {
+            case SpeedState.Low:
+                return lowSpeedStormMultiplier;
+
+            case SpeedState.Middle:
+                return middleSpeedStormMultiplier;
+
+            case SpeedState.High:
+                return highSpeedStormMultiplier;
+        }
+
+        return 1f;
+    }
 
     private void ApplySandstormToOutlaws(bool sandstormActive)
     {

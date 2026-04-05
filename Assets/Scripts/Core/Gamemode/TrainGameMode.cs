@@ -82,6 +82,11 @@ public class TrainGameMode : MonoBehaviour
         currentState = LevelFlowState.GameOver;
         Time.timeScale = 0;
     }
+    
+    public int GetLevelDuration()
+    {
+        return levelFlow.GetLevelDuration();
+    }
 
     //UI
     public void UpdateProgressBar(int progress, int maxProgress)

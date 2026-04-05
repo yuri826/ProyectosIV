@@ -105,4 +105,26 @@ public class TrainSpawnDirector : MonoBehaviour
 
         return Mathf.Max(0, baseOutlawCount + modifier);
     }
+    
+    public int GetOutlawModifierForCurrentSpeed()
+    {
+        if (SpeedManager.instance == null)
+        {
+            return 0;
+        }
+
+        switch (SpeedManager.instance.GetCurrentSpeedState())
+        {
+            case SpeedState.Low:
+                return lowSpeedOutlawExtra;
+
+            case SpeedState.Middle:
+                return middleSpeedOutlawExtra;
+
+            case SpeedState.High:
+                return highSpeedOutlawExtra;
+        }
+
+        return 0;
+    }
 }
