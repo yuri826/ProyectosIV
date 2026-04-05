@@ -6,21 +6,26 @@ public class RevolverAmmoHUD : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Image chamberImage;
-    [SerializeField] private Sprite[] chamberSprites; // 0 a 6 balas
+    [SerializeField] private Sprite[] chamberSprites;
 
     [Header("Rotation")]
     [SerializeField] private float chamberStepAngle = -60f;
-    [SerializeField] private float rotateDuration = 0.12f;
-    [SerializeField] private float reloadSpinDuration = 0.5f;
-    [SerializeField] private int reloadSpinTurns = 2;
+    [SerializeField] private float reloadInsertRotateDuration = 0.12f;
+    [SerializeField] private float reloadFinishSpinDuration = 0.5f;
+    [SerializeField] private int reloadFinishSpinTurns = 2;
 
     private RectTransform chamberRectTransform;
+
     private Coroutine rotateRoutine;
-    private Coroutine reloadSpinRoutine;
+    private Coroutine shotRoutine;
+    private Coroutine reloadFinishRoutine;
+
+    private float currentZRotation = 0f;
 
     private void Awake()
     {
         chamberRectTransform = chamberImage.rectTransform;
+        currentZRotation = chamberRectTransform.localEulerAngles.z;
     }
 
     public void Initialize(int chamberAmmo)
@@ -34,32 +39,63 @@ public class RevolverAmmoHUD : MonoBehaviour
         chamberImage.sprite = chamberSprites[chamberAmmo];
     }
 
-    public void OnShot(int newChamberAmmo)
+    public void OnShot(int newChamberAmmo, float shootCooldown)
     {
-        StopActiveAnimations();
-
-        SetAmmoInstant(newChamberAmmo);
-        rotateRoutine = StartCoroutine(RotateChamberByAngle(chamberStepAngle, rotateDuration));
+        StopAllActiveAnimations();
+        shotRoutine = StartCoroutine(ShotSequence(newChamberAmmo, shootCooldown));
     }
 
     public void OnReloadBulletInserted(int newChamberAmmo)
     {
-        StopReloadSpinOnly();
+        StopReloadFinishOnly();
 
         SetAmmoInstant(newChamberAmmo);
-        rotateRoutine = StartCoroutine(RotateChamberByAngle(chamberStepAngle, rotateDuration));
+
+        if (rotateRoutine != null)
+        {
+            StopCoroutine(rotateRoutine);
+        }
+
+        rotateRoutine = StartCoroutine(RotateByAngle(chamberStepAngle, reloadInsertRotateDuration));
     }
 
     public void OnReloadComplete()
     {
-        StopReloadSpinOnly();
-        reloadSpinRoutine = StartCoroutine(PlayReloadFinishSpin());
+        StopReloadFinishOnly();
+        reloadFinishRoutine = StartCoroutine(ReloadCompleteSequence());
     }
 
-    private IEnumerator RotateChamberByAngle(float angleDelta, float duration)
+    private IEnumerator ShotSequence(int newChamberAmmo, float shootCooldown)
     {
-        Quaternion startRotation = chamberRectTransform.localRotation;
-        Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, angleDelta);
+        SetAmmoInstant(newChamberAmmo);
+
+        float waitBeforeRotate = shootCooldown * 0.5f;
+        float rotateDuration = shootCooldown * 0.5f;
+
+        yield return new WaitForSeconds(waitBeforeRotate);
+
+        rotateRoutine = StartCoroutine(RotateByAngle(chamberStepAngle, rotateDuration));
+        yield return rotateRoutine;
+
+        shotRoutine = null;
+    }
+
+    private IEnumerator ReloadCompleteSequence()
+    {
+        if (rotateRoutine != null)
+        {
+            yield return rotateRoutine;
+        }
+
+        yield return StartCoroutine(SpinFullTurns(reloadFinishSpinTurns, reloadFinishSpinDuration));
+
+        reloadFinishRoutine = null;
+    }
+
+    private IEnumerator RotateByAngle(float angleDelta, float duration)
+    {
+        float startAngle = currentZRotation;
+        float endAngle = startAngle + angleDelta;
 
         float timer = 0f;
 
@@ -68,55 +104,70 @@ public class RevolverAmmoHUD : MonoBehaviour
             timer += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(timer / duration);
 
-            chamberRectTransform.localRotation = Quaternion.Lerp(startRotation, endRotation, t);
+            float currentAngle = Mathf.Lerp(startAngle, endAngle, t);
+            SetChamberRotation(currentAngle);
+
             yield return null;
         }
 
-        chamberRectTransform.localRotation = endRotation;
+        SetChamberRotation(endAngle);
         rotateRoutine = null;
     }
 
-    private IEnumerator PlayReloadFinishSpin()
+    private IEnumerator SpinFullTurns(int fullTurns, float duration)
     {
-        Quaternion startRotation = chamberRectTransform.localRotation;
-        Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, -360f * reloadSpinTurns);
+        float startAngle = currentZRotation;
+        float endAngle = startAngle - (360f * fullTurns);
 
         float timer = 0f;
 
-        while (timer < reloadSpinDuration)
+        while (timer < duration)
         {
             timer += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(timer / reloadSpinDuration);
+            float t = Mathf.Clamp01(timer / duration);
 
-            chamberRectTransform.localRotation = Quaternion.Lerp(startRotation, endRotation, t);
+            float currentAngle = Mathf.Lerp(startAngle, endAngle, t);
+            SetChamberRotation(currentAngle);
+
             yield return null;
         }
 
-        chamberRectTransform.localRotation = endRotation;
-        reloadSpinRoutine = null;
+        SetChamberRotation(endAngle);
     }
 
-    private void StopActiveAnimations()
+    private void SetChamberRotation(float zRotation)
     {
+        currentZRotation = zRotation;
+        chamberRectTransform.localRotation = Quaternion.Euler(0f, 0f, currentZRotation);
+    }
+
+    private void StopAllActiveAnimations()
+    {
+        if (shotRoutine != null)
+        {
+            StopCoroutine(shotRoutine);
+            shotRoutine = null;
+        }
+
         if (rotateRoutine != null)
         {
             StopCoroutine(rotateRoutine);
             rotateRoutine = null;
         }
 
-        if (reloadSpinRoutine != null)
+        if (reloadFinishRoutine != null)
         {
-            StopCoroutine(reloadSpinRoutine);
-            reloadSpinRoutine = null;
+            StopCoroutine(reloadFinishRoutine);
+            reloadFinishRoutine = null;
         }
     }
 
-    private void StopReloadSpinOnly()
+    private void StopReloadFinishOnly()
     {
-        if (reloadSpinRoutine != null)
+        if (reloadFinishRoutine != null)
         {
-            StopCoroutine(reloadSpinRoutine);
-            reloadSpinRoutine = null;
+            StopCoroutine(reloadFinishRoutine);
+            reloadFinishRoutine = null;
         }
     }
 }

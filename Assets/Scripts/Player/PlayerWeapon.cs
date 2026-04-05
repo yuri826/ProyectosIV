@@ -15,7 +15,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float reloadTimePerBullet = 0.5f;
 
     [Header("Debug UI")]
-    [SerializeField] private TextMeshProUGUI bulletText;
+    [SerializeField] private TextMeshProUGUI beltAmmoText;
     [SerializeField] private RevolverAmmoHUD revolverAmmoHUD;
 
     private bool canShoot = true;
@@ -31,7 +31,7 @@ public class PlayerWeapon : MonoBehaviour
         currentChamberAmmo = maxChamberAmmo;
         currentBeltAmmo = 12;
 
-        UpdateBulletText();
+        UpdateBeltAmmoText();
         revolverAmmoHUD.Initialize(currentChamberAmmo);
     }
 
@@ -71,8 +71,8 @@ public class PlayerWeapon : MonoBehaviour
         bullet.Init(dir, gameObject);
 
         currentChamberAmmo--;
-        UpdateBulletText();
-        revolverAmmoHUD.OnShot(currentChamberAmmo);
+        UpdateBeltAmmoText();
+        revolverAmmoHUD.OnShot(currentChamberAmmo, shootCooldown);
 
         StartCoroutine(ShootCd());
     }
@@ -100,7 +100,7 @@ public class PlayerWeapon : MonoBehaviour
     private IEnumerator ReloadRoutine()
     {
         isReloading = true;
-        UpdateBulletText();
+        UpdateBeltAmmoText();
 
         while (currentChamberAmmo < maxChamberAmmo && currentBeltAmmo > 0)
         {
@@ -109,15 +109,18 @@ public class PlayerWeapon : MonoBehaviour
             currentChamberAmmo++;
             currentBeltAmmo--;
 
-            UpdateBulletText();
+            UpdateBeltAmmoText();
             revolverAmmoHUD.OnReloadBulletInserted(currentChamberAmmo);
         }
 
         isReloading = false;
         reloadRoutine = null;
 
-        UpdateBulletText();
-        revolverAmmoHUD.OnReloadComplete();
+        UpdateBeltAmmoText();
+        if (currentChamberAmmo == maxChamberAmmo)
+        {
+            revolverAmmoHUD.OnReloadComplete();
+        }
     }
 
     private IEnumerator ShootCd()
@@ -127,10 +130,9 @@ public class PlayerWeapon : MonoBehaviour
         canShoot = true;
     }
 
-    private void UpdateBulletText()
+    private void UpdateBeltAmmoText()
     {
-        string reloadText = isReloading ? " RELOADING" : "";
-        bulletText.text = $"T:{currentChamberAmmo}/{maxChamberAmmo}  C:{currentBeltAmmo}/{maxBeltAmmo}{reloadText}";
+        beltAmmoText.text = $"{currentBeltAmmo}/{maxBeltAmmo}";
     }
 
     public int AddBeltAmmo(int amount)
@@ -144,7 +146,7 @@ public class PlayerWeapon : MonoBehaviour
         int addedAmount = Mathf.Clamp(amount, 0, freeSpace);
 
         currentBeltAmmo += addedAmount;
-        UpdateBulletText();
+        UpdateBeltAmmoText();
 
         return addedAmount;
     }
@@ -188,6 +190,6 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         isReloading = false;
-        UpdateBulletText();
+        UpdateBeltAmmoText();
     }
 }
