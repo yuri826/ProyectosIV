@@ -13,6 +13,7 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private TrainLife trainLife;
     [SerializeField] private PlayerSubsystem playerSystem;
     [SerializeField] private LevelIntroManager levelIntroManager;
+    [SerializeField] private LevelEventSubsystem levelEventManager;
 
     //Poner en un input manager
     [SerializeField] private InputActionMap gameplayMap;
@@ -181,6 +182,13 @@ public class TrainGameMode : MonoBehaviour
     public int GetMaxTrainLife()
     {
         return trainLife.GetMaxTrainLife();
+    }
+    
+    //EventManager
+
+    public LevelEventSubsystem GetLevelEventManager()
+    {
+        return levelEventManager;
     }
     
     public delegate void OnGameOver();

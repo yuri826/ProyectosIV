@@ -7,9 +7,7 @@ public class LevelProgressEventIconsHUD : MonoBehaviour
     [Header("References")] [SerializeField]
     private RectTransform progressIconsRoot;
 
-    [SerializeField] private LevelEventManager levelEventManager;
-    [SerializeField] private TrainSpawnDirector trainSpawnDirector;
-    [SerializeField] private SandstormSystem sandstormSystem;
+    private LevelEventSubsystem levelEventManager => TrainGameMode.instance.GetLevelEventManager();
 
     private readonly List<GameObject> spawnedIcons = new List<GameObject>();
 
@@ -26,22 +24,22 @@ public class LevelProgressEventIconsHUD : MonoBehaviour
         int maxXPos = 740 * 2; //Calculado a mano
 
         int levelDuration = TrainGameMode.instance.GetLevelDuration();
-        List<LevelEventData> levelEvents = levelEventManager.GetLevelEvents();
+        List<LevelEventInstance> levelEvents = levelEventManager.GetLevelEvents();
 
         foreach (var eventData in levelEvents)
         {
-            GameObject iconObject = Instantiate(eventData.iconPrefab, progressIconsRoot);
+            GameObject iconObject = Instantiate(eventData.eventData.iconPrefab, progressIconsRoot);
             spawnedIcons.Add(iconObject);
 
             RectTransform iconRect = iconObject.GetComponent<RectTransform>();
 
-            float normalizedTime = Mathf.Clamp01((float)eventData.triggerTime / levelDuration);
+            float normalizedTime = Mathf.Clamp01((float)eventData.timeToSpawn / levelDuration);
             float xPos = normalizedTime * maxXPos;
 
             iconRect.anchoredPosition = new Vector2(xPos, iconRect.anchoredPosition.y);
 
             LevelProgressEventIconItem iconItem = iconObject.GetComponent<LevelProgressEventIconItem>();
-            iconItem.Initialize(eventData, trainSpawnDirector, sandstormSystem);
+            iconItem.Initialize(eventData.eventData);
         }
     }
 

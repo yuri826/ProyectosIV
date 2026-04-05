@@ -9865,12 +9865,12 @@ GameObject:
   - component: {fileID: 1026388328}
   - component: {fileID: 1026388329}
   m_Layer: 0
-  m_Name: LevelFlowManager
+  m_Name: NO-LevelFlowManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1026388326
 Transform:
   m_ObjectHideFlags: 0
@@ -11290,11 +11290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5c4a135849da34ea8fdd18150785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelEventManager
-  levelEvents:
-  - <eventData>k__BackingField: {fileID: 11400000, guid: f5974593fcbb32d47a5e860083d1459a, type: 2}
-    <timeToSpawn>k__BackingField: 3
-  trainSpawnDirector: {fileID: 1623108901}
-  sandstormSystem: {fileID: 942061763}
 --- !u!1 &1251622980
 GameObject:
   m_ObjectHideFlags: 0
@@ -17358,7 +17353,6 @@ MonoBehaviour:
     healthBar: {fileID: 650211626}
   levelFlow:
     levelDuration: 20
-    levelEventManager: {fileID: 1240237078}
   trainLife:
     <maxTrainLife>k__BackingField: 100
     <currentTrainLife>k__BackingField: 100
@@ -17373,6 +17367,10 @@ MonoBehaviour:
     holdFillImage: {fileID: 342372709}
     holdDuration: 1.2
     playerInput: {fileID: 1527560391}
+  levelEventManager:
+    levelEvents:
+    - <eventData>k__BackingField: {fileID: 11400000, guid: 7f5a8075cfd6c154c86ed5ab66094917, type: 2}
+      <timeToSpawn>k__BackingField: 3
   gameplayMap:
     m_Name: Gameplay Map
     m_Id: 61a4c76a-970a-4251-8c15-2008d27e5e94
@@ -17422,7 +17420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelProgressEventIconsHUD
   progressIconsRoot: {fileID: 235069247}
-  levelEventManager: {fileID: 1240237078}
+  levelEventManager:
+    levelEvents: []
   trainSpawnDirector: {fileID: 1623108901}
   sandstormSystem: {fileID: 942061763}
 --- !u!1 &1528496527

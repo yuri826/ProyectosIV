@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TrainSpawnDirector : MonoBehaviour
 {
+    public static TrainSpawnDirector Instance;
+    
     [System.Serializable]
     private class SpawnPointData
     {
@@ -25,6 +27,10 @@ public class TrainSpawnDirector : MonoBehaviour
 
     private void Awake()
     {
+        //Sería mejor si fuese parte del gamemode pero no puede llamar al Instantiate de abajo
+        //Ese método debería de ir en el gamemode
+        Instance = this;
+        
         CacheAllSpawnPoints();
     }
 

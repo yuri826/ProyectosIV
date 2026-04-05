@@ -1,24 +1,19 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LevelEvent", menuName = "ScriptableObjects/LevelEvent")]
-[Serializable]
 public class LevelEventData : ScriptableObject
 {
-    [Header("Event Type")]
-    public LevelEventType eventType;
-
-    [Tooltip("Activation Time Moment")]
-    public int triggerTime;
-
-    public GameObject iconPrefab;
-
-    [Header("Outlaw Wave")]
-    public int outlawCount;
-
+    [field: SerializeField]
+    public GameObject iconPrefab { get; set; }
+    
     [Header("Event Duration")]
-    public float duration;
+    [field: SerializeField]
+    public float duration { get; set; }
+    
+    public bool hasTriggered { get; set; } = false;
 
-    [HideInInspector]
-    public bool hasTriggered { get; set; }= false;
+    public virtual void Execute()
+    {
+        hasTriggered = true;
+    }
 }

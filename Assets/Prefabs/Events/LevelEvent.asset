@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd0b347012cfd8141ae605a7c8429146, type: 3}
-  m_Name: OutlawWave
+  m_Name: LevelEvent
   m_EditorClassIdentifier: Assembly-CSharp::LevelEventData
   eventType: 0
-  triggerTime: 2
-  iconPrefab: {fileID: 4559040481672712739, guid: 631a77a05f4aa00478b770088c0d7754, type: 3}
-  outlawCount: 5
-  duration: 5
-  hasTriggered: 0
+  triggerTime: 0
+  iconPrefab: {fileID: 0}
+  outlawCount: 0
+  duration: 0
