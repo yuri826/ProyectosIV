@@ -15,6 +15,8 @@ public class MapCamera : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(this.transform.position);
+        
         this.transform.position = Vector3.Lerp(this.transform.position, pointToMove.position, Time.deltaTime * cameraMoveQ);
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, pointToMove.rotation, Time.deltaTime * cameraRotateQ);
     }

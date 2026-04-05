@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4773e2cdcfdac241a3876a5765a6e2a, type: 3}
   m_Name: Mission1Info
   m_EditorClassIdentifier: Assembly-CSharp::MapNodeInfo
-  title: MissionName
-  info: 'Flavour text and info heeeeeelllllllll yeah brother yeeehaw cowboys and
-    shit loremipsumlorem ipsumlorem '
+  title: PILLAGERS ROAD
+  info: 'There has been many sightings of pillagers on this area.
+
+    Sheriff advises
+    to be careful while travelling this route.
+
+
+    Estimated time: []'
