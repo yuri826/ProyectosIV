@@ -2484,12 +2484,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
   mainMenuCanvas: {fileID: 179008525}
   controlsCanvas: {fileID: 2067659548}
-  instructionsCanvas01: {fileID: 0}
-  instructionsCanvas02: {fileID: 0}
+  instructionsCanvas01: {fileID: 876205493}
+  instructionsCanvas02: {fileID: 1507562913}
   mainMenu: {fileID: 179008531}
   controlsMenu: {fileID: 2067659554}
-  instructionsMenu01: {fileID: 0}
-  instructionsMenu02: {fileID: 0}
+  instructionsMenu01: {fileID: 876205495}
+  instructionsMenu02: {fileID: 1507562915}
   sceneLoadManager: {fileID: 1593117373}
   firstLevelSceneName: Lvl1Scene
 --- !u!1 &1886162627
