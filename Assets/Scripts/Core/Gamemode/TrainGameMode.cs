@@ -14,6 +14,9 @@ public class TrainGameMode : MonoBehaviour
     
     [Header("Gameplay")]
     private LevelFlowState currentState = LevelFlowState.Intro;
+    
+    [Header("Intro")]
+    [SerializeField] private LevelIntroManager levelIntroManager;
 
     private void Awake()
     {
@@ -43,7 +46,7 @@ public class TrainGameMode : MonoBehaviour
         onGameOver += levelFlow.OnGameOver;
         onGameOver += playerSystem.EndGameplay;
         
-        StartCoroutine(uiUpdater.IntroRoutine(introTime)); //Bindear corrutina?
+        levelIntroManager.OpenIntro();
     }
 
     public void Update()
@@ -64,11 +67,17 @@ public class TrainGameMode : MonoBehaviour
     {
         currentState = LevelFlowState.Gameplay;
         playerSystem.activatePlayers();
+        levelIntroManager.SwitchToGameplayInput();
         
         if (SpeedManager.instance != null)
         {
             SpeedManager.instance.StartStartup();
         }
+    }
+    
+    public void StartLevelCountdown()
+    {
+        StartCoroutine(uiUpdater.IntroRoutine(introTime));
     }
     
     private void Win()
