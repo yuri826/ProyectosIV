@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerSubsystem : GamemodeSubsystem
 {
-    [SerializeField] private PlayerMovement[] players = new PlayerMovement[4];
+    [field: SerializeField] public PlayerMovement[] players { get; set; }= new PlayerMovement[4];
 
     public override void OnStart()
     {

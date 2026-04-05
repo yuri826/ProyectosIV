@@ -32,7 +32,7 @@ public class PlayerWeapon : MonoBehaviour
         currentBeltAmmo = 12;
 
         UpdateBeltAmmoText();
-        revolverAmmoHUD.Initialize(currentChamberAmmo);
+        revolverAmmoHUD?.Initialize(currentChamberAmmo);
     }
 
     public void Shoot(Vector3 dir)
@@ -72,7 +72,7 @@ public class PlayerWeapon : MonoBehaviour
 
         currentChamberAmmo--;
         UpdateBeltAmmoText();
-        revolverAmmoHUD.OnShot(currentChamberAmmo, shootCooldown);
+        revolverAmmoHUD?.OnShot(currentChamberAmmo, shootCooldown);
 
         StartCoroutine(ShootCd());
     }
@@ -110,7 +110,7 @@ public class PlayerWeapon : MonoBehaviour
             currentBeltAmmo--;
 
             UpdateBeltAmmoText();
-            revolverAmmoHUD.OnReloadBulletInserted(currentChamberAmmo);
+            revolverAmmoHUD?.OnReloadBulletInserted(currentChamberAmmo);
         }
 
         isReloading = false;
@@ -119,7 +119,7 @@ public class PlayerWeapon : MonoBehaviour
         UpdateBeltAmmoText();
         if (currentChamberAmmo == maxChamberAmmo)
         {
-            revolverAmmoHUD.OnReloadComplete();
+            revolverAmmoHUD?.OnReloadComplete();
         }
     }
 
@@ -132,6 +132,7 @@ public class PlayerWeapon : MonoBehaviour
 
     private void UpdateBeltAmmoText()
     {
+        if (beltAmmoText is null) return;
         beltAmmoText.text = $"{currentBeltAmmo}/{maxBeltAmmo}";
     }
 

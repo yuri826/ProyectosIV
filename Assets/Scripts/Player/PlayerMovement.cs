@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int playerN;
     public int PlayerN => playerN;
     
-    private PlayerInput playerInput;
+    public PlayerInput playerInput { get; private set; }
     private CharacterController characterController;
     private PlayerWeapon playerWeapon;
 

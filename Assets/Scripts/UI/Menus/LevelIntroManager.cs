@@ -1,45 +1,36 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class LevelIntroManager : MonoBehaviour
+[Serializable]
+public class LevelIntroManager : GamemodeSubsystem
 {
     [Header("Canvas")]
     [SerializeField] private GameObject introCanvas;
-
-    [Header("Input")]
-    [SerializeField] private PlayerInput gameplayPlayerInput;
 
     [Header("Hold To Start")]
     [SerializeField] private Image holdFillImage;
     [SerializeField] private float holdDuration = 1.2f;
 
-    private InputAction uiSelectAction;
+    [SerializeField] private PlayerInput playerInput;
 
     private bool introActive = false;
     private bool introCompleted = false;
     private bool isHolding = false;
     private float currentHoldTime = 0f;
 
-    private void Awake()
+    public override void OnStart()
     {
-        InputActionMap uiMap = gameplayPlayerInput.actions.FindActionMap("UI", true);
-        uiSelectAction = uiMap.FindAction("Select", true);
+        //playerInput = TrainGameMode.GetPlayerInput(0);
+        
+        playerInput.actions["Select"].started += OnSelectStarted;
+        playerInput.actions["Select"].canceled += OnSelectCanceled;
+
+        OpenIntro();
     }
 
-    private void OnEnable()
-    {
-        uiSelectAction.started += OnSelectStarted;
-        uiSelectAction.canceled += OnSelectCanceled;
-    }
-
-    private void OnDisable()
-    {
-        uiSelectAction.started -= OnSelectStarted;
-        uiSelectAction.canceled -= OnSelectCanceled;
-    }
-
-    private void Update()
+    public override void OnUpdate()
     {
         if (!introActive || introCompleted || !isHolding)
         {
@@ -65,12 +56,12 @@ public class LevelIntroManager : MonoBehaviour
         holdFillImage.fillAmount = 0f;
         introCanvas.SetActive(true);
 
-        gameplayPlayerInput.SwitchCurrentActionMap("UI");
         Time.timeScale = 1f;
     }
 
     private void OnSelectStarted(InputAction.CallbackContext context)
     {
+        Debug.Log("hold");
         if (!introActive || introCompleted)
         {
             return;
@@ -81,6 +72,7 @@ public class LevelIntroManager : MonoBehaviour
 
     private void OnSelectCanceled(InputAction.CallbackContext context)
     {
+        Debug.Log("release");
         if (!introActive || introCompleted)
         {
             return;
@@ -93,6 +85,9 @@ public class LevelIntroManager : MonoBehaviour
 
     private void CompleteIntro()
     {
+        playerInput.actions["Select"].started -= OnSelectStarted;
+        playerInput.actions["Select"].canceled -= OnSelectCanceled;
+        
         introActive = false;
         introCompleted = true;
         isHolding = false;
@@ -100,11 +95,6 @@ public class LevelIntroManager : MonoBehaviour
         holdFillImage.fillAmount = 1f;
         introCanvas.SetActive(false);
 
-        TrainGameMode.instance.StartLevelCountdown();
-    }
-    
-    public void SwitchToGameplayInput()
-    {
-        gameplayPlayerInput.SwitchCurrentActionMap("Gameplay");
+        TrainGameMode.StartLevelCountdown();
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TrainGameMode : MonoBehaviour
 {
@@ -11,13 +12,14 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private LevelFlow levelFlow;
     [SerializeField] private TrainLife trainLife;
     [SerializeField] private PlayerSubsystem playerSystem;
+    [SerializeField] private LevelIntroManager levelIntroManager;
+
+    //Poner en un input manager
+    [SerializeField] private InputActionMap gameplayMap;
     
     [Header("Gameplay")]
     private LevelFlowState currentState = LevelFlowState.Intro;
     
-    [Header("Intro")]
-    [SerializeField] private LevelIntroManager levelIntroManager;
-
     private void Awake()
     {
         instance = this;
@@ -30,11 +32,13 @@ public class TrainGameMode : MonoBehaviour
         levelFlow.TrainGameMode = this;
         playerSystem.TrainGameMode = this;
         trainLife.TrainGameMode = this;
+        levelIntroManager.TrainGameMode = this;
     
         uiUpdater.OnStart();
         levelFlow.OnStart();
         playerSystem.OnStart();
         trainLife.OnStart();
+        levelIntroManager.OnStart();
 
         onWin += Win;
         onWin += uiUpdater.OnWin;
@@ -45,14 +49,20 @@ public class TrainGameMode : MonoBehaviour
         onGameOver += uiUpdater.OnGameOver;
         onGameOver += levelFlow.OnGameOver;
         onGameOver += playerSystem.EndGameplay;
-        
-        levelIntroManager.OpenIntro();
+
+        DeactivatePlayers();
     }
 
     public void Update()
     {
         switch (currentState)
         {
+            case LevelFlowState.Intro:
+                
+                levelIntroManager.OnUpdate();
+
+                break;
+            
             case LevelFlowState.Gameplay:
                 
                 uiUpdater.OnUpdate();
@@ -66,8 +76,7 @@ public class TrainGameMode : MonoBehaviour
     public void StartGameplay()
     {
         currentState = LevelFlowState.Gameplay;
-        playerSystem.activatePlayers();
-        levelIntroManager.SwitchToGameplayInput();
+        ActivatePlayers();
         
         if (SpeedManager.instance != null)
         {
@@ -122,6 +131,35 @@ public class TrainGameMode : MonoBehaviour
     public PlayerMovement GetPlayer(int playerN)
     {
         return playerSystem.GetPlayer(playerN);
+    }
+
+    public void ActivatePlayers()
+    {
+        foreach (var player in playerSystem.players)
+        {
+            player?.EnablePlayer();
+        }
+    }
+    
+    public void DeactivatePlayers()
+    {
+        foreach (var player in playerSystem.players)
+        {
+            player?.DisablePlayer();
+        }
+    }
+
+    public PlayerInput GetPlayerInput(int playerN)
+    {
+        return playerSystem.GetPlayer(playerN).playerInput;
+    }
+
+    public void SetPlayerInputMap()
+    {
+        foreach (var player in playerSystem.players)
+        {
+            player.playerInput.SwitchCurrentActionMap("Gameplay");
+        }
     }
     
     //Health
