@@ -4,6 +4,11 @@ using UnityEngine;
 public class GamemodeSubsystem
 {
     public TrainGameMode TrainGameMode { get; set; }
+
+    public virtual void OnAwake()
+    {
+        
+    }
     
     public virtual void OnStart()
     {

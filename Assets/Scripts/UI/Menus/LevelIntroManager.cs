@@ -24,9 +24,6 @@ public class LevelIntroManager : GamemodeSubsystem
     {
         //playerInput = TrainGameMode.GetPlayerInput(0);
         
-        playerInput.actions["Select"].started += OnSelectStarted;
-        playerInput.actions["Select"].canceled += OnSelectCanceled;
-
         OpenIntro();
     }
 
@@ -59,7 +56,7 @@ public class LevelIntroManager : GamemodeSubsystem
         Time.timeScale = 1f;
     }
 
-    private void OnSelectStarted(InputAction.CallbackContext context)
+    public void OnSelectStarted(InputAction.CallbackContext context)
     {
         Debug.Log("hold");
         if (!introActive || introCompleted)
@@ -70,7 +67,7 @@ public class LevelIntroManager : GamemodeSubsystem
         isHolding = true;
     }
 
-    private void OnSelectCanceled(InputAction.CallbackContext context)
+    public void OnSelectCanceled(InputAction.CallbackContext context)
     {
         Debug.Log("release");
         if (!introActive || introCompleted)

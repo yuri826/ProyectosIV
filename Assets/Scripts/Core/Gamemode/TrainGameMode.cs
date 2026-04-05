@@ -25,6 +25,8 @@ public class TrainGameMode : MonoBehaviour
     {
         instance = this;
         Time.timeScale = 1;
+        
+        levelIntroManager.OnAwake();
     }
 
     private void Start()
@@ -34,7 +36,7 @@ public class TrainGameMode : MonoBehaviour
         playerSystem.TrainGameMode = this;
         trainLife.TrainGameMode = this;
         levelIntroManager.TrainGameMode = this;
-    
+        
         uiUpdater.OnStart();
         levelFlow.OnStart();
         playerSystem.OnStart();
@@ -78,6 +80,7 @@ public class TrainGameMode : MonoBehaviour
     {
         currentState = LevelFlowState.Gameplay;
         ActivatePlayers();
+        //SetPlayerGameplayInputMap();
         
         if (SpeedManager.instance != null)
         {
@@ -150,18 +153,18 @@ public class TrainGameMode : MonoBehaviour
         }
     }
 
-    public PlayerInput GetPlayerInput(int playerN)
-    {
-        return playerSystem.GetPlayer(playerN).playerInput;
-    }
-
-    public void SetPlayerInputMap()
-    {
-        foreach (var player in playerSystem.players)
-        {
-            player.playerInput.SwitchCurrentActionMap("Gameplay");
-        }
-    }
+    // public PlayerInput GetPlayerInput(int playerN)
+    // {
+    //     return playerSystem.GetPlayer(playerN).playerInput;
+    // }
+    //
+    // public void SetPlayerGameplayInputMap()
+    // {
+    //     foreach (var player in playerSystem.players)
+    //     {
+    //         player.playerInput.SwitchCurrentActionMap("Gameplay");
+    //     }
+    // }
     
     //Health
     public void TakeDamage(float damage)
@@ -183,6 +186,10 @@ public class TrainGameMode : MonoBehaviour
     {
         return trainLife.GetMaxTrainLife();
     }
+    
+    //IntroManager
+    
+    public LevelIntroManager LevelIntroManager => levelIntroManager;
     
     //EventManager
 

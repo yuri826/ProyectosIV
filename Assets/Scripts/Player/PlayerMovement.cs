@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int playerN;
     public int PlayerN => playerN;
     
-    public PlayerInput playerInput { get; private set; }
     private CharacterController characterController;
     private PlayerWeapon playerWeapon;
 
@@ -47,30 +46,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         playerWeapon = GetComponent<PlayerWeapon>();
-    }
-
-    private void OnEnable()
-    {
-        playerInput.actions["Move"].performed += UpdateMovementInput;
-        playerInput.actions["Move"].canceled += UpdateMovementInput;
-        playerInput.actions["Interact"].started += Interact;
-        playerInput.actions["Act"].started += Act;
-        playerInput.actions["Act"].canceled += UnAct;
-        playerInput.actions["Dash"].started += StartDash;
-    }
-
-
-    private void OnDisable()
-    {
-        playerInput.actions["Move"].performed -= UpdateMovementInput;
-        playerInput.actions["Move"].canceled -= UpdateMovementInput;
-        playerInput.actions["Interact"].started -= Interact;
-        playerInput.actions["Act"].started -= Act;
-        playerInput.actions["Act"].canceled -= UnAct;
-        playerInput.actions["Dash"].started -= StartDash;
     }
 
     private void Update()
@@ -141,8 +118,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void Movement()
     {
-        movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
-
         Vector3 playerDisplacement = movementDirection * (walkSpeed * Time.deltaTime);
         Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
         Vector3 verticalDisplacement = GetVerticalDisplacement();
@@ -178,8 +153,8 @@ public class PlayerMovement : MonoBehaviour
 
         return SandstormSystem.Instance.GetWindDisplacement(baseSpeed) * Time.deltaTime;
     }
-    
-    private void StartDash(InputAction.CallbackContext obj)
+
+    public void StartDash(InputAction.CallbackContext obj)
     {
         if (currentState != PlayerState.Move)
         {
@@ -195,13 +170,14 @@ public class PlayerMovement : MonoBehaviour
         currentState = PlayerState.Dash;
     }
 
-    private void UpdateMovementInput(InputAction.CallbackContext obj)
+    public void UpdateMovementInput(InputAction.CallbackContext obj)
     {
         print("PLAYERMOVE");
         movementInputDirection = obj.ReadValue<Vector2>();
+        movementDirection = new Vector3(movementInputDirection.x, 0, movementInputDirection.y);
     }
-    
-    private void Interact(InputAction.CallbackContext obj)
+
+    public void Interact(InputAction.CallbackContext obj)
     {
         if (currentState != PlayerState.Move)
         {
@@ -325,15 +301,14 @@ public class PlayerMovement : MonoBehaviour
         if (isPicking)
         {
             throw new ArgumentException("Forcing pick when picking");
-            return;
         }
             
         p.OnPick(this.transform);
         currentObj = p;
         isPicking = true;
     }
-    
-    private void Act(InputAction.CallbackContext obj)
+
+    public void Act(InputAction.CallbackContext obj)
     {
         if (currentState != PlayerState.Move)
         {
@@ -379,7 +354,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void UnAct(InputAction.CallbackContext obj)
+    public void UnAct(InputAction.CallbackContext obj)
     {
         currentRepairDeposit?.RemoveTool();
         currentRepairDeposit = null;
