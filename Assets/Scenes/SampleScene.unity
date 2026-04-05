@@ -152,9 +152,7 @@ MonoBehaviour:
   uiUpdater:
     introNumbers: {fileID: 931952892}
     numberAnim: {fileID: 931952894}
-    gameOverCanvas: {fileID: 1542754362}
-    winCanvas: {fileID: 694681328}
-    winCanvasMenu: {fileID: 694681331}
+    levelMenuManager: {fileID: 0}
     progressBar: {fileID: 1142570131}
     healthBar: {fileID: 1082270683}
   levelFlow:
@@ -163,11 +161,24 @@ MonoBehaviour:
     <maxTrainLife>k__BackingField: 90
     <currentTrainLife>k__BackingField: 90
   playerSystem:
-    players:
-    - {fileID: 439867395}
-    - {fileID: 475015214}
+    <players>k__BackingField:
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  levelIntroManager:
+    introCanvas: {fileID: 0}
+    holdFillImage: {fileID: 0}
+    holdDuration: 1.2
+    playerInput: {fileID: 0}
+  levelEventManager:
+    levelEvents: []
+  gameplayMap:
+    m_Name: Gameplay Map
+    m_Id: 090bb8cb-c076-4e01-8bd5-1e94aafae053
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
 --- !u!4 &37341197
 Transform:
   m_ObjectHideFlags: 0
@@ -704,6 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   lookAt: {fileID: 439867392}
+  followSmoothSpeed: 8
 --- !u!1 &391553447
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,20 +964,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon
   playerBullet: {fileID: 4597061953260433880, guid: 76e8a6980218e124bbaffb33afba712c, type: 3}
-  shootOffset: {x: 0, y: -1, z: 0}
-  initBulletAmount: 0
-  bulletText: {fileID: 785166830}
---- !u!114 &439867395 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7214083724176559908, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
-  m_PrefabInstance: {fileID: 8055160176714418452}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439867385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 765d0f1f1f154a2439ceca50125886f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  shootPoint: {fileID: 0}
+  shootCooldown: 0.2
+  maxChamberAmmo: 6
+  maxBeltAmmo: 18
+  reloadTimePerBullet: 0.5
+  beltAmmoText: {fileID: 0}
+  revolverAmmoHUD: {fileID: 0}
 --- !u!1001 &475015210
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1057,20 +1062,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon
   playerBullet: {fileID: 4597061953260433880, guid: 76e8a6980218e124bbaffb33afba712c, type: 3}
-  shootOffset: {x: 0, y: -1, z: 0}
-  initBulletAmount: 0
-  bulletText: {fileID: 1172292829}
---- !u!114 &475015214 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7214083724176559908, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
-  m_PrefabInstance: {fileID: 475015210}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475015211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 765d0f1f1f154a2439ceca50125886f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  shootPoint: {fileID: 0}
+  shootCooldown: 0.2
+  maxChamberAmmo: 6
+  maxBeltAmmo: 18
+  reloadTimePerBullet: 0.5
+  beltAmmoText: {fileID: 0}
+  revolverAmmoHUD: {fileID: 0}
 --- !u!1001 &540804673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1518,10 +1516,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WinCanvasMenu
   buttons:
   - {fileID: 670049737}
+  defaultButtonIndex: 0
+  inputBlockOnEnableTime: 0.15
   stars:
   - {fileID: 2135759010}
   - {fileID: 1989901961}
   - {fileID: 1718569249}
+  emptyStarSprite: {fileID: 0}
+  filledStarSprite: {fileID: 0}
+  delayBeforeStart: 0.2
+  timeBetweenStars: 0.25
 --- !u!1 &750528726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,15 +2440,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd703f5c67a59684bbf548a52fb6a3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpeedManager
-  initSpeed: 100
   minSpeed: 60
   maxSpeed: 140
+  initSpeed: 100
   lowSpeedThreshold: 80
   highSpeedThreshold: 120
-  currentState: 1
-  maxSpeedTimer: 0.5
-  speedBar: {fileID: 1559709305}
+  startupDuration: 3
+  startupCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  coalSpeedBoostDuration: 1
+  coalBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedDecayAmount: 10
+  speedDecayInterval: 5
+  speedBarFill: {fileID: 0}
   speedText: {fileID: 1555341807}
+  currentSpeed: 0
+  currentSpeedState: 0
 --- !u!1 &1053184875
 GameObject:
   m_ObjectHideFlags: 0
@@ -3949,6 +4005,8 @@ MonoBehaviour:
   - {fileID: 1925606367}
   - {fileID: 1543004932}
   - {fileID: 1434117695}
+  defaultButtonIndex: 0
+  inputBlockOnEnableTime: 0.15
 --- !u!4 &1542754365
 Transform:
   m_ObjectHideFlags: 0
@@ -5545,6 +5603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   lookAt: {fileID: 475015212}
+  followSmoothSpeed: 8
 --- !u!114 &2144853974
 MonoBehaviour:
   m_ObjectHideFlags: 0
