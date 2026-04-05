@@ -21,7 +21,7 @@ public class OutlawDynamite : MonoBehaviour
         }
         
         fuseTime -= Time.deltaTime;
-        Debug.Log("Tiempo restante dinamita: " + fuseTime);
+        //Debug.Log("Tiempo restante dinamita: " + fuseTime);
         if (fuseTime <= 0f)
         {
             Explode();
@@ -32,7 +32,7 @@ public class OutlawDynamite : MonoBehaviour
     {
         // Este método se llama justo después de instanciar la dinamita.
         // Sirve para pasarle todos los datos que necesita esta instancia concreta.
-        Debug.Log("Dinamita inicializada");
+        //Debug.Log("Dinamita inicializada");
         
         targetSabotagePoint = sabotagePoint;
         fuseTime = newFuseTime;

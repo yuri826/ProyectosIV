@@ -197,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateMovementInput(InputAction.CallbackContext obj)
     {
+        print("PLAYERMOVE");
         movementInputDirection = obj.ReadValue<Vector2>();
     }
     
