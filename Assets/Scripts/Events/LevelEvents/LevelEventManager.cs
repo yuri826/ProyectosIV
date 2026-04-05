@@ -4,7 +4,7 @@ using UnityEngine;
 public class LevelEventManager : MonoBehaviour
 {
     [Header("Level Events")]
-    [SerializeField] private List<LevelEventData> levelEvents = new List<LevelEventData>();
+    [SerializeField] private List<LevelEventInstance> levelEvents = new List<LevelEventInstance>();
 
     [Header("External Systems")]
     [SerializeField] private TrainSpawnDirector trainSpawnDirector;
@@ -19,13 +19,13 @@ public class LevelEventManager : MonoBehaviour
                 continue;
             }
 
-            if (currentLevelTime < levelEvents[i].triggerTime)
+            if (currentLevelTime < levelEvents[i].timeToSpawn)
             {
                 continue;
             }
 
-            TriggerEvent(levelEvents[i]);
-            levelEvents[i].hasTriggered = true;
+            TriggerEvent(levelEvents[i].eventData);
+            levelEvents[i].eventData.hasTriggered = true;
         }
     }
 
@@ -55,6 +55,12 @@ public class LevelEventManager : MonoBehaviour
     
     public List<LevelEventData> GetLevelEvents()
     {
-        return levelEvents;
+        List<LevelEventData> events = new List<LevelEventData>();
+
+        foreach (var myEvent in levelEvents)
+        {
+            events.Add(myEvent.eventData);
+        }
+        return events;
     }
 }

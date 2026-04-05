@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
-[System.Serializable]
-public class LevelEventData
+[CreateAssetMenu(fileName = "LevelEvent", menuName = "ScriptableObjects/LevelEvent")]
+[Serializable]
+public class LevelEventData : ScriptableObject
 {
     [Header("Event Type")]
     public LevelEventType eventType;
@@ -18,5 +20,5 @@ public class LevelEventData
     public float duration;
 
     [HideInInspector]
-    public bool hasTriggered = false;
+    public bool hasTriggered { get; set; }= false;
 }

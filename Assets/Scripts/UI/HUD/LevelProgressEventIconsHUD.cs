@@ -23,26 +23,20 @@ public class LevelProgressEventIconsHUD : MonoBehaviour
     {
         ClearIcons();
 
+        int maxXPos = 740 * 2; //Calculado a mano
+
         int levelDuration = TrainGameMode.instance.GetLevelDuration();
         List<LevelEventData> levelEvents = levelEventManager.GetLevelEvents();
 
-        for (int i = 0; i < levelEvents.Count; i++)
+        foreach (var eventData in levelEvents)
         {
-            LevelEventData eventData = levelEvents[i];
-
-            if (eventData.iconPrefab == null)
-            {
-                continue;
-            }
-
             GameObject iconObject = Instantiate(eventData.iconPrefab, progressIconsRoot);
             spawnedIcons.Add(iconObject);
 
             RectTransform iconRect = iconObject.GetComponent<RectTransform>();
 
             float normalizedTime = Mathf.Clamp01((float)eventData.triggerTime / levelDuration);
-            float width = progressIconsRoot.rect.width;
-            float xPos = (normalizedTime - 0.5f) * width;
+            float xPos = normalizedTime * maxXPos;
 
             iconRect.anchoredPosition = new Vector2(xPos, iconRect.anchoredPosition.y);
 
