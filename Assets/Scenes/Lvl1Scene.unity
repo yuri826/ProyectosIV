@@ -469,13 +469,17 @@ PrefabInstance:
       propertyPath: m_DefaultActionMap
       value: Gameplay
       objectReference: {fileID: 0}
+    - target: {fileID: 5652042418405903359, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
+      propertyPath: playerRespawnManager
+      value: 
+      objectReference: {fileID: 143550489}
     - target: {fileID: 5848731309367880343, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8328537282313353415, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.3
+      value: -29.5
       objectReference: {fileID: 0}
     - target: {fileID: 8328537282313353415, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
       propertyPath: m_LocalPosition.y
@@ -865,6 +869,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6077949266804068068, guid: 4ad0010e45d08694fbfb83c12dad85dd, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1635600550}
   m_SourcePrefab: {fileID: 100100000, guid: 4ad0010e45d08694fbfb83c12dad85dd, type: 3}
 --- !u!1 &105860830
 GameObject:
@@ -4504,6 +4509,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665051695}
   m_CullTransparentMesh: 1
+--- !u!114 &680449899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 4133022464915987927}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!1 &680708247
 GameObject:
   m_ObjectHideFlags: 0
@@ -17260,8 +17276,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2072325653}
   - {fileID: 2090985629}
+  - {fileID: 2072325653}
   - {fileID: 80359193}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19717,6 +19733,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1725352528}
   m_SourcePrefab: {fileID: 100100000, guid: 796fc7da4485a3645b65e0e94dcd7428, type: 3}
+--- !u!114 &1866468500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 1699245557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!1 &1873288008
 GameObject:
   m_ObjectHideFlags: 0
@@ -20242,9 +20269,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainSpawnDirector
   trainCarZones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 680449899}
+  - {fileID: 1866468500}
+  - {fileID: 2145551954}
   outlawPrefab: {fileID: 8830875191793974695, guid: 2c887cf7e9687284d9d56d1159f0652f, type: 3}
   lowSpeedOutlawExtra: 4
   middleSpeedOutlawExtra: 2
@@ -21804,7 +21831,7 @@ Transform:
   m_GameObject: {fileID: 2090985624}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42261827, y: -0, z: -0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 12, z: -8}
+  m_LocalPosition: {x: -29.6, y: 12, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22130,6 +22157,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2447298481507140748, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
   m_PrefabInstance: {fileID: 2145551952}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2145551954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 2145551952}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!1001 &4133022464915987927
 PrefabInstance:
   m_ObjectHideFlags: 0
