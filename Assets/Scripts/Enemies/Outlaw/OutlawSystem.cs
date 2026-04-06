@@ -9,6 +9,9 @@ public class OutlawSystem : MonoBehaviour
     [Header("References")]
     [SerializeField] private TrainCarZone currentCarZone;
     [SerializeField] private GameObject outlawDynamitePrefab;
+    
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed = 12f;
 
     [Header("Sabotage")]
     [SerializeField] private float plantDynamiteTime;
@@ -114,6 +117,8 @@ public class OutlawSystem : MonoBehaviour
             case OutlawState.Sandstorm:
                 break;
         }
+        
+        UpdateMovementRotation();
     }
 
     public void SetCurrentCarZone(TrainCarZone newCarZone)
@@ -368,5 +373,37 @@ public class OutlawSystem : MonoBehaviour
         }
 
         return true;
+    }
+    
+    private void UpdateMovementRotation()
+    {
+        if (currentState != OutlawState.MoveToSabotage &&
+            currentState != OutlawState.MoveToSafePosition &&
+            currentState != OutlawState.Patrol)
+        {
+            return;
+        }
+
+        Vector3 lookDirection = navMeshAgent.desiredVelocity;
+
+        if (lookDirection.sqrMagnitude <= 0.0001f)
+        {
+            lookDirection = navMeshAgent.velocity;
+        }
+
+        lookDirection.y = 0f;
+
+        if (lookDirection.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection.normalized, Vector3.up);
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
 }

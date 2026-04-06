@@ -5047,7 +5047,7 @@ PrefabInstance:
     - target: {fileID: 9138662687051568549, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: ecdebf1cfe27d3646bcae3c53b998aea, type: 2}
+      objectReference: {fileID: 23800000, guid: 4c43f05a39d63ab469667c9ca2fc54bb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4658255475638290682, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -5495,7 +5495,7 @@ PrefabInstance:
     - target: {fileID: 9138662687051568549, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 636e7bf4cf8ccb142a023beb7ec9deaf, type: 2}
+      objectReference: {fileID: 23800000, guid: ea7f63279d4c1be459d7b328096cf6ac, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4658255475638290682, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
