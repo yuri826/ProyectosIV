@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float interactionRadius;
     [SerializeField] private Vector3 interactionOffset;
     private DepositObj currentRepairDeposit;
-
+    
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -141,6 +141,12 @@ public class PlayerMovement : MonoBehaviour
     
     private void Movement()
     {
+        if (currentState == PlayerState.Cannon)
+        {
+            CannonMove();
+            return;
+        }
+        
         movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
 
         Vector3 playerDisplacement = movementDirection * (walkSpeed * Time.deltaTime);
@@ -153,6 +159,11 @@ public class PlayerMovement : MonoBehaviour
         {
             lookDir = movementDirection;
         }
+    }
+
+    private void CannonMove()
+    {
+        movementDirection = new Vector3(movementInputDirection.x, 0f, 0f);
     }
 
     private void Dash()
@@ -382,6 +393,11 @@ public class PlayerMovement : MonoBehaviour
     {
         currentRepairDeposit?.RemoveTool();
         currentRepairDeposit = null;
+    }
+
+    public void OnCannon(Transform cannonPos, bool onCannon)
+    {
+        
     }
 
     public void EnablePlayer()
