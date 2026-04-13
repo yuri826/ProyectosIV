@@ -1,14 +1,8 @@
 using System;
 using UnityEngine;
 
-public class CartEnemyManager : MonoBehaviour
+[Serializable]
+public class CartEnemyManager
 {
-    public static CartEnemyManager Instance;
-
     [field:SerializeField] public CartPoint[] cartPoints { get; set; }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 }

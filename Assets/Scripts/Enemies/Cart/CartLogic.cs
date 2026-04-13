@@ -11,10 +11,12 @@ public class CartLogic : MonoBehaviour
     private CartState cartState = CartState.MoveToCart;
     private CartShootState shootState = CartShootState.LookLeftToSide;
     private Transform currentCartPoint;
-    CartEnemyManager cartManager => CartEnemyManager.Instance;
+    private CartEnemyManager cartManager => TrainGameMode.instance.GetCartManager();
 
     [Header("Movement")] 
     [SerializeField] private float appearSpeed;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float moveAmplitude;
 
     [Header("Shoot")] 
     [SerializeField] private GameObject bulletPrefab;
@@ -53,6 +55,22 @@ public class CartLogic : MonoBehaviour
                 break;
             
             case CartState.InCart:
+                
+                this.transform.position = Vector3.Lerp(this.transform.position,
+                    new Vector3(Mathf.Sin(Time.time * moveSpeed) * moveAmplitude 
+                                + currentCartPoint.position.x,this.transform.position.y, this.transform.position.z),
+                    Time.deltaTime * moveSpeed);
+
+                break;
+            
+            case CartState.Return:
+                
+                this.transform.position = Vector3.Lerp(this.transform.position, currentCartPoint.position, Time.deltaTime * moveSpeed);
+
+                if (Vector3.Distance(this.transform.position, currentCartPoint.position) < 0.1f)
+                {
+                    cartState = CartState.InCart;
+                }
 
                 break;
         }
@@ -60,13 +78,13 @@ public class CartLogic : MonoBehaviour
 
     private void GetRandomCart()
     {
-        List<Transform> possibleLocations = new List<Transform>();
+        List<CartPoint> possibleLocations = new List<CartPoint>();
 
         for (int i = 0; i < cartManager.cartPoints.Length; i++)
         {
             if (!cartManager.cartPoints[i].IsTaken)
             {
-                possibleLocations.Add(cartManager.cartPoints[i].TransformPoint);
+                possibleLocations.Add(cartManager.cartPoints[i]);
             }
         }
 
@@ -78,7 +96,8 @@ public class CartLogic : MonoBehaviour
         
         int cartN = Random.Range(0, possibleLocations.Count);
         
-        currentCartPoint = possibleLocations[cartN];
+        currentCartPoint = possibleLocations[cartN].TransformPoint;
+        possibleLocations[cartN].IsTaken = true;
     }
 
     private IEnumerator ShootRoutine()
@@ -126,7 +145,7 @@ public class CartLogic : MonoBehaviour
                 case CartShootState.LookRightToSide: shootState = CartShootState.LookLeftToCenter;
                     break;
                 case CartShootState.LookLeftToCenter: 
-                    cartState = CartState.InCart;
+                    cartState = CartState.Return;
                     shootState = CartShootState.LookLeftToSide;
                     break;
             }

@@ -11,6 +11,7 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private LevelFlow levelFlow;
     [SerializeField] private TrainLife trainLife;
     [SerializeField] private PlayerSubsystem playerSystem;
+    [SerializeField] private CartEnemyManager cartManager;
     
     [Header("Gameplay")]
     private LevelFlowState currentState = LevelFlowState.Intro;
@@ -134,6 +135,13 @@ public class TrainGameMode : MonoBehaviour
     public int GetMaxTrainLife()
     {
         return trainLife.GetMaxTrainLife();
+    }
+    
+    //CartManager
+
+    public CartEnemyManager GetCartManager()
+    {
+        return cartManager;
     }
     
     public delegate void OnGameOver();

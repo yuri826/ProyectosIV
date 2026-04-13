@@ -2746,7 +2746,7 @@ GameObject:
   - component: {fileID: 359848052}
   - component: {fileID: 359848056}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: EnemyCart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2858,10 +2858,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CartLogic
   appearSpeed: 5
+  moveSpeed: 2
+  moveAmplitude: 8
   bulletPrefab: {fileID: 2257593463338473087, guid: b14533207f015f449a133d02db2ae89c, type: 3}
-  shootWaitTime: 1
-  bulletTime: 0.4
+  shootWaitTime: 10
+  bulletTime: 0.1
   bulletNumber: 32
+  maxSideAngle: 45
   shootDir: {x: 0, y: 0, z: -1}
   shootPoint: {fileID: 359848055}
 --- !u!1 &360025561
@@ -22805,6 +22808,16 @@ MonoBehaviour:
   playerSystem:
     players:
     - {fileID: 8055160176714418453}
+  cartManager:
+    <cartPoints>k__BackingField:
+    - <TransformPoint>k__BackingField: {fileID: 1392083854}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 344952471}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 94782999}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 793849739}
+      <IsTaken>k__BackingField: 0
 --- !u!1 &1537542905
 GameObject:
   m_ObjectHideFlags: 0
@@ -26087,9 +26100,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1962068776}
-  - component: {fileID: 1962068777}
   m_Layer: 0
-  m_Name: CartManager
+  m_Name: CartPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26114,27 +26126,6 @@ Transform:
   - {fileID: 793849739}
   m_Father: {fileID: 1974471823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1962068777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962068775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5b8322e3d26614b95d6bff5e3017dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CartEnemyManager
-  <cartPoints>k__BackingField:
-  - <TransformPoint>k__BackingField: {fileID: 1392083854}
-    <IsTaken>k__BackingField: 0
-  - <TransformPoint>k__BackingField: {fileID: 344952471}
-    <IsTaken>k__BackingField: 0
-  - <TransformPoint>k__BackingField: {fileID: 94782999}
-    <IsTaken>k__BackingField: 0
-  - <TransformPoint>k__BackingField: {fileID: 793849739}
-    <IsTaken>k__BackingField: 0
 --- !u!1 &1974471822
 GameObject:
   m_ObjectHideFlags: 0

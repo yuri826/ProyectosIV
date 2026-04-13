@@ -91,6 +91,7 @@ public enum CartState
     InCart,
     Shoot,
     Dead,
+    Return
 }
 
 public enum CartShootState
