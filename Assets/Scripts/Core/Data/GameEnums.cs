@@ -6,6 +6,7 @@ public enum PlayerState
     Move,
     Dash,
     Repair,
+    Cannon,
     GameOver
 }
 
@@ -100,4 +101,10 @@ public enum CartShootState
     LookRightToCenter,
     LookRightToSide,
     LookLeftToCenter,
+}
+
+public enum CannonState
+{
+    PlayerOn,
+    PlayerOff,
 }
