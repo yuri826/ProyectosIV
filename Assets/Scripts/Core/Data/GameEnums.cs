@@ -84,3 +84,19 @@ public enum ResourceType
     Dynamite,
     Bullets
 }
+
+public enum CartState
+{
+    MoveToCart,
+    InCart,
+    Shoot,
+    Dead,
+}
+
+public enum CartShootState
+{
+    LookLeftToSide,
+    LookRightToCenter,
+    LookRightToSide,
+    LookLeftToCenter,
+}
