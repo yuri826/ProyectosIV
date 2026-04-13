@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 public class SandstormSystem : MonoBehaviour
@@ -18,7 +19,7 @@ public class SandstormSystem : MonoBehaviour
 
     [Header("Visual & Audio")]
     [SerializeField] private SandstormVfxController sandstormVfxController;
-    [SerializeField] private AudioSource sandstormAudioSource;
+    [SerializeField] private StudioEventEmitter sandstormAudioSource;
 
     [Header("Outlaws")]
     [SerializeField] private OutlawSystem[] outlawsInScene;
@@ -174,16 +175,14 @@ public class SandstormSystem : MonoBehaviour
             }
         }
 
-        if (sandstormAudioSource != null)
+
+        if (sandstormActive)
         {
-            if (sandstormActive)
-            {
-                sandstormAudioSource.Play();
-            }
-            else
-            {
-                sandstormAudioSource.Stop();
-            }
+            sandstormAudioSource.Play();
+        }
+        else
+        {
+            sandstormAudioSource.Stop();
         }
     }
 
