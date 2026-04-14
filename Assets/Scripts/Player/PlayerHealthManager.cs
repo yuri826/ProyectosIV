@@ -116,6 +116,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             damageCooldownRoutine = null;
         }
 
+        playerMovement.ForceDropObj();
+
         playerWeapon.CancelReload();
         playerMovement.currentState = PlayerState.Locked;
         playerRespawnManager.HandleDeath(this, forcedCarZone);

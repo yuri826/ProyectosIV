@@ -400,6 +400,12 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    public void ForceDropObj()
+    {
+        Destroy(currentObj.gameObject);
+        currentObj = null;
+    }
+
     public void EnablePlayer()
     {
         currentState = PlayerState.Move;
