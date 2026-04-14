@@ -20,7 +20,7 @@ public class LevelFlow : GamemodeSubsystem
     
         TrainGameMode.UpdateProgressBar(currentLevelTimeRound, levelDuration);
 
-        levelEventManager.UpdateEventTimeline(currentLevelTimeRound);
+        TrainGameMode.GetLevelEventSubsystem().UpdateEventTimeline(currentLevelTimeRound);
 
         if (currentLevelTime >= levelDuration)
         {

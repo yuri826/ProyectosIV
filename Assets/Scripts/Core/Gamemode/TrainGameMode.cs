@@ -12,6 +12,7 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private TrainLife trainLife;
     [SerializeField] private PlayerSubsystem playerSystem;
     [SerializeField] private CartEnemyManager cartManager;
+    [SerializeField] private LevelEventSubsystem levelEventSubsystem;
     
     [Header("Gameplay")]
     private LevelFlowState currentState = LevelFlowState.Intro;
@@ -142,6 +143,13 @@ public class TrainGameMode : MonoBehaviour
     public CartEnemyManager GetCartManager()
     {
         return cartManager;
+    }
+    
+    //Level event subsystem
+
+    public LevelEventSubsystem GetLevelEventSubsystem()
+    {
+        return levelEventSubsystem;
     }
     
     public delegate void OnGameOver();
