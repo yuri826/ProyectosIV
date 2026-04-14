@@ -565,7 +565,7 @@ Transform:
   m_GameObject: {fileID: 94782998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22, y: -1.5, z: 8}
+  m_LocalPosition: {x: 22, y: 1.04, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2159,6 +2159,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2447298481507140748, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
   m_PrefabInstance: {fileID: 292229656}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &292229658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 292229656}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!1 &296797959 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3003330214595151055, guid: 918e935ba31744d4abf4db53a232849b, type: 3}
@@ -2671,7 +2682,7 @@ Transform:
   m_GameObject: {fileID: 344952470}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 8}
+  m_LocalPosition: {x: 0, y: 1.04, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5328,6 +5339,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2447298481507140748, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
   m_PrefabInstance: {fileID: 571318919}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &571318921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 571318919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!114 &571318922 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8004600229359441999, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -5804,6 +5826,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2447298481507140748, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
   m_PrefabInstance: {fileID: 588762221}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &588762223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 588762221}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!114 &588762224 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8004600229359441999, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -7237,7 +7270,7 @@ Transform:
   m_GameObject: {fileID: 793849738}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44, y: -1.5, z: 8}
+  m_LocalPosition: {x: 44, y: 1.04, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13900,6 +13933,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031956092}
   m_CullTransparentMesh: 1
+--- !u!114 &1034602480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098595127038964322, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 1389284762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
 --- !u!1 &1050644175
 GameObject:
   m_ObjectHideFlags: 0
@@ -21857,7 +21901,7 @@ Transform:
   m_GameObject: {fileID: 1392083853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.5, y: -1.5, z: 8}
+  m_LocalPosition: {x: -21.5, y: 1.04, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22963,7 +23007,19 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   cartManager:
-    <cartPoints>k__BackingField: []
+    <cartPoints>k__BackingField:
+    - <TransformPoint>k__BackingField: {fileID: 1392083854}
+      <TrainCarZone>k__BackingField: {fileID: 571318921}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 344952471}
+      <TrainCarZone>k__BackingField: {fileID: 292229658}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 94782999}
+      <TrainCarZone>k__BackingField: {fileID: 588762223}
+      <IsTaken>k__BackingField: 0
+    - <TransformPoint>k__BackingField: {fileID: 793849739}
+      <TrainCarZone>k__BackingField: {fileID: 1034602480}
+      <IsTaken>k__BackingField: 0
 --- !u!1 &1537542905
 GameObject:
   m_ObjectHideFlags: 0
