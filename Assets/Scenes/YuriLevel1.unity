@@ -15656,36 +15656,42 @@ MonoBehaviour:
     triggerTime: 20
     iconPrefab: {fileID: 0}
     outlawCount: 1
+    renegadeCount: 0
     duration: 0
     hasTriggered: 0
   - eventType: 0
     triggerTime: 50
     iconPrefab: {fileID: 0}
     outlawCount: 2
+    renegadeCount: 0
     duration: 0
     hasTriggered: 0
   - eventType: 1
     triggerTime: 60
     iconPrefab: {fileID: 0}
     outlawCount: 0
+    renegadeCount: 0
     duration: 20
     hasTriggered: 0
   - eventType: 0
     triggerTime: 100
     iconPrefab: {fileID: 0}
     outlawCount: 1
+    renegadeCount: 0
     duration: 0
     hasTriggered: 0
   - eventType: 1
     triggerTime: 110
     iconPrefab: {fileID: 0}
     outlawCount: 0
+    renegadeCount: 0
     duration: 20
     hasTriggered: 0
   - eventType: 1
     triggerTime: 110
     iconPrefab: {fileID: 0}
     outlawCount: 0
+    renegadeCount: 0
     duration: 20
     hasTriggered: 0
   trainSpawnDirector: {fileID: 1623108901}
@@ -27413,6 +27419,18 @@ PrefabInstance:
     - target: {fileID: 2373093819545001046, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
       propertyPath: m_Name
       value: ObjectManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957857677457299385, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+      propertyPath: lowSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957857677457299385, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+      propertyPath: highSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2957857677457299385, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+      propertyPath: middleSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5763784517086551197, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
       propertyPath: m_LocalPosition.x
