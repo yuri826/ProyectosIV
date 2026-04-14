@@ -7,8 +7,8 @@ public class TrainCarZone : MonoBehaviour
     [Header("Enemy Spawn Points")]
     [SerializeField] private Transform[] outlawSpawnPoints;
 
-    [Header("Sabotage Points")]
-    [SerializeField] private SabotagePoint[] sabotagePoints;
+    [Header("Sabotage Points")] [SerializeField]
+    private SabotagePoint[] sabotagePoints;
 
     [Header("Patrol Points")]
     [SerializeField] private Transform[] patrolPoints;
