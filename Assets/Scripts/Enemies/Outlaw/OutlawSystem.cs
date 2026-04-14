@@ -24,6 +24,9 @@ public class OutlawSystem : MonoBehaviour
     [Header("Patrol")]
     [SerializeField] private int patrolPointsAfterExplosion;
     [SerializeField] private float minDistanceBetweenPatrolPoints;
+    
+    [Header("Safe Position")]
+    [SerializeField] private float safeExplosionExtraMargin = 1f;
 
     [Header("Laugh")]
     [SerializeField] private float laughTime;
@@ -222,10 +225,21 @@ public class OutlawSystem : MonoBehaviour
         {
             SpawnDynamite();
 
-            Vector3 safePosition = currentCarZone.GetRandomPointInCarFarFrom(
-                currentTargetSabotagePoint.transform.position,
-                safeDistanceAfterPlant
+            Vector3 explosionOrigin = currentTargetSabotagePoint.transform.position;
+            float minimumSafeDistance = dynamiteExplosionRadius + safeExplosionExtraMargin;
+
+            Vector3 safePosition;
+            bool foundSafePoint = currentCarZone.TryGetSafePointFarFromExplosion(
+                explosionOrigin,
+                safeDistanceAfterPlant,
+                minimumSafeDistance,
+                out safePosition
             );
+
+            if (!foundSafePoint)
+            {
+                safePosition = transform.position;
+            }
 
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(safePosition);
@@ -294,13 +308,13 @@ public class OutlawSystem : MonoBehaviour
 
     private void PickNextPatrolPoint()
     {
-        Vector3 randomPoint = currentCarZone.GetRandomPointInCarFarFrom(
+        Vector3 patrolPoint = currentCarZone.GetRandomPatrolPointFarFrom(
             lastPatrolPoint,
             minDistanceBetweenPatrolPoints
         );
 
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(randomPoint);
+        navMeshAgent.SetDestination(patrolPoint);
     }
 
     private void UpdateCombat()

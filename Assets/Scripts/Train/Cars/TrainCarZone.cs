@@ -10,6 +10,12 @@ public class TrainCarZone : MonoBehaviour
     [Header("Sabotage Points")]
     [SerializeField] private SabotagePoint[] sabotagePoints;
 
+    [Header("Patrol Points")]
+    [SerializeField] private Transform[] patrolPoints;
+
+    [Header("Safe Points")]
+    [SerializeField] private Transform[] safePoints;
+
     [Header("Broken Points Limit")]
     [SerializeField] private int maxBrokenPoints = 5;
 
@@ -38,6 +44,7 @@ public class TrainCarZone : MonoBehaviour
 
     public List<PlayerMovement> GetPlayersInsideCar()
     {
+        RefreshPlayersInsideCar();
         RemoveNullPlayers();
         return playersInsideCar;
     }
@@ -104,23 +111,20 @@ public class TrainCarZone : MonoBehaviour
 
     public bool HasPlayersInside()
     {
+        RefreshPlayersInsideCar();
         RemoveNullPlayers();
         return playersInsideCar.Count > 0;
     }
 
     public List<PlayerMovement> GetPlayersInRange(Vector3 centerPoint, float range)
     {
+        RefreshPlayersInsideCar();
         RemoveNullPlayers();
 
         List<PlayerMovement> playersInRange = new List<PlayerMovement>();
 
         for (int i = 0; i < playersInsideCar.Count; i++)
         {
-            if (playersInsideCar[i] == null)
-            {
-                continue;
-            }
-
             float distanceToPlayer = Vector3.Distance(centerPoint, playersInsideCar[i].transform.position);
 
             if (distanceToPlayer <= range)
@@ -132,27 +136,17 @@ public class TrainCarZone : MonoBehaviour
         return playersInRange;
     }
 
-    public Vector3 GetRandomPointInCarFarFrom(Vector3 originPoint, float minDistance)
+    public Vector3 GetRandomPatrolPointFarFrom(Vector3 originPoint, float minDistance)
     {
         List<Vector3> validPoints = new List<Vector3>();
 
-        for (int i = 0; i < outlawSpawnPoints.Length; i++)
+        for (int i = 0; i < patrolPoints.Length; i++)
         {
-            float distance = Vector3.Distance(originPoint, outlawSpawnPoints[i].position);
+            float distance = Vector3.Distance(originPoint, patrolPoints[i].position);
 
             if (distance >= minDistance)
             {
-                validPoints.Add(outlawSpawnPoints[i].position);
-            }
-        }
-
-        for (int i = 0; i < sabotagePoints.Length; i++)
-        {
-            float distance = Vector3.Distance(originPoint, sabotagePoints[i].transform.position);
-
-            if (distance >= minDistance)
-            {
-                validPoints.Add(sabotagePoints[i].transform.position);
+                validPoints.Add(patrolPoints[i].position);
             }
         }
 
@@ -163,6 +157,45 @@ public class TrainCarZone : MonoBehaviour
 
         int randomIndex = Random.Range(0, validPoints.Count);
         return validPoints[randomIndex];
+    }
+
+    public bool TryGetSafePointFarFromExplosion(
+        Vector3 dangerOrigin,
+        float minDistanceFromOrigin,
+        float minSafeDistanceFromExplosion,
+        out Vector3 safePoint
+    )
+    {
+        safePoint = transform.position;
+
+        List<Vector3> validPoints = new List<Vector3>();
+
+        for (int i = 0; i < safePoints.Length; i++)
+        {
+            Vector3 candidate = safePoints[i].position;
+
+            float distanceFromOrigin = Vector3.Distance(candidate, dangerOrigin);
+            if (distanceFromOrigin < minDistanceFromOrigin)
+            {
+                continue;
+            }
+
+            float distanceFromExplosion = Vector3.Distance(candidate, dangerOrigin);
+            if (distanceFromExplosion < minSafeDistanceFromExplosion)
+            {
+                continue;
+            }
+
+            validPoints.Add(candidate);
+        }
+
+        if (validPoints.Count == 0)
+        {
+            return false;
+        }
+
+        safePoint = validPoints[Random.Range(0, validPoints.Count)];
+        return true;
     }
 
     public bool ContainsPoint(Vector3 worldPoint)
@@ -225,6 +258,31 @@ public class TrainCarZone : MonoBehaviour
         return false;
     }
 
+    private void RefreshPlayersInsideCar()
+    {
+        playersInsideCar.Clear();
+
+        Vector3 center = zoneCollider.bounds.center;
+        Vector3 halfExtents = zoneCollider.bounds.extents;
+
+        Collider[] overlaps = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
+
+        for (int i = 0; i < overlaps.Length; i++)
+        {
+            PlayerMovement player = overlaps[i].GetComponent<PlayerMovement>();
+
+            if (player == null)
+            {
+                continue;
+            }
+
+            if (!playersInsideCar.Contains(player))
+            {
+                playersInsideCar.Add(player);
+            }
+        }
+    }
+
     private void RemoveNullPlayers()
     {
         for (int i = playersInsideCar.Count - 1; i >= 0; i--)
@@ -232,6 +290,35 @@ public class TrainCarZone : MonoBehaviour
             if (playersInsideCar[i] == null)
             {
                 playersInsideCar.RemoveAt(i);
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (patrolPoints != null)
+        {
+            Gizmos.color = Color.cyan;
+
+            for (int i = 0; i < patrolPoints.Length; i++)
+            {
+                if (patrolPoints[i] != null)
+                {
+                    Gizmos.DrawSphere(patrolPoints[i].position, 0.2f);
+                }
+            }
+        }
+
+        if (safePoints != null)
+        {
+            Gizmos.color = Color.green;
+
+            for (int i = 0; i < safePoints.Length; i++)
+            {
+                if (safePoints[i] != null)
+                {
+                    Gizmos.DrawCube(safePoints[i].position, Vector3.one * 0.25f);
+                }
             }
         }
     }
