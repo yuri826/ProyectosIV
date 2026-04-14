@@ -69,7 +69,8 @@ public enum PickableState
 public enum LevelEventType
 {
     OutlawWave,
-    Sandstorm
+    Sandstorm,
+    RenegadeWave
 }
 
 public enum ResourceType
@@ -107,4 +108,17 @@ public enum CannonState
 {
     PlayerOn,
     PlayerOff,
+}
+
+public enum RenegadeTargetType
+{
+    TrainConnection,
+    SafeBox
+}
+
+public enum RenegadeTargetState
+{
+    Free,
+    Reserved,
+    Broken
 }

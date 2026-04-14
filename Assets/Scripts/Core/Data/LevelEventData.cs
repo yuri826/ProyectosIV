@@ -13,6 +13,9 @@ public class LevelEventData
 
     [Header("Outlaw Wave")]
     public int outlawCount;
+    
+    [Header("Renegade Wave")]
+    public int renegadeCount;
 
     [Header("Event Duration")]
     public float duration;
