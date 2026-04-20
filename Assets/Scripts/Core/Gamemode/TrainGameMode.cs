@@ -4,6 +4,8 @@ using UnityEngine;
 public class TrainGameMode : MonoBehaviour
 {
     public static TrainGameMode instance;
+
+    [SerializeField] private int levelIndex;
     
     [Header("Components")]
     [SerializeField] private float introTime;
@@ -159,6 +161,12 @@ public class TrainGameMode : MonoBehaviour
     public SpeedManager GetSpeedManager()
     {
         return speedManager;
+    }
+    
+    //Level
+    public int GetLevelIndex()
+    {
+        return levelIndex;
     }
     
     public delegate void OnGameOver();

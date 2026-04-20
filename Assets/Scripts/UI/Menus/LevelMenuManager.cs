@@ -200,12 +200,14 @@ public class LevelMenuManager : MonoBehaviour
 
         victoryCanvas.SetActive(true);
 
-        if (victoryMenu != null)
+        if (victoryMenu is not null)
         {
             victoryMenu.ResetSelection();
             victoryMenu.ResetStars();
             victoryMenu.StarShow(CalculateStars());
         }
+        
+        GameInstance.instance.LevelComplete(TrainGameMode.instance.GetLevelIndex(),CalculateStars());
 
         isPaused = false;
         Time.timeScale = 0f;
@@ -269,11 +271,6 @@ public class LevelMenuManager : MonoBehaviour
 
     private int CalculateStars()
     {
-        if (TrainGameMode.instance == null)
-        {
-            return 0;
-        }
-
         float currentLife = TrainGameMode.instance.GetCurrentTrainLife();
         float maxLife = TrainGameMode.instance.GetMaxTrainLife();
 

@@ -25,11 +25,11 @@ public class GameInstance : MonoBehaviour
     public void LevelComplete(int levelIndex, int score)
     {
         int maxLevel = 4;
-        levelScores[levelIndex] = score;
+        
+        if (score > levelScores[levelIndex]) levelScores[levelIndex] = score;
         mapNodeStates[levelIndex] = MapNodeState.Completed;
         
         if (levelIndex == maxLevel) return;
-        
-        mapNodeStates[levelIndex + 1] = MapNodeState.Unlocked;
+        if (mapNodeStates[levelIndex + 1] == MapNodeState.Locked) mapNodeStates[levelIndex + 1] = MapNodeState.Unlocked;
     }
 }
