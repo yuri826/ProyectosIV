@@ -14,6 +14,7 @@ public class TrainGameMode : MonoBehaviour
     [SerializeField] private CartEnemyManager cartManager;
     [SerializeField] private LevelEventSubsystem levelEventSubsystem;
     [SerializeField] private TrainSpawnDirector trainSpawnDirector;
+    [SerializeField] private SpeedManager speedManager;
     
     [Header("Gameplay")]
     private LevelFlowState currentState = LevelFlowState.Intro;
@@ -68,10 +69,7 @@ public class TrainGameMode : MonoBehaviour
         currentState = LevelFlowState.Gameplay;
         playerSystem.activatePlayers();
         
-        if (SpeedManager.instance != null)
-        {
-            SpeedManager.instance.StartStartup();
-        }
+        speedManager.StartStartup();
     }
     
     private void Win()
@@ -155,6 +153,12 @@ public class TrainGameMode : MonoBehaviour
     public TrainSpawnDirector GetTrainSpawnDirector()
     {
         return trainSpawnDirector;
+    }
+    
+    //SpeedManager
+    public SpeedManager GetSpeedManager()
+    {
+        return speedManager;
     }
     
     public delegate void OnGameOver();

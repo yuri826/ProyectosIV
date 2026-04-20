@@ -92,23 +92,20 @@ public class TrainSpawnDirector : GamemodeSubsystem
     private int GetModifiedOutlawCount(int baseOutlawCount)
     {
         int modifier = 0;
-
-        if (SpeedManager.instance is not null)
+        
+        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
         {
-            switch (SpeedManager.instance.GetCurrentSpeedState())
-            {
-                case SpeedState.Low:
-                    modifier = lowSpeedOutlawExtra;
-                    break;
+            case SpeedState.Low:
+                modifier = lowSpeedOutlawExtra;
+                break;
 
-                case SpeedState.Middle:
-                    modifier = middleSpeedOutlawExtra;
-                    break;
+            case SpeedState.Middle:
+                modifier = middleSpeedOutlawExtra;
+                break;
 
-                case SpeedState.High:
-                    modifier = highSpeedOutlawExtra;
-                    break;
-            }
+            case SpeedState.High:
+                modifier = highSpeedOutlawExtra;
+                break;
         }
 
         return Mathf.Max(0, baseOutlawCount + modifier);
@@ -116,12 +113,7 @@ public class TrainSpawnDirector : GamemodeSubsystem
     
     public int GetOutlawModifierForCurrentSpeed()
     {
-        if (SpeedManager.instance == null)
-        {
-            return 0;
-        }
-
-        switch (SpeedManager.instance.GetCurrentSpeedState())
+        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
         {
             case SpeedState.Low:
                 return lowSpeedOutlawExtra;

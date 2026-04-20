@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpeedManager : MonoBehaviour
+[Serializable]
+public class SpeedManager : GamemodeSubsystem
 {
-    public static SpeedManager instance;
-
     [Header("Speed Limits")]
     [SerializeField] private float minSpeed = 60f;
     [SerializeField] private float maxSpeed = 180f;
@@ -34,34 +34,35 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] private Image speedBarFill;
     [SerializeField] private TextMeshProUGUI speedText;
 
+    [Header("CoalBoost")]
+    private float targetCoalSpeed;
+    private bool isCoalBoosting;
+    private float coalBoostTimer = 0;
+
     [Header("Debug / Read Only")]
     [SerializeField] private float currentSpeed = 0f;
     [SerializeField] private SpeedState currentSpeedState = SpeedState.Low;
 
-    private bool startupTriggered = false;
-    private bool isStartingUp = false;
-    private float startupTimer = 0f;
-    private Coroutine coalBoostRoutine;
+    private bool startupTriggered;
+    private bool isStartingUp;
+    private float startupTimer;
 
     public float CurrentSpeed => currentSpeed;
     public SpeedState CurrentSpeedState => currentSpeedState;
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
-    private void Start()
+    public override void OnStart()
     {
         currentSpeed = 0f;
         UpdateSpeedState();
         UpdateHUD();
     }
 
-    private void Update()
+    public override void OnUpdate()
     {
         UpdateStartup();
         UpdateDecaySmooth();
+
+        CoalBoost();
 
         ApplyRuntimeClamp();
         UpdateSpeedState();
@@ -137,40 +138,26 @@ public class SpeedManager : MonoBehaviour
 
     public void AddSpeed(float amount)
     {
-        if (amount <= 0f)
-        {
-            return;
-        }
-
-        if (coalBoostRoutine != null)
-        {
-            StopCoroutine(coalBoostRoutine);
-        }
-
-        coalBoostRoutine = StartCoroutine(CoalBoostRoutine(amount));
+        isCoalBoosting = true;
+        targetCoalSpeed = Mathf.Clamp(currentSpeed + amount, 0f, maxSpeed);
     }
 
-    private IEnumerator CoalBoostRoutine(float amount)
+    private void CoalBoost()
     {
-        float startSpeed = currentSpeed;
-        float targetSpeed = Mathf.Clamp(currentSpeed + amount, 0f, maxSpeed);
+        if (!isCoalBoosting) return;
+        
+        coalBoostTimer += Time.deltaTime;
 
-        float timer = 0f;
+        var normalizedTime = Mathf.Clamp01(coalBoostTimer / coalSpeedBoostDuration);
+        var curveValue = coalBoostCurve.Evaluate(normalizedTime);
 
-        while (timer < coalSpeedBoostDuration)
+        currentSpeed = Mathf.LerpUnclamped(currentSpeed, targetCoalSpeed, curveValue);
+
+        if (currentSpeed >= targetCoalSpeed)
         {
-            timer += Time.deltaTime;
-
-            float normalizedTime = Mathf.Clamp01(timer / coalSpeedBoostDuration);
-            float curveValue = coalBoostCurve.Evaluate(normalizedTime);
-
-            currentSpeed = Mathf.LerpUnclamped(startSpeed, targetSpeed, curveValue);
-
-            yield return null;
+            currentSpeed = targetCoalSpeed;
+            isCoalBoosting = true;
         }
-
-        currentSpeed = targetSpeed;
-        coalBoostRoutine = null;
     }
 
     private void UpdateSpeedState()

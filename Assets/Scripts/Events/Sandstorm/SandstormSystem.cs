@@ -98,22 +98,19 @@ public class SandstormSystem : MonoBehaviour
     {
         float speedModifier = middleSpeedStormMultiplier;
 
-        if (SpeedManager.instance != null)
+        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
         {
-            switch (SpeedManager.instance.GetCurrentSpeedState())
-            {
-                case SpeedState.Low:
-                    speedModifier = lowSpeedStormMultiplier;
-                    break;
+            case SpeedState.Low:
+                speedModifier = lowSpeedStormMultiplier;
+                break;
 
-                case SpeedState.Middle:
-                    speedModifier = middleSpeedStormMultiplier;
-                    break;
+            case SpeedState.Middle:
+                speedModifier = middleSpeedStormMultiplier;
+                break;
 
-                case SpeedState.High:
-                    speedModifier = highSpeedStormMultiplier;
-                    break;
-            }
+            case SpeedState.High:
+                speedModifier = highSpeedStormMultiplier;
+                break;
         }
 
         return baseWindStrengthMultiplier * speedModifier;
@@ -121,12 +118,7 @@ public class SandstormSystem : MonoBehaviour
     
     public float GetStormModifierForCurrentSpeed()
     {
-        if (SpeedManager.instance == null)
-        {
-            return 1f;
-        }
-
-        switch (SpeedManager.instance.GetCurrentSpeedState())
+        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
         {
             case SpeedState.Low:
                 return lowSpeedStormMultiplier;

@@ -27,6 +27,6 @@ public class EngineObj : DepositObj
 
     protected override void Completed()
     {
-        SpeedManager.instance.AddSpeed(speedAdding);
+        TrainGameMode.instance.GetSpeedManager().AddSpeed(speedAdding);
     }
 }
