@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [Header("Bullet")]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float damage = 1f;
+    [field : SerializeField] public float damage { get; set; } = 1f;
     [SerializeField] private float lifeTime = 5f;
 
     private Rigidbody rb;

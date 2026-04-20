@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TrainSpawnDirector : MonoBehaviour
 {
+    public static TrainSpawnDirector Instance;
+    
     [System.Serializable]
     private class SpawnPointData
     {
@@ -25,6 +27,7 @@ public class TrainSpawnDirector : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         CacheAllSpawnPoints();
     }
 

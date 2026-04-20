@@ -11,6 +11,7 @@ public class CartLogic : MonoBehaviour
     private CartState cartState = CartState.MoveToCart;
     private CartShootState shootState = CartShootState.LookLeftToSide;
     private Transform currentCartPoint;
+    private TrainCarZone currentTrainCarZone;
     private CartEnemyManager cartManager => TrainGameMode.instance.GetCartManager();
 
     [Header("Movement")] 
@@ -97,6 +98,7 @@ public class CartLogic : MonoBehaviour
         int cartN = Random.Range(0, possibleLocations.Count);
         
         currentCartPoint = possibleLocations[cartN].TransformPoint;
+        currentTrainCarZone = possibleLocations[cartN].TrainCarZone;
         possibleLocations[cartN].IsTaken = true;
     }
 
@@ -112,6 +114,8 @@ public class CartLogic : MonoBehaviour
             Shoot();
             yield return new WaitForSeconds(bulletTime);
         }
+        
+        currentTrainCarZone.GetRandomFreeSabotagePoint().BreakPoint();
         
         shootRoutine = StartCoroutine(ShootRoutine());
     }

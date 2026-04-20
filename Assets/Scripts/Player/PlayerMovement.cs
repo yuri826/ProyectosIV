@@ -322,7 +322,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (canDrop)
         {
-            currentObj.Drop(lookDir);
+            currentObj?.Drop(lookDir);
             currentObj = null;
             isPicking = false;
         }
