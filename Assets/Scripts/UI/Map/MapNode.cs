@@ -18,7 +18,7 @@ public class MapNode : MonoBehaviour
     public Transform CursorPos => cursorPosition;
     public Transform CameraPosition => cameraPosition;
 
-    [Tooltip("SOLO PARA EL PRIMERO! / para debugear")][SerializeField] private bool activeInit;
+    //[Tooltip("SOLO PARA EL PRIMERO! / para debugear")][SerializeField] private bool activeInit;
     //[SerializeField] private MapNode nextNode;
     
     //[SerializeField] private Button nodeButton;

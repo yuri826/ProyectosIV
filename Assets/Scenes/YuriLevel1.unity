@@ -22769,7 +22769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6abd8ded42da2f49bc2e6dbd23f6f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  introTime: 1
+  introTime: 1.05
   uiUpdater:
     introNumbers: {fileID: 1974798663}
     numberAnim: {fileID: 1974798662}
