@@ -161,6 +161,7 @@ public class OutlawSystem : MonoBehaviour
 
     public void OnDead()
     {
+        TrainGameMode.instance.GetTrainSpawnDirector().RemoveOutlaw(this);
         CancelCurrentSabotage();
     }
 

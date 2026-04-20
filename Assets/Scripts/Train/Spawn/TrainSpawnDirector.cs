@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
-public class TrainSpawnDirector : MonoBehaviour
+[Serializable]
+public class TrainSpawnDirector : GamemodeSubsystem
 {
     public static TrainSpawnDirector Instance;
     
@@ -73,7 +77,7 @@ public class TrainSpawnDirector : MonoBehaviour
 
             SpawnPointData selectedSpawn = allOutlawSpawnPoints[selectedIndex];
 
-            GameObject outlawObject = Instantiate(
+            GameObject outlawObject = Object.Instantiate(
                 outlawPrefab,
                 selectedSpawn.spawnPoint.position,
                 selectedSpawn.spawnPoint.rotation
@@ -81,6 +85,7 @@ public class TrainSpawnDirector : MonoBehaviour
 
             OutlawSystem outlawSystem = outlawObject.GetComponent<OutlawSystem>();
             outlawSystem.SetCurrentCarZone(selectedSpawn.carZone);
+            AddOutlaw(outlawSystem);
         }
     }
 
@@ -88,7 +93,7 @@ public class TrainSpawnDirector : MonoBehaviour
     {
         int modifier = 0;
 
-        if (SpeedManager.instance != null)
+        if (SpeedManager.instance is not null)
         {
             switch (SpeedManager.instance.GetCurrentSpeedState())
             {
@@ -129,5 +134,42 @@ public class TrainSpawnDirector : MonoBehaviour
         }
 
         return 0;
+    }
+    
+    private List<OutlawSystem> currentOutlaws = new List<OutlawSystem>();
+    
+    public void NotifyOutlawsInDeadCar(TrainCarZone deadCarZone, PlayerMovement deadPlayerMovement)
+    {
+        if (deadCarZone == null)
+        {
+            return;
+        }
+    
+        OutlawSystem[] outlaws = currentOutlaws.ToArray();
+    
+        foreach (var outlaw in outlaws)
+        {
+            if (outlaw == null)
+            {
+                continue;
+            }
+    
+            if (!deadCarZone.ContainsPoint(outlaw.transform.position))
+            {
+                continue;
+            }
+    
+            outlaw.OnPlayerFell(deadPlayerMovement);
+        }
+    }
+
+    public void AddOutlaw(OutlawSystem outlaw)
+    {
+        currentOutlaws.Add(outlaw);
+    }
+    
+    public void RemoveOutlaw(OutlawSystem outlaw)
+    {
+        currentOutlaws.Remove(outlaw);
     }
 }
