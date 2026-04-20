@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MapNode : MonoBehaviour
 {
+    [SerializeField] private int index;
     [SerializeField] private MapNodeInfo nodeInfo;
 
     [SerializeField] private MapInfoTypewriter infoTypewriter;
@@ -18,7 +19,7 @@ public class MapNode : MonoBehaviour
     public Transform CameraPosition => cameraPosition;
 
     [Tooltip("SOLO PARA EL PRIMERO! / para debugear")][SerializeField] private bool activeInit;
-    [SerializeField] private MapNode nextNode;
+    //[SerializeField] private MapNode nextNode;
     
     //[SerializeField] private Button nodeButton;
     //[SerializeField] private Button playButton;
@@ -27,8 +28,11 @@ public class MapNode : MonoBehaviour
 
     private void Start()
     {
-        if (activeInit) currentState = MapNodeState.Unlocked;
+        //if (activeInit) currentState = MapNodeState.Unlocked;
         //nodeButton.onClick.AddListener(NodeClicked);
+
+        currentState = GameInstance.instance.mapNodeStates[index];
+        nodeInfo.score = GameInstance.instance.levelScores[index];
     }
 
     private void NodeClicked()

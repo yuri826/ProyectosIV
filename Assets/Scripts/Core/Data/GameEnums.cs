@@ -104,12 +104,6 @@ public enum CartShootState
     LookLeftToCenter,
 }
 
-public enum CannonState
-{
-    PlayerOn,
-    PlayerOff,
-}
-
 public enum RenegadeTargetType
 {
     TrainConnection,
