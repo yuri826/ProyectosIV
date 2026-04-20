@@ -13602,7 +13602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1026388326
 Transform:
   m_ObjectHideFlags: 0
@@ -13660,10 +13660,8 @@ MonoBehaviour:
   highSpeedThreshold: 120
   startupDuration: 5
   startupCurve:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 3
-      time: 0
+    - time: 0
       value: 0
       inSlope: 0
       outSlope: 0
@@ -13671,8 +13669,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 1
+    - time: 1
       value: 1
       inSlope: 0
       outSlope: 0
@@ -13685,10 +13682,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   coalSpeedBoostDuration: 3
   coalBoostCurve:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 3
-      time: 0
+    - time: 0
       value: 0
       inSlope: 0
       outSlope: 0
@@ -13696,8 +13691,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 1
+    - time: 1
       value: 1
       inSlope: 0
       outSlope: 0
@@ -13714,6 +13708,9 @@ MonoBehaviour:
   speedText: {fileID: 1555341807}
   currentSpeed: 0
   currentSpeedState: 0
+  startupTriggered: 0
+  isStartingUp: 0
+  startupTimer: 0
 --- !u!1 &1031725885
 GameObject:
   m_ObjectHideFlags: 0
@@ -15641,95 +15638,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197089090}
   m_CullTransparentMesh: 1
---- !u!1 &1240237076
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1240237077}
-  - component: {fileID: 1240237078}
-  m_Layer: 0
-  m_Name: LevelEventManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1240237077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240237076}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1974471823}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1240237078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240237076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e5c4a135849da34ea8fdd18150785cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LevelEventManager
-  levelEvents:
-  - eventType: 0
-    triggerTime: 20
-    iconPrefab: {fileID: 0}
-    outlawCount: 1
-    renegadeCount: 0
-    duration: 0
-    hasTriggered: 0
-  - eventType: 0
-    triggerTime: 50
-    iconPrefab: {fileID: 0}
-    outlawCount: 2
-    renegadeCount: 0
-    duration: 0
-    hasTriggered: 0
-  - eventType: 1
-    triggerTime: 60
-    iconPrefab: {fileID: 0}
-    outlawCount: 0
-    renegadeCount: 0
-    duration: 20
-    hasTriggered: 0
-  - eventType: 0
-    triggerTime: 100
-    iconPrefab: {fileID: 0}
-    outlawCount: 1
-    renegadeCount: 0
-    duration: 0
-    hasTriggered: 0
-  - eventType: 1
-    triggerTime: 110
-    iconPrefab: {fileID: 0}
-    outlawCount: 0
-    renegadeCount: 0
-    duration: 20
-    hasTriggered: 0
-  - eventType: 1
-    triggerTime: 110
-    iconPrefab: {fileID: 0}
-    outlawCount: 0
-    renegadeCount: 0
-    duration: 20
-    hasTriggered: 0
-  trainSpawnDirector: {fileID: 1623108901}
-  sandstormSystem: {fileID: 942061763}
 --- !u!1 &1251622980
 GameObject:
   m_ObjectHideFlags: 0
@@ -22870,7 +22778,6 @@ MonoBehaviour:
     healthBar: {fileID: 650211626}
   levelFlow:
     levelDuration: 180
-    levelEventManager: {fileID: 0}
   trainLife:
     <maxTrainLife>k__BackingField: 100
     <currentTrainLife>k__BackingField: 100
@@ -22882,6 +22789,77 @@ MonoBehaviour:
     - {fileID: 0}
   cartManager:
     <cartPoints>k__BackingField: []
+    trainCarZones: []
+  levelEventSubsystem:
+    levelEvents: []
+  trainSpawnDirector:
+    trainCarZones: []
+    outlawPrefab: {fileID: 0}
+    lowSpeedOutlawExtra: 4
+    middleSpeedOutlawExtra: 2
+    highSpeedOutlawExtra: 0
+  speedManager:
+    minSpeed: 60
+    maxSpeed: 180
+    initSpeed: 100
+    lowSpeedThreshold: 80
+    highSpeedThreshold: 120
+    startupDuration: 3
+    startupCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    coalSpeedBoostDuration: 1
+    coalBoostCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    speedDecayAmount: 10
+    speedDecayInterval: 5
+    speedBarFill: {fileID: 0}
+    speedText: {fileID: 0}
+    currentSpeed: 0
+    currentSpeedState: 0
 --- !u!1 &1537542905
 GameObject:
   m_ObjectHideFlags: 0
@@ -23930,55 +23908,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621399604}
   m_CullTransparentMesh: 1
---- !u!1 &1623108899
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1623108900}
-  - component: {fileID: 1623108901}
-  m_Layer: 0
-  m_Name: TrainSpawnDirector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1623108900
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623108899}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1974471823}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1623108901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623108899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed5162d111bfd44682233f45fd153b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrainSpawnDirector
-  trainCarZones: []
-  outlawPrefab: {fileID: 8830875191793974695, guid: 2c887cf7e9687284d9d56d1159f0652f, type: 3}
-  lowSpeedOutlawExtra: 4
-  middleSpeedOutlawExtra: 2
-  highSpeedOutlawExtra: 0
 --- !u!1001 &1646304870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25322,53 +25251,6 @@ PrefabInstance:
       addedObject: {fileID: 1543813257}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5da9a38d3e9fa41b3cfbca4dabf3cb, type: 3}
---- !u!1 &1874382875
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1874382877}
-  - component: {fileID: 1874382876}
-  m_Layer: 0
-  m_Name: PlayerRespawnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1874382876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874382875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d8c82bd3fb72a7489cb16209df7fb64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnManager
-  respawnDelay: 3
-  levelCamera: {fileID: 2144853973}
-  respawnCameraSmoothSpeed: 1
---- !u!4 &1874382877
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874382875}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1974471823}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1891562698
 GameObject:
   m_ObjectHideFlags: 0
@@ -26220,11 +26102,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1026388326}
-  - {fileID: 1240237077}
-  - {fileID: 1623108900}
   - {fileID: 942061761}
   - {fileID: 1527560389}
-  - {fileID: 1874382877}
   - {fileID: 1934825081}
   - {fileID: 1962068776}
   m_Father: {fileID: 0}
@@ -27505,10 +27384,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthManager
   playerMovement: {fileID: 8055160176714418453}
   playerWeapon: {fileID: 439867393}
-  playerRespawnManager: {fileID: 1874382876}
+  playerRespawnManager: {fileID: 0}
   respawnInvulnerabilityTime: 3
   maxHealth: 3
   damageCooldown: 1
+  respawnDelay: 5
+  levelCamera: {fileID: 0}
+  respawnCameraSmoothSpeed: 1
 --- !u!114 &8055160176714418460 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2683689625699479580, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}

@@ -10,7 +10,7 @@ public class LevelFlow : GamemodeSubsystem
     [Header("Level Time")]
     [Tooltip("In seconds")]
     [SerializeField] private int levelDuration;
-    [SerializeField] private LevelEventManager levelEventManager;
+
     private float currentLevelTime;
     private int currentLevelTimeRound => Mathf.RoundToInt(currentLevelTime);
 
