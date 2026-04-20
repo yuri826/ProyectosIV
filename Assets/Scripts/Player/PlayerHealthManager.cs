@@ -120,7 +120,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         playerWeapon.CancelReload();
         playerMovement.currentState = PlayerState.Locked;
-        playerRespawnManager.HandleDeath(this, forcedCarZone);
+        playerRespawnManager.HandleDeath(this,playerMovement,playerMovement.GetComponent<CharacterController>(), forcedCarZone);
     }
 
     private void Die()
