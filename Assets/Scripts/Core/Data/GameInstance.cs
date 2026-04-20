@@ -18,7 +18,7 @@ public class GameInstance : MonoBehaviour
             mapNodeStates[index] = MapNodeState.Locked;
         }
         mapNodeStates[0] = MapNodeState.Unlocked;
-
+        
         DontDestroyOnLoad(gameObject);
     }
 

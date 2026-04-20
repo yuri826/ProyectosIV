@@ -9,6 +9,10 @@ public class MapNode : MonoBehaviour
 {
     [SerializeField] private int index;
     [SerializeField] private MapNodeInfo nodeInfo;
+    [SerializeField] private Image[] starImages;
+    private int score;
+
+    [SerializeField] private Sprite starOn;
 
     [SerializeField] private MapInfoTypewriter infoTypewriter;
     
@@ -32,7 +36,12 @@ public class MapNode : MonoBehaviour
         //nodeButton.onClick.AddListener(NodeClicked);
 
         currentState = GameInstance.instance.mapNodeStates[index];
-        nodeInfo.score = GameInstance.instance.levelScores[index];
+        score = GameInstance.instance.levelScores[index];
+
+        for (int i = 0; i < score; i++)
+        {
+            starImages[i].sprite = starOn;
+        }
     }
 
     private void NodeClicked()
