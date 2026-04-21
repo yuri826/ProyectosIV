@@ -233,12 +233,12 @@ public class LevelMenuManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        sceneLoadManager.LoadMainMenu();
+        SceneLoadManager.instance.LoadScene("MainMenu",1);
     }
 
     public void GoToMapMenu()
     {
-        sceneLoadManager.LoadMapScene();
+        SceneLoadManager.instance.LoadScene("MapScene",1);
     }
 
     private void OpenControlsCanvas()

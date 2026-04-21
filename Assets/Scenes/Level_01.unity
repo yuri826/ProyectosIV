@@ -22381,6 +22381,7 @@ MonoBehaviour:
     levelMenuManager: {fileID: 1934825083}
     progressBar: {fileID: 1939628142}
     healthBar: {fileID: 650211626}
+    transitionAnim: {fileID: 349088767}
   levelFlow:
     levelDuration: 180
   trainLife:
