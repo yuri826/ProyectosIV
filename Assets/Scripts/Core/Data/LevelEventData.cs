@@ -16,6 +16,9 @@ public class LevelEventData
     
     [Header("Renegade Wave")]
     public int renegadeCount;
+    
+    [Header("Collapse")]
+    public int rockCount;
 
     [Header("Event Duration")]
     public float duration;
