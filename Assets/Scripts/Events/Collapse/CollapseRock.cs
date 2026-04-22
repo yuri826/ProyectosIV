@@ -10,11 +10,25 @@ public class CollapseRock : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] private float damageToTrain = 5f;
+    
+    [Header("Visual")]
+    [SerializeField] private GameObject rockVisual;
+
+    [Header("Warning")]
+    [SerializeField] private float warningDuration = 1f;
+    [SerializeField] private GameObject warningShadowPrefab;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight = 6f;
     [SerializeField] private float fallDuration = 0.4f;
     [SerializeField] private AnimationCurve fallCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
+    [Header("Impact")]
+    [SerializeField] private float crushRadius = 1f;
+    [SerializeField] private GameObject impactVfxPrefab;
+    
+    [Header("Colliders")]
+    [SerializeField] private Collider solidCollider;
 
     private CollapseRockSpawnPoint currentSpawnPoint;
     private CollapseSystem collapseSystem;
@@ -29,20 +43,36 @@ public class CollapseRock : MonoBehaviour
 
         currentSpawnPoint.SetOccupied(true);
 
+        transform.position = currentSpawnPoint.transform.position;
+
+        rockVisual.SetActive(false);
         pushableObj.enabled = false;
         pushTrigger.enabled = false;
+        solidCollider.enabled = false;
 
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        StartCoroutine(FallRoutine());
+        StartCoroutine(FallSequence());
     }
 
-    private IEnumerator FallRoutine()
+    private IEnumerator FallSequence()
     {
         Vector3 landingPosition = currentSpawnPoint.transform.position;
         Vector3 startPosition = landingPosition + Vector3.up * fallHeight;
 
+        GameObject warningShadow = Instantiate(
+            warningShadowPrefab,
+            landingPosition + Vector3.up * 0.1f,
+            Quaternion.identity
+        );
+
+        CollapseRockWarning warning = warningShadow.GetComponent<CollapseRockWarning>();
+        warning.StartWarning(warningDuration);
+
+        yield return new WaitForSeconds(warningDuration);
+
+        rockVisual.SetActive(true);
         transform.position = startPosition;
 
         float timer = 0f;
@@ -65,16 +95,62 @@ public class CollapseRock : MonoBehaviour
 
     private void OnRockLanded()
     {
+        StartCoroutine(LandedRoutine());
+    }
+
+    private IEnumerator LandedRoutine()
+    {
         hasLanded = true;
+
+        KillObjectsInImpact();
+        SpawnImpactVfx();
+
+        yield return null;
+
+        solidCollider.enabled = true;
+        pushTrigger.enabled = true;
+        pushableObj.enabled = true;
 
         rb.isKinematic = false;
         rb.useGravity = true;
 
-        pushTrigger.enabled = true;
-        pushableObj.enabled = true;
-
         TrainGameMode.instance.TakeDamage(damageToTrain);
         collapseSystem.OnRockLanded();
+    }
+
+    private void KillObjectsInImpact()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, crushRadius);
+
+        TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);
+
+        for (int i = 0; i < hitColliders.Length; i++)
+        {
+            PlayerHealthManager playerHealth = hitColliders[i].GetComponentInParent<PlayerHealthManager>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.KillFromCarZone(currentCarZone);
+                continue;
+            }
+
+            OutlawHealth outlawHealth = hitColliders[i].GetComponentInParent<OutlawHealth>();
+
+            if (outlawHealth != null)
+            {
+                outlawHealth.TakeDamage(999f);
+            }
+        }
+    }
+
+    private void SpawnImpactVfx()
+    {
+        if (impactVfxPrefab == null)
+        {
+            return;
+        }
+
+        Instantiate(impactVfxPrefab, transform.position, Quaternion.identity);
     }
 
     public void RemoveRock()
@@ -95,5 +171,11 @@ public class CollapseRock : MonoBehaviour
         currentSpawnPoint.SetOccupied(false);
 
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, crushRadius);
     }
 }
