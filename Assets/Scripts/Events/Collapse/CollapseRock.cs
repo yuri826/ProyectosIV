@@ -6,6 +6,7 @@ public class CollapseRock : MonoBehaviour
     [Header("References")]
     [SerializeField] private PushableObj pushableObj;
     [SerializeField] private Collider pushTrigger;
+    [SerializeField] private Rigidbody rb;
 
     [Header("Damage")]
     [SerializeField] private float damageToTrain = 5f;
@@ -30,6 +31,9 @@ public class CollapseRock : MonoBehaviour
 
         pushableObj.enabled = false;
         pushTrigger.enabled = false;
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
 
         StartCoroutine(FallRoutine());
     }
@@ -62,6 +66,9 @@ public class CollapseRock : MonoBehaviour
     private void OnRockLanded()
     {
         hasLanded = true;
+
+        rb.isKinematic = false;
+        rb.useGravity = true;
 
         pushTrigger.enabled = true;
         pushableObj.enabled = true;

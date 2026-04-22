@@ -39,6 +39,10 @@ public class PlayerMovement : MonoBehaviour
     private PickableObj currentObj;
     private bool isPicking = false;
 
+    [Header("Pushables")]
+    private PushableObj currentPushable;
+    private bool isMovingPushable = false;
+    
     [Header("Interaction")]
     [SerializeField] private float interactionDistance;
     [SerializeField] private float interactionRadius;
@@ -57,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed += UpdateMovementInput;
         playerInput.actions["Move"].canceled += UpdateMovementInput;
         playerInput.actions["Interact"].started += Interact;
+        playerInput.actions["MoveObject"].started += StartMoveObject;
+        playerInput.actions["MoveObject"].canceled += StopMoveObject;
         playerInput.actions["Act"].started += Act;
         playerInput.actions["Act"].canceled += UnAct;
         playerInput.actions["Dash"].started += StartDash;
@@ -65,9 +71,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
+        StopMovingPushable();
+
         playerInput.actions["Move"].performed -= UpdateMovementInput;
         playerInput.actions["Move"].canceled -= UpdateMovementInput;
         playerInput.actions["Interact"].started -= Interact;
+        playerInput.actions["MoveObject"].started -= StartMoveObject;
+        playerInput.actions["MoveObject"].canceled -= StopMoveObject;
         playerInput.actions["Act"].started -= Act;
         playerInput.actions["Act"].canceled -= UnAct;
         playerInput.actions["Dash"].started -= StartDash;
@@ -79,7 +89,14 @@ public class PlayerMovement : MonoBehaviour
         {
             case PlayerState.Move:
 
-                Movement();
+                if (isMovingPushable)
+                {
+                    MovePushable();
+                }
+                else
+                {
+                    Movement();
+                }
                 
                 break;
             
@@ -161,6 +178,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void MovePushable()
+    {
+        if (currentPushable == null)
+        {
+            ClearPushableMovement();
+            return;
+        }
+
+        movementDirection = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
+
+        if (movementDirection != Vector3.zero)
+        {
+            lookDir = movementDirection;
+        }
+
+        Vector3 pushableDisplacement = currentPushable.Move(movementDirection);
+        Vector3 sandstormDisplacement = GetSandstormDisplacement(walkSpeed);
+        Vector3 verticalDisplacement = GetVerticalDisplacement();
+
+        characterController.Move(pushableDisplacement + sandstormDisplacement + verticalDisplacement);
+    }
+    
     private void CannonMove()
     {
         movementDirection = new Vector3(movementInputDirection.x, 0f, 0f);
@@ -224,12 +263,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         StartCoroutine(InteractionWait());
-    }
-
-    private IEnumerator InteractionWait()
-    {
-        yield return new WaitForEndOfFrame();
-        Interaction();
     }
 
     private void Interaction()
@@ -329,6 +362,84 @@ public class PlayerMovement : MonoBehaviour
         
         EndOfInteraction: ; //print("end of interaction");
     }
+    
+    private void StartMoveObject(InputAction.CallbackContext obj)
+    {
+        if (currentState != PlayerState.Move)
+        {
+            return;
+        }
+
+        if (playerWeapon != null && playerWeapon.IsReloading())
+        {
+            return;
+        }
+
+        TryStartMovingPushable();
+    }
+
+    private void StopMoveObject(InputAction.CallbackContext obj)
+    {
+        StopMovingPushable();
+    }
+    
+    private IEnumerator InteractionWait()
+    {
+        yield return new WaitForEndOfFrame();
+        Interaction();
+    }
+    
+    private void TryStartMovingPushable()
+    {
+        if (isPicking)
+        {
+            return;
+        }
+
+        Collider[] cols = Physics.OverlapSphere(
+            transform.position + ((lookDir + interactionOffset) * interactionDistance),
+            interactionRadius
+        );
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (!cols[i].TryGetComponent(out PushableObj pushable))
+            {
+                continue;
+            }
+
+            if (!pushable.CanStartMoving(this))
+            {
+                continue;
+            }
+
+            currentPushable = pushable;
+            isMovingPushable = true;
+            currentPushable.StartMoving(this);
+            return;
+        }
+    }
+    
+    private void StopMovingPushable()
+    {
+        if (!isMovingPushable)
+        {
+            return;
+        }
+
+        if (currentPushable != null)
+        {
+            currentPushable.StopMoving(this);
+        }
+
+        ClearPushableMovement();
+    }
+    
+    private void ClearPushableMovement()
+    {
+        currentPushable = null;
+        isMovingPushable = false;
+    }
 
     public void ForcePick(PickableObj p)
     {
@@ -402,8 +513,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void ForceDropObj()
     {
-        Destroy(currentObj.gameObject);
+        StopMovingPushable();
+
+        if (!isPicking)
+        {
+            return;
+        }
+
+        currentObj.Drop(lookDir);
         currentObj = null;
+        isPicking = false;
     }
 
     public void EnablePlayer()
@@ -413,6 +532,7 @@ public class PlayerMovement : MonoBehaviour
     
     public void DisablePlayer()
     {
+        StopMovingPushable();
         currentState = PlayerState.Locked;
     }
     
