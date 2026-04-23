@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eb079131397f9264bb10b3454e3c1c7c
+guid: ef8d73203325f1a4691653098f427201
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab9a5a493af4e41468432fe5a44c5f39
-      internalID: -2108125675
+      spriteID: f44694f5d1d06d142a8f3c98d9fe1149
+      internalID: -1074364983
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02895db5d8f84374c9ed0029754f7bc9
-      internalID: -487769978
+      spriteID: e143eb03475f90541b5f57d1f5551a80
+      internalID: 204223840
       vertices: []
       indices: 
       edges: []
@@ -156,8 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9584c1c51c94712449700a3e67bf2ac9
-      internalID: 924652182
+      spriteID: ef949d491948df64cb3030e14dc1adf5
+      internalID: 1241740959
       vertices: []
       indices: 
       edges: []
@@ -178,8 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4132c9b375c00484ca01b35cf8e0b62b
-      internalID: 1798536528
+      spriteID: 7d455a90b67ed4042a13e0e0b0ea9f27
+      internalID: -1380233167
       vertices: []
       indices: 
       edges: []
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a07572a219add4241883b36f8a412090
-      internalID: -1869632810
+      spriteID: f040202116212f541a2bab8d03aeef16
+      internalID: -1695329553
       vertices: []
       indices: 
       edges: []
@@ -222,8 +222,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4fca8d51630773408f6cb68dd857069
-      internalID: -372643217
+      spriteID: 04367f16f241bdb44a7d1a7af80d82c7
+      internalID: -4259116
       vertices: []
       indices: 
       edges: []
@@ -244,8 +244,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98e6ae0b886fb55449c5f7fb6955f834
-      internalID: 1419382911
+      spriteID: 760673f4eb479cc4f89481c694017e17
+      internalID: -69280833
       vertices: []
       indices: 
       edges: []
@@ -266,8 +266,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70d8d38de5294d04894353ee45bb8694
-      internalID: 575269073
+      spriteID: 32f9a756279412449bedf8116ce56ee2
+      internalID: 844181550
       vertices: []
       indices: 
       edges: []
@@ -288,8 +288,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4634a63bdde2d7429e09f863fbb52f1
-      internalID: -5607919
+      spriteID: 95167e5886294874a91e911e0a05f2aa
+      internalID: -793099689
       vertices: []
       indices: 
       edges: []
@@ -298,7 +298,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 61bfe77728593204b8e22b827ce1d1ee
+    spriteID: 9555021c1456c8349b2d81a5b776258b
     internalID: 0
     vertices: []
     indices: 
@@ -310,15 +310,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":1.0},"gridSpriteSize":{"x":245.0,"y":500.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      CompletionWheel_0: -2108125675
-      CompletionWheel_1: -487769978
-      CompletionWheel_2: 924652182
-      CompletionWheel_3: 1798536528
-      CompletionWheel_4: -1869632810
-      CompletionWheel_5: -372643217
-      CompletionWheel_6: 1419382911
-      CompletionWheel_7: 575269073
-      CompletionWheel_8: -5607919
+      CompletionWheel_0: -1074364983
+      CompletionWheel_1: 204223840
+      CompletionWheel_2: 1241740959
+      CompletionWheel_3: -1380233167
+      CompletionWheel_4: -1695329553
+      CompletionWheel_5: -4259116
+      CompletionWheel_6: -69280833
+      CompletionWheel_7: 844181550
+      CompletionWheel_8: -793099689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,50 +1,41 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoadManager : MonoBehaviour
 {
-    [SerializeField] private LevelManager levelManager;
+    public static SceneLoadManager instance;
 
-    public void LoadScene(string sceneName)
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public void LoadScene(string sceneName, int time)
     {
         Time.timeScale = 1f;
+        StartCoroutine(LoadSceneRoutine(sceneName, time));
+        TrainGameMode.instance.TransitionIn();
+    }
+
+    private IEnumerator LoadSceneRoutine(string sceneName, int time)
+    {
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene(sceneName);
-    }
-
-    public void LoadMainMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
-    }
-
-    public void LoadMapScene()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MapScene");
-    }
-
-    public void LoadMapSceneFromLevel(int mapIndex)
-    {
-        Time.timeScale = 1f;
-
-        int thisLevel = mapIndex;
-        int nextLevel = thisLevel + 1;
-
-        levelManager.CurrentLevel = thisLevel;
-        levelManager.NewLevel = nextLevel;
-
-        SceneManager.LoadScene("MapScene");
-    }
+    } 
 
     public void ReloadScene()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        TrainGameMode.instance.TransitionIn();
     }
 
     public void QuitGame()
     {
         Time.timeScale = 1f;
         Application.Quit();
+        TrainGameMode.instance.TransitionIn();
     }
 }

@@ -19,6 +19,10 @@ public class UIUpdater : GamemodeSubsystem
 
     [Header("HealthCanvas")]
     [SerializeField] private Image healthBar;
+    
+    [Header("TransitionAnim")]
+    [SerializeField] private Animator transitionAnim;
+
 
     public override void OnStart()
     {
@@ -66,5 +70,10 @@ public class UIUpdater : GamemodeSubsystem
     public override void OnWin()
     {
         levelMenuManager.OpenVictoryMenu();
+    }
+
+    public void TransitionIn()
+    {
+        transitionAnim.SetTrigger("TransitionIn");
     }
 }

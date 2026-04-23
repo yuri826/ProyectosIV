@@ -9,6 +9,7 @@ public class LevelEventManager : MonoBehaviour
     [Header("External Systems")]
     [SerializeField] private TrainSpawnDirector trainSpawnDirector;
     [SerializeField] private SandstormSystem sandstormSystem;
+    [SerializeField] private CollapseSystem collapseSystem;
 
     public void UpdateEventTimeline(int currentLevelTime)
     {
@@ -40,6 +41,10 @@ public class LevelEventManager : MonoBehaviour
             case LevelEventType.Sandstorm:
                 TriggerSandstorm(eventData);
                 break;
+
+            case LevelEventType.Collapse:
+                TriggerCollapse(eventData);
+                break;
         }
     }
 
@@ -52,7 +57,12 @@ public class LevelEventManager : MonoBehaviour
     {
         sandstormSystem.StartSandstorm(eventData.duration);
     }
-    
+
+    private void TriggerCollapse(LevelEventData eventData)
+    {
+        collapseSystem.StartCollapse(eventData.duration, eventData.rockCount);
+    }
+
     public List<LevelEventData> GetLevelEvents()
     {
         return levelEvents;

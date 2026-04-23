@@ -15,6 +15,9 @@ public class TrainCarZone : MonoBehaviour
 
     [Header("Safe Points")]
     [SerializeField] private Transform[] safePoints;
+    
+    [Header("Collapse Spawn Points")]
+    [SerializeField] private CollapseRockSpawnPoint[] collapseSpawnPoints;
 
     [Header("Broken Points Limit")]
     [SerializeField] private int maxBrokenPoints = 5;
@@ -24,6 +27,7 @@ public class TrainCarZone : MonoBehaviour
 
     [Header("Player Respawn")]
     [SerializeField] private Transform playerRespawnPoint;
+    
 
     private Collider zoneCollider;
 
@@ -292,6 +296,11 @@ public class TrainCarZone : MonoBehaviour
                 playersInsideCar.RemoveAt(i);
             }
         }
+    }
+    
+    public CollapseRockSpawnPoint[] GetCollapseSpawnPoints()
+    {
+        return collapseSpawnPoints;
     }
 
     private void OnDrawGizmosSelected()

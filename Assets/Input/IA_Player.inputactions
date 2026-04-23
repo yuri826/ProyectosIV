@@ -21,7 +21,16 @@
                     "id": "f147525d-e1a8-4bed-a557-d6fd54e4259c",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveObject",
+                    "type": "Button",
+                    "id": "685d33f5-177c-447d-bc25-6e5f5fd8cf5a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -204,6 +213,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9897ceb8-cced-4ba5-8dd0-44fe28d8b529",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KBM",
+                    "action": "MoveObject",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3244a6b9-417a-4572-b8b3-3f22d849e396",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "MoveObject",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

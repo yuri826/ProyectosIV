@@ -70,7 +70,8 @@ public enum LevelEventType
 {
     OutlawWave,
     Sandstorm,
-    RenegadeWave
+    RenegadeWave,
+    Collapse
 }
 
 public enum ResourceType

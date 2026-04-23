@@ -86,7 +86,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void ContinueFromInstructions02()
     {
-        sceneLoadManager.LoadScene(firstLevelSceneName);
+        SceneLoadManager.instance.LoadScene(firstLevelSceneName,1);
     }
 
     public void QuitGame()

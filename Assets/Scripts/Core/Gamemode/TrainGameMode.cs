@@ -102,6 +102,11 @@ public class TrainGameMode : MonoBehaviour
         uiUpdater.UpdateLifeBar(currentLife, maxLife);
     }
 
+    public void TransitionIn()
+    {
+        uiUpdater.TransitionIn();
+    }
+
     //PlayerSystem
     public void SetPlayerState(PlayerState state, int currentPlayer)
     {
