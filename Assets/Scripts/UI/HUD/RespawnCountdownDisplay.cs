@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -14,31 +15,19 @@ public class RespawnCountdownDisplay : MonoBehaviour
 
     public void ShowTime(float remainingTime)
     {
-        if (countdownText == null)
-        {
-            return;
-        }
-
+            print("wiwiwi");
+        
+            
         int secondsToShow = Mathf.CeilToInt(remainingTime);
         countdownText.text = secondsToShow.ToString();
         countdownText.gameObject.SetActive(true);
 
-        if (backgroundObject != null)
-        {
-            backgroundObject.SetActive(true);
-        }
+        backgroundObject.SetActive(true);
     }
 
     public void Hide()
     {
-        if (countdownText != null)
-        {
-            countdownText.gameObject.SetActive(false);
-        }
-
-        if (backgroundObject != null)
-        {
-            backgroundObject.SetActive(false);
-        }
+        countdownText.gameObject.SetActive(false);
+        backgroundObject.SetActive(false);
     }
 }

@@ -127,26 +127,22 @@ public class CollapseRock : MonoBehaviour
     private void KillObjectsInImpact()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, crushRadius);
-        TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);
+        
 
         foreach (var t in hitColliders)
         {
-            print("col");
-            
             var playerHealth = t.GetComponentInParent<PlayerHealthManager>();
 
             // ?. > is not null > !=  <- En general
             
             if (playerHealth is not null)
             {
-                print("player");
-                playerHealth.ForceDie(currentCarZone);
+                playerHealth.ForceDie();
                 continue;
             }
 
             var outlawHealth = t.GetComponentInParent<OutlawHealth>();
             outlawHealth?.TakeDamage(999f);
-            print($"outlaw: {outlawHealth}");
         }
     }
 

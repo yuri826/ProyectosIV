@@ -8,7 +8,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     [SerializeField] private PlayerWeapon playerWeapon;
 
     [Header("Respawn")]
-    [SerializeField] private PlayerRespawnManager playerRespawnManager;
+    //[SerializeField] private PlayerRespawnManager playerRespawnManager;
     [SerializeField] private float respawnInvulnerabilityTime = 1.5f;
 
     [Header("Health")]
@@ -16,7 +16,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     [SerializeField] private float damageCooldown = 1f;
     
     [Header("Respawn")]
-    [SerializeField] private float respawnDelay = 5f;
+    [SerializeField] private int respawnDelay = 5;
     
     [Header("Camera")]
     [SerializeField] private LevelCamera levelCamera;
@@ -37,64 +37,20 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        if (isDead)
-        {
-            return;
-        }
-
-        if (isInvulnerable)
-        {
-            return;
-        }
-
-        if (!canTakeDamage)
-        {
-            return;
-        }
+        if (isDead || isInvulnerable || !canTakeDamage) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
         if (currentHealth <= 0f)
         {
-            //Die();
-            ForceDie(null);
+            ForceDie();
             return;
         }
 
-        if (damageCooldownRoutine != null)
-        {
-            StopCoroutine(damageCooldownRoutine);
-        }
-
+        if (damageCooldownRoutine != null) StopCoroutine(damageCooldownRoutine);
         damageCooldownRoutine = StartCoroutine(DamageCooldownRoutine());
     }
-
-    //Este método sobrea porque hace lo mismo que el otro:
-    
-    // private void A()
-    // {
-    // Por qué llamar a B() y no a C() directamente???
-    //     B();
-    // }
-    //
-    // private void B()
-    // {
-    //     C();
-    // }
-    //
-    // private void C(){}
-    
-    // public void KillFromCarZone(TrainCarZone sourceCarZone)
-    // {
-    //     //Esta comprobación sobra porque está en forceDie
-    //     if (isDead)
-    //     {
-    //         return;
-    //     }
-    //
-    //     ForceDie(sourceCarZone);
-    // }
 
     private IEnumerator DamageCooldownRoutine()
     {
@@ -124,53 +80,40 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         invulnerabilityRoutine = null;
     }
 
-    public void ForceDie(TrainCarZone forcedCarZone)
+    public void ForceDie()
     {
-        if (isDead)
-        {
-            return;
-        }
+        if (isDead) return;
+        
+        //Variables locales
+        TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);
+        Transform respawnPoint = currentCarZone.GetPlayerRespawnPoint();
 
+        //Setteo de variables
         isDead = true;
         canTakeDamage = false;
 
-        if (damageCooldownRoutine != null)
+        //CDROutine
+        if (damageCooldownRoutine is not null)
         {
             StopCoroutine(damageCooldownRoutine);
             damageCooldownRoutine = null;
         }
 
+        //Player state
         playerMovement.ForceDropObj();
-
         playerWeapon.CancelReload();
         playerMovement.currentState = PlayerState.Locked;
-        //playerRespawnManager.HandleDeath(this,playerMovement,playerMovement.GetComponent<CharacterController>(), forcedCarZone);
         
-        TrainCarZone deadCarZone = forcedCarZone ?? TrainGameMode.instance.GetCartManager().
-            FindCarZoneForPosition(gameObject.transform.position);
+        //Camara
+        levelCamera.SetOverrideTarget(respawnPoint, respawnCameraSmoothSpeed);
     
-        
-        /*EL player debería siempre de tener su deadCarZone porque le pertenece a él, y puede morir en cualquier momento
-        Y de muchas maneras, osea que añadir en cada  cacharro que te mate GetDeadZone() y luego meterlo al player es
-        chungo de escalar*/
-        if (deadCarZone is not null)
-        {
-            Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
+        //Outlaws
+        TrainGameMode.instance.GetTrainSpawnDirector().NotifyOutlawsInDeadCar(currentCarZone, playerMovement);
     
-            levelCamera.SetOverrideTarget(respawnPoint, respawnCameraSmoothSpeed);
-        }
-    
-        TrainGameMode.instance.GetTrainSpawnDirector().NotifyOutlawsInDeadCar(deadCarZone, playerMovement);
-    
+        //RespawnRoutine
         StartCoroutine(RespawnRoutine(this, playerMovement, 
-            playerMovement.GetComponent<CharacterController>(), deadCarZone));
+            playerMovement.GetComponent<CharacterController>(), currentCarZone));
     }
-
-    //Lo mismo que con killtraincarZone, lo único que el parámetro se pone null y punto
-    // private void Die()
-    // {
-    //     ForceDie(null);
-    // }
 
     public void ReviveToFullHealth()
     {
@@ -193,67 +136,34 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         deadPlayerMovement.currentState = PlayerState.Locked;
         deadCharacterController.enabled = false;
         deadPlayer.SetActive(false);
+        
+        print("AWAWAWAW");
     
-        RespawnCountdownDisplay countdownDisplay = null;
+        Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
+        RespawnCountdownDisplay countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
+        Vector3 respawnPosition = deadCarZone.transform.position;
+
+        // for (int i = respawnDelay; i > 0; i--)
+        // {
+        //     countdownDisplay?.ShowTime(i);
+        print("ANTESDELYIELD abrochense");
+             yield return null;
+             print("endHealthStuff");
+        // }
     
-        if (deadCarZone is not null)
-        {
-            Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
-    
-            countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
-        }
-    
-        float remainingRespawnTime = respawnDelay;
-    
-        while (remainingRespawnTime > 0f)
-        {
-            //Puesto como ? porque maybe puede petar por nulo
-            countdownDisplay?.ShowTime(remainingRespawnTime);
-    
-            yield return null;
-            remainingRespawnTime -= Time.deltaTime;
-        }
-    
-        //Puesto como ? porque maybe puede petar por nulo
         countdownDisplay?.Hide();
-    
-        Vector3 respawnPosition = deadPlayer.transform.position;
-    
-        if (deadCarZone is not null)
-        {
-            Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
-    
-            respawnPosition = respawnPoint?.position ?? deadCarZone.transform.position;
-        }
-    
+
         deadPlayer.transform.position = respawnPosition;
         deadPlayer.SetActive(true);
-    
-        //Por qué coge el component si ya tiene la referencia arriba
-        //deadCharacterController = deadPlayer.GetComponent<CharacterController>();
         deadCharacterController.enabled = true;
+        
+        print("endHealthStuff");
     
         deadPlayerHealth.ReviveToFullHealth();
         deadPlayerHealth.StartInvulnerability();
     
-        //Lo mismo que con el charcontroller
-        //deadPlayerMovement = deadPlayer.GetComponent<PlayerMovement>();
         deadPlayerMovement.currentState = PlayerState.Move;
+        
         levelCamera.ClearOverrideTarget();
-    }
-
-    public float GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public float GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    public bool IsDead()
-    {
-        return isDead;
     }
 }

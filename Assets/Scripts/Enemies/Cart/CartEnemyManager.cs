@@ -16,7 +16,7 @@ public class CartEnemyManager : GamemodeSubsystem
             {
                 continue;
             }
-    
+
             if (cart.ContainsPoint(worldPosition))
             {
                 return cart;

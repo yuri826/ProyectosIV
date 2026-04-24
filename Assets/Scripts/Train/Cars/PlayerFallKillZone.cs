@@ -13,6 +13,6 @@ public class PlayerFallKillZone : MonoBehaviour
             return;
         }
 
-        playerHealth.ForceDie(sourceCarZone);
+        playerHealth.ForceDie();
     }
 }

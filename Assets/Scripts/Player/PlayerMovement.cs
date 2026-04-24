@@ -267,6 +267,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Interaction()
     {
+        GetComponent<PlayerHealthManager>().ForceDie();
+        
         if (currentState != PlayerState.Move) return;
         
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
