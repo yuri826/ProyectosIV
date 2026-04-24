@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class LevelEventSubsystem
 {
-    [SerializeField] private LevelEvent[] levelEvents;
+    [SerializeField] private LevelEventInfo[] levelEvents;
     
     public void UpdateEventTimeline(int currentLevelTime)
     {
@@ -12,7 +12,7 @@ public class LevelEventSubsystem
         {
             if (levelEvents[i].execTime == currentLevelTime)
             {
-                levelEvents[i].ExecuteEvent();
+                levelEvents[i].levelEvent.ExecuteEvent();
             }
         }
     }

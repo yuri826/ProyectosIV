@@ -16,7 +16,7 @@ public class CollapseRock : MonoBehaviour
 
     [Header("Warning")]
     [SerializeField] private float warningDuration = 1f;
-    [SerializeField] private GameObject warningShadowPrefab;
+    [SerializeField] private CollapseRockWarning warningShadow;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight = 6f;
@@ -26,10 +26,11 @@ public class CollapseRock : MonoBehaviour
     [Header("Impact")]
     [SerializeField] private float crushRadius = 1f;
     [SerializeField] private GameObject impactVfxPrefab;
+    [SerializeField] private ParticleSystem impactParts;
     
     [Header("Colliders")]
     [SerializeField] private Collider solidCollider;
-
+    
     private CollapseRockSpawnPoint currentSpawnPoint;
     private CollapseSystem collapseSystem;
 
@@ -61,14 +62,14 @@ public class CollapseRock : MonoBehaviour
         Vector3 landingPosition = currentSpawnPoint.transform.position;
         Vector3 startPosition = landingPosition + Vector3.up * fallHeight;
 
-        GameObject warningShadow = Instantiate(
-            warningShadowPrefab,
-            landingPosition + Vector3.up * 0.1f,
-            Quaternion.identity
-        );
-
-        CollapseRockWarning warning = warningShadow.GetComponent<CollapseRockWarning>();
-        warning.StartWarning(warningDuration);
+        //Si va a estar con el objeto desde el principio no se mete instantiate, mejor que venga ya con el objeto
+        //Y se inicialize con él, haciendo ya luego lo que sea
+        
+        //Aqui en vez de referenciar un objeto y hacer getcomponent, si el objeto luego no se usa para nada hacer
+        //referencia directa al componente
+        //CollapseRockWarning warning = warningShadow.GetComponent<CollapseRockWarning>();
+        
+        warningShadow.StartWarning(warningDuration);
 
         yield return new WaitForSeconds(warningDuration);
 
@@ -95,6 +96,7 @@ public class CollapseRock : MonoBehaviour
 
     private void OnRockLanded()
     {
+        impactParts.Play();
         StartCoroutine(LandedRoutine());
     }
 
@@ -103,7 +105,10 @@ public class CollapseRock : MonoBehaviour
         hasLanded = true;
 
         KillObjectsInImpact();
-        SpawnImpactVfx();
+        
+        //No instanciar cosas en general mientras se pueda
+        //Aquí mejor que las partículas ya nazcan con el objeto, luego se les da al play cuando se necesiten
+        //SpawnImpactVfx();
 
         yield return null;
 

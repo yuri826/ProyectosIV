@@ -4866,7 +4866,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 15
+      scalar: 35
       minScalar: 12
       maxCurve:
         serializedVersion: 2
@@ -6005,8 +6005,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.5566038, g: 0.40563813, b: 0.375445, a: 0.78431374}
-        key1: {r: 0.5254902, g: 0.3803922, b: 0.35686275, a: 0.5882353}
+        key0: {r: 0.645283, g: 0.35315877, b: 0.3007262, a: 0.5921569}
+        key1: {r: 0.5254902, g: 0.3803922, b: 0.35686275, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6021,7 +6021,7 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 540
         atime1: 65535
         atime2: 0
         atime3: 0
@@ -7382,11 +7382,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.36
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -27423,7 +27423,8 @@ MonoBehaviour:
     trainCarZones: []
   levelEventSubsystem:
     levelEvents:
-    - {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
+    - <execTime>k__BackingField: 1
+      <levelEvent>k__BackingField: {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
   trainSpawnDirector:
     trainCarZones:
     - {fileID: 2094568515}
@@ -31759,7 +31760,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.5754717, g: 0.37179774, b: 0.3230242, a: 0.78431374}
+        key0: {r: 0.7584905, g: 0.58360213, b: 0.18175146, a: 1}
         key1: {r: 0.5764706, g: 0.37254903, b: 0.32156864, a: 0.5882353}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -33136,7 +33137,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0

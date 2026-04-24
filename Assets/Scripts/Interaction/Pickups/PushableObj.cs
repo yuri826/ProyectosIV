@@ -5,6 +5,9 @@ public class PushableObj : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private Rigidbody rb;
+    
+    [Header("MoveParts")]
+    [SerializeField] private ParticleSystem dragParts;
 
     private PlayerMovement currentPlayer;
     private bool isBeingMoved = false;
@@ -16,6 +19,7 @@ public class PushableObj : MonoBehaviour
 
     public void StartMoving(PlayerMovement player)
     {
+        dragParts.Play();
         currentPlayer = player;
         isBeingMoved = true;
     }
@@ -27,6 +31,7 @@ public class PushableObj : MonoBehaviour
             return;
         }
 
+        dragParts.Stop();
         currentPlayer = null;
         isBeingMoved = false;
     }
