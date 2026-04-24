@@ -110,7 +110,8 @@ public class CollapseRock : MonoBehaviour
         //Aquí mejor que las partículas ya nazcan con el objeto, luego se les da al play cuando se necesiten
         //SpawnImpactVfx();
 
-        yield return null;
+        yield return null; //<- para qué? En principio como void valdría, no hace falta esperar un frame para ejecutar lo otro
+        //Aunque no sé si daba error o algo xd entonces guay
 
         solidCollider.enabled = true;
         pushTrigger.enabled = true;
@@ -126,49 +127,33 @@ public class CollapseRock : MonoBehaviour
     private void KillObjectsInImpact()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, crushRadius);
-
         TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);
 
-        for (int i = 0; i < hitColliders.Length; i++)
+        foreach (var t in hitColliders)
         {
-            PlayerHealthManager playerHealth = hitColliders[i].GetComponentInParent<PlayerHealthManager>();
+            print("col");
+            
+            var playerHealth = t.GetComponentInParent<PlayerHealthManager>();
 
-            if (playerHealth != null)
+            // ?. > is not null > !=  <- En general
+            
+            if (playerHealth is not null)
             {
-                playerHealth.KillFromCarZone(currentCarZone);
+                print("player");
+                playerHealth.ForceDie(currentCarZone);
                 continue;
             }
 
-            OutlawHealth outlawHealth = hitColliders[i].GetComponentInParent<OutlawHealth>();
-
-            if (outlawHealth != null)
-            {
-                outlawHealth.TakeDamage(999f);
-            }
+            var outlawHealth = t.GetComponentInParent<OutlawHealth>();
+            outlawHealth?.TakeDamage(999f);
+            print($"outlaw: {outlawHealth}");
         }
-    }
-
-    private void SpawnImpactVfx()
-    {
-        if (impactVfxPrefab == null)
-        {
-            return;
-        }
-
-        Instantiate(impactVfxPrefab, transform.position, Quaternion.identity);
     }
 
     public void RemoveRock()
     {
-        if (!hasLanded)
-        {
-            return;
-        }
-
-        if (hasReturnedTrainLife)
-        {
-            return;
-        }
+        //Para mí estas líneas quedan bastante más limpias sin los corchetes, comprime más el código
+        if (!hasLanded || hasReturnedTrainLife) return;
 
         hasReturnedTrainLife = true;
 

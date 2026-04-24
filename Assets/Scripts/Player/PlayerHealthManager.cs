@@ -57,7 +57,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0f)
         {
-            Die();
+            //Die();
+            ForceDie(null);
             return;
         }
 
@@ -69,15 +70,31 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         damageCooldownRoutine = StartCoroutine(DamageCooldownRoutine());
     }
 
-    public void KillFromCarZone(TrainCarZone sourceCarZone)
-    {
-        if (isDead)
-        {
-            return;
-        }
-
-        ForceDie(sourceCarZone);
-    }
+    //Este método sobrea porque hace lo mismo que el otro:
+    
+    // private void A()
+    // {
+    // Por qué llamar a B() y no a C() directamente???
+    //     B();
+    // }
+    //
+    // private void B()
+    // {
+    //     C();
+    // }
+    //
+    // private void C(){}
+    
+    // public void KillFromCarZone(TrainCarZone sourceCarZone)
+    // {
+    //     //Esta comprobación sobra porque está en forceDie
+    //     if (isDead)
+    //     {
+    //         return;
+    //     }
+    //
+    //     ForceDie(sourceCarZone);
+    // }
 
     private IEnumerator DamageCooldownRoutine()
     {
@@ -107,7 +124,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         invulnerabilityRoutine = null;
     }
 
-    private void ForceDie(TrainCarZone forcedCarZone)
+    public void ForceDie(TrainCarZone forcedCarZone)
     {
         if (isDead)
         {
@@ -132,6 +149,10 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         TrainCarZone deadCarZone = forcedCarZone ?? TrainGameMode.instance.GetCartManager().
             FindCarZoneForPosition(gameObject.transform.position);
     
+        
+        /*EL player debería siempre de tener su deadCarZone porque le pertenece a él, y puede morir en cualquier momento
+        Y de muchas maneras, osea que añadir en cada  cacharro que te mate GetDeadZone() y luego meterlo al player es
+        chungo de escalar*/
         if (deadCarZone is not null)
         {
             Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
@@ -145,10 +166,11 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             playerMovement.GetComponent<CharacterController>(), deadCarZone));
     }
 
-    private void Die()
-    {
-        ForceDie(null);
-    }
+    //Lo mismo que con killtraincarZone, lo único que el parámetro se pone null y punto
+    // private void Die()
+    // {
+    //     ForceDie(null);
+    // }
 
     public void ReviveToFullHealth()
     {
