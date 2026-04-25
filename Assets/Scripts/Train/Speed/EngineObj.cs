@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class EngineObj : DepositObj
@@ -7,26 +8,16 @@ public class EngineObj : DepositObj
 
     protected override void Start()
     {
-        //
+        //No hacer nada
     }
 
     public override void OnObject(PickableObj pickableObj, out bool isCorrectObject)
     {
         isCorrectObject = false;
 
-        for (var i = 0; i < objectTypeList.Length; i++)
-        {
-            if (pickableObj.type != objectTypeList[i]) continue;
-    
-            isCorrectObject = true;
-            
-            Completed();
-            return;
-        }
-    }
-
-    protected override void Completed()
-    {
+        if (objectTypeList.All(t => pickableObj.type != t)) return;
+        
+        isCorrectObject = true;
         TrainGameMode.instance.GetSpeedManager().AddSpeed(speedAdding);
     }
 }

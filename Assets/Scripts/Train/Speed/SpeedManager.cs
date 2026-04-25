@@ -71,10 +71,7 @@ public class SpeedManager : GamemodeSubsystem
 
     public void StartStartup()
     {
-        if (startupTriggered)
-        {
-            return;
-        }
+        if (startupTriggered) return;
 
         startupTriggered = true;
         isStartingUp = true;
@@ -84,10 +81,7 @@ public class SpeedManager : GamemodeSubsystem
 
     private void UpdateStartup()
     {
-        if (!isStartingUp)
-        {
-            return;
-        }
+        if (!isStartingUp) return;
 
         startupTimer += Time.deltaTime;
 
@@ -105,15 +99,7 @@ public class SpeedManager : GamemodeSubsystem
 
     private void UpdateDecaySmooth()
     {
-        if (!startupTriggered || isStartingUp)
-        {
-            return;
-        }
-
-        if (speedDecayInterval <= 0f)
-        {
-            return;
-        }
+        if ((!startupTriggered || isStartingUp) || (speedDecayInterval <= 0f)) return;
 
         float decayPerSecond = speedDecayAmount / speedDecayInterval;
         currentSpeed -= decayPerSecond * Time.deltaTime;
@@ -121,13 +107,7 @@ public class SpeedManager : GamemodeSubsystem
 
     private void ApplyRuntimeClamp()
     {
-        if (!startupTriggered)
-        {
-            currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
-            return;
-        }
-
-        if (isStartingUp)
+        if (!startupTriggered || isStartingUp)
         {
             currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
             return;
@@ -167,7 +147,7 @@ public class SpeedManager : GamemodeSubsystem
             currentSpeedState = SpeedState.Low;
             return;
         }
-
+        
         if (currentSpeed < highSpeedThreshold)
         {
             currentSpeedState = SpeedState.Middle;
@@ -190,21 +170,6 @@ public class SpeedManager : GamemodeSubsystem
         ApplyRuntimeClamp();
         UpdateSpeedState();
         UpdateHUD();
-    }
-
-    public float GetCurrentSpeed()
-    {
-        return currentSpeed;
-    }
-
-    public SpeedState GetCurrentSpeedState()
-    {
-        return currentSpeedState;
-    }
-
-    public bool IsStartingUp()
-    {
-        return isStartingUp;
     }
     
     public void ApplyBrakeMultiplier(float brakeMultiplier)

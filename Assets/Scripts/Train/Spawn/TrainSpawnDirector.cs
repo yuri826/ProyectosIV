@@ -93,7 +93,7 @@ public class TrainSpawnDirector : GamemodeSubsystem
     {
         int modifier = 0;
         
-        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
+        switch (TrainGameMode.instance.GetSpeedManager().CurrentSpeedState)
         {
             case SpeedState.Low:
                 modifier = lowSpeedOutlawExtra;
@@ -113,7 +113,7 @@ public class TrainSpawnDirector : GamemodeSubsystem
     
     public int GetOutlawModifierForCurrentSpeed()
     {
-        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
+        switch (TrainGameMode.instance.GetSpeedManager().CurrentSpeedState)
         {
             case SpeedState.Low:
                 return lowSpeedOutlawExtra;

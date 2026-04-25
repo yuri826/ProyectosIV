@@ -30,7 +30,7 @@ public class ObjectEnvironmentScroll : MonoBehaviour
     private void Update()
     {
         //Cambia la velocidad de scroll según la velocidad del tren
-        currentSpeed = TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState() switch
+        currentSpeed = TrainGameMode.instance.GetSpeedManager().CurrentSpeedState switch
         {
             SpeedState.High => Mathf.Lerp(currentSpeed, highSpeed, Time.deltaTime * moveLerpQ),
             SpeedState.Low => Mathf.Lerp(currentSpeed, lowSpeed, Time.deltaTime * moveLerpQ),
