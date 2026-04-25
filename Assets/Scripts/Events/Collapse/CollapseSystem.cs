@@ -162,7 +162,7 @@ public class CollapseSystem : MonoBehaviour
 
         for (int i = 0; i < allSpawnPoints.Count; i++)
         {
-            if (!allSpawnPoints[i].IsOccupied())
+            if (!allSpawnPoints[i].isOccupied)
             {
                 freePoints.Add(allSpawnPoints[i]);
             }

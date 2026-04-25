@@ -41,12 +41,9 @@ public class SandstormTrainCarSway : MonoBehaviour
 
     private void Update()
     {
-        if (visualRoot == null)
-        {
-            return;
-        }
+        if (visualRoot is null) return;
 
-        bool sandstormActive = SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive();
+        bool sandstormActive = SandstormSystem.Instance is not null && SandstormSystem.Instance.isActiveAndEnabled;
 
         if (sandstormActive)
         {

@@ -2474,7 +2474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887365801792c6c4ea901d3e45e8f1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
-  lookAt: {fileID: 439867392}
+  <lookAt>k__BackingField: {fileID: 0}
   followSmoothSpeed: 8
   shakeSpeed: 18
   impactShakeFadeSpeed: 4
@@ -27969,10 +27969,9 @@ MonoBehaviour:
     healthBar: {fileID: 650211626}
     transitionAnim: {fileID: 349088767}
   levelFlow:
-    levelDuration: 180
+    <levelDuration>k__BackingField: 0
   trainLife:
     <maxTrainLife>k__BackingField: 100
-    <currentTrainLife>k__BackingField: 100
   playerSystem:
     players:
     - {fileID: 8055160176714418453}
@@ -36863,7 +36862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887365801792c6c4ea901d3e45e8f1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
-  lookAt: {fileID: 439867392}
+  <lookAt>k__BackingField: {fileID: 0}
   followSmoothSpeed: 8
   shakeSpeed: 18
   impactShakeFadeSpeed: 4
@@ -37158,7 +37157,6 @@ MonoBehaviour:
   damageCooldown: 1
   respawnDelay: 5
   levelCamera: {fileID: 2144853973}
-  respawnCameraSmoothSpeed: 1
 --- !u!114 &8055160176714418460 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2683689625699479580, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}

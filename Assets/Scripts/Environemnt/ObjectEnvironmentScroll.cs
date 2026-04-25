@@ -5,8 +5,6 @@ using UnityEngine;
 public class ObjectEnvironmentScroll : MonoBehaviour
 {
     private List<EnvironmentObject> levelObjects = new List<EnvironmentObject>();
-    private float minSpawnDelay = 0.2f;
-    private float maxSpawnDelay = 2f;
 
     [Header("Movement")] 
     [SerializeField] private float moveLerpQ;

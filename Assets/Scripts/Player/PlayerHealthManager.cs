@@ -22,7 +22,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     
     [Header("Camera")]
     [SerializeField] private LevelCamera levelCamera;
-    [SerializeField] private float respawnCameraSmoothSpeed = 1f;
 
     private float currentHealth;
     private bool isDead = false;

@@ -33,31 +33,29 @@ public class SandstormSystem : MonoBehaviour
 
     private void Update()
     {
-        if (!isSandstormActive)
-        {
-            return;
-        }
-        currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
-        
-        remainingDuration -= Time.deltaTime;
+        //if (!isSandstormActive) return; //Retornar de un update chungo porque sale y no vuelve a entrar
 
-        if (remainingDuration <= 0f)
+        if (isSandstormActive)
         {
-            StopSandstorm();
+            currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
+            remainingDuration -= Time.deltaTime;
+
+            if (remainingDuration <= 0f) StopSandstorm();
         }
     }
-
-    public void StartSandstorm(float duration)
-    {
-        remainingDuration = duration;
-        isSandstormActive = true;
-
-        currentWindDirection = GetRandomWindDirection();
-        currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
-
-        ApplySandstormToOutlaws(true);
-        UpdateVisuals(true);
-    }
+    
+    //Inutilizado
+    // public void StartSandstorm(float duration)
+    // {
+    //     remainingDuration = duration;
+    //     isSandstormActive = true;
+    //
+    //     currentWindDirection = GetRandomWindDirection();
+    //     currentWindStrengthMultiplier = GetModifiedStormStrengthMultiplier();
+    //
+    //     ApplySandstormToOutlaws(true);
+    //     UpdateVisuals(true);
+    // }
 
     public void StopSandstorm()
     {
@@ -68,31 +66,28 @@ public class SandstormSystem : MonoBehaviour
         ApplySandstormToOutlaws(false);
         UpdateVisuals(false);
     }
-
-    public bool IsSandstormActive()
-    {
-        return isSandstormActive;
-    }
-
-    public Vector3 GetWindDirection()
-    {
-        return currentWindDirection.normalized;
-    }
-
-    public float GetWindStrengthMultiplier()
-    {
-        return currentWindStrengthMultiplier;
-    }
+    
+    //Inutilizado
+    // public Vector3 GetWindDirection()
+    // {
+    //     return currentWindDirection.normalized;
+    // }
+    //
+    // public float GetWindStrengthMultiplier()
+    // {
+    //     return currentWindStrengthMultiplier;
+    // }
 
     public Vector3 GetWindDisplacement(float baseSpeed)
     {
         return currentWindDirection.normalized * (baseSpeed * currentWindStrengthMultiplier);
     }
 
-    public float GetRemainingDuration()
-    {
-        return remainingDuration;
-    }
+    //Inutilizado
+    // public float GetRemainingDuration()
+    // {
+    //     return remainingDuration;
+    // }
 
     private float GetModifiedStormStrengthMultiplier()
     {
@@ -116,35 +111,31 @@ public class SandstormSystem : MonoBehaviour
         return baseWindStrengthMultiplier * speedModifier;
     }
     
-    public float GetStormModifierForCurrentSpeed()
-    {
-        switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
-        {
-            case SpeedState.Low:
-                return lowSpeedStormMultiplier;
-
-            case SpeedState.Middle:
-                return middleSpeedStormMultiplier;
-
-            case SpeedState.High:
-                return highSpeedStormMultiplier;
-        }
-
-        return 1f;
-    }
+    //Inutilizado
+    // public float GetStormModifierForCurrentSpeed()
+    // {
+    //     switch (TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState())
+    //     {
+    //         case SpeedState.Low:
+    //             return lowSpeedStormMultiplier;
+    //
+    //         case SpeedState.Middle:
+    //             return middleSpeedStormMultiplier;
+    //
+    //         case SpeedState.High:
+    //             return highSpeedStormMultiplier;
+    //     }
+    //
+    //     return 1f;
+    // }
 
     private void ApplySandstormToOutlaws(bool sandstormActive)
     {
         RefreshOutlawList();
 
-        for (int i = 0; i < outlawsInScene.Length; i++)
+        foreach (var outlaw in outlawsInScene)
         {
-            if (outlawsInScene[i] == null)
-            {
-                continue;
-            }
-
-            outlawsInScene[i].SetSandstormState(sandstormActive);
+            outlaw?.SetSandstormState(sandstormActive);
         }
     }
 
@@ -155,43 +146,33 @@ public class SandstormSystem : MonoBehaviour
 
     private void UpdateVisuals(bool sandstormActive)
     {
-        if (sandstormVfxController != null)
-        {
-            if (sandstormActive)
-            {
-                sandstormVfxController.PlayVfx(currentWindDirection);
-            }
-            else
-            {
-                sandstormVfxController.StopVfx();
-            }
-        }
+        if (sandstormActive)
+            sandstormVfxController?.PlayVfx(currentWindDirection);
+        else
+            sandstormVfxController?.StopVfx();
 
 
         if (sandstormActive)
-        {
-            sandstormAudioSource.Play();
-        }
+            sandstormAudioSource?.Play();
         else
-        {
-            sandstormAudioSource.Stop();
-        }
+            sandstormAudioSource?.Stop();
     }
-
-    private Vector3 GetRandomWindDirection()
-    {
-        Vector3[] possibleDirections =
-        {
-            Vector3.forward,
-            Vector3.back,
-            Vector3.left,
-            Vector3.right,
-            (Vector3.forward + Vector3.right).normalized,
-            (Vector3.forward + Vector3.left).normalized,
-            (Vector3.back + Vector3.right).normalized,
-            (Vector3.back + Vector3.left).normalized
-        };
-
-        return possibleDirections[Random.Range(0, possibleDirections.Length)];
-    }
+    
+    //Inutilizado
+    // private Vector3 GetRandomWindDirection()
+    // {
+    //     Vector3[] possibleDirections =
+    //     {
+    //         Vector3.forward,
+    //         Vector3.back,
+    //         Vector3.left,
+    //         Vector3.right,
+    //         (Vector3.forward + Vector3.right).normalized,
+    //         (Vector3.forward + Vector3.left).normalized,
+    //         (Vector3.back + Vector3.right).normalized,
+    //         (Vector3.back + Vector3.left).normalized
+    //     };
+    //
+    //     return possibleDirections[Random.Range(0, possibleDirections.Length)];
+    // }
 }

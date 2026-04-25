@@ -13,9 +13,6 @@ public class LevelCamera : MonoBehaviour
     private Vector3 lookOffset;
     private Vector3 currentBasePosition;
 
-    private bool useOverrideTarget = false;
-    private float currentSmoothSpeed;
-
     private float collapseShakeAmount = 0f;
     private float currentImpactShake = 0f;
 
@@ -25,7 +22,6 @@ public class LevelCamera : MonoBehaviour
     private void Start()
     {
         lookOffset = transform.position - lookAt.position;
-        currentSmoothSpeed = followSmoothSpeed;
 
         noiseSeedX = Random.Range(0f, 100f);
         noiseSeedY = Random.Range(100f, 200f);
@@ -40,7 +36,7 @@ public class LevelCamera : MonoBehaviour
         currentBasePosition = Vector3.Lerp(
             currentBasePosition,
             targetPosition,
-            Time.deltaTime * currentSmoothSpeed
+            Time.deltaTime * followSmoothSpeed
         );
 
         transform.position = currentBasePosition + GetShakeOffset();

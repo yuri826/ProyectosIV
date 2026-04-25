@@ -55,7 +55,7 @@ public class OutlawSystem : MonoBehaviour
     private void Start()
     {
         if (currentCarZone == null) currentCarZone = GetComponentInParent<TrainCarZone>();
-        if (SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive()) SetSandstormState(true);
+        if (SandstormSystem.Instance != null && SandstormSystem.Instance.isActiveAndEnabled) SetSandstormState(true);
     }
 
     private void Update()

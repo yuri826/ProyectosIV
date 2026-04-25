@@ -50,16 +50,16 @@ public class SandstormMovingObject : MonoBehaviour
     {
         currentFrameMovement = Vector3.zero;
 
-        if (pointA == null || pointB == null)
+        if (pointA is null || pointB is null)
         {
             return;
         }
 
-        bool sandstormActive = SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive();
+        bool sandstormActive = SandstormSystem.Instance is not null && SandstormSystem.Instance.isActiveAndEnabled;
 
         // Solo queremos terminar el trayecto actual si la tormenta acaba
         // mientras el objeto estaba ya en movimiento.
-        if (!sandstormActive && wasSandstormActiveLastFrame && !isWaiting && currentTargetPoint != null)
+        if (!sandstormActive && wasSandstormActiveLastFrame && !isWaiting && currentTargetPoint is not null)
         {
             finishCurrentPathAfterStorm = true;
         }
@@ -185,22 +185,12 @@ public class SandstormMovingObject : MonoBehaviour
 
     private void SwapTargetPoint()
     {
-        if (currentTargetPoint == pointA)
-        {
-            currentTargetPoint = pointB;
-        }
-        else
-        {
-            currentTargetPoint = pointA;
-        }
+        currentTargetPoint = currentTargetPoint == pointA ? pointB : pointA;
     }
 
     private void UpdateVisualRotation(bool shouldRotate)
     {
-        if (!useVisualRotation || visualToRotate == null)
-        {
-            return;
-        }
+        if (!useVisualRotation || visualToRotate is null) return;
 
         if (shouldRotate)
         {
@@ -242,16 +232,15 @@ public class SandstormMovingObject : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (pointA != null && pointB != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(pointA.position, pointB.position);
+        if (pointA == null || pointB == null) return;
+        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(pointA.position, pointB.position);
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(pointA.position, 0.1f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(pointA.position, 0.1f);
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(pointB.position, 0.1f);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(pointB.position, 0.1f);
     }
 }

@@ -11,54 +11,35 @@ public class SandstormVfxController : MonoBehaviour
 
     private void Awake()
     {
-        if (visualRoot == null)
-        {
-            visualRoot = transform;
-        }
+        visualRoot ??= transform;
     }
 
     public void PlayVfx(Vector3 windDirection)
     {
         SetDirection(windDirection);
 
-        for (int i = 0; i < particleSystems.Length; i++)
+        foreach (var part in particleSystems)
         {
-            if (particleSystems[i] == null)
-            {
-                continue;
-            }
-
-            particleSystems[i].Play();
+            part?.Play();
         }
     }
 
     public void StopVfx()
     {
-        for (int i = 0; i < particleSystems.Length; i++)
+        foreach (var part in particleSystems)
         {
-            if (particleSystems[i] == null)
-            {
-                continue;
-            }
-
-            particleSystems[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            part?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
 
-    public void SetDirection(Vector3 windDirection)
+    private void SetDirection(Vector3 windDirection)
     {
-        if (visualRoot == null)
-        {
-            return;
-        }
+        if (visualRoot is null) return;
 
         Vector3 flatDirection = windDirection;
         flatDirection.y = 0f;
 
-        if (flatDirection == Vector3.zero)
-        {
-            return;
-        }
+        if (flatDirection == Vector3.zero) return;
 
         visualRoot.rotation = Quaternion.LookRotation(flatDirection.normalized, Vector3.up);
     }

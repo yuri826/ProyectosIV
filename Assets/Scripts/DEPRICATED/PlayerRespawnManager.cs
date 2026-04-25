@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class PlayerRespawnManager : MonoBehaviour
 {
-    [Header("Respawn")]
-    [SerializeField] private float respawnDelay = 5f;
+    //DEPRECATED
     
-    [Header("Camera")]
-    [SerializeField] private LevelCamera levelCamera;
-    [SerializeField] private float respawnCameraSmoothSpeed = 1f;
-    
-    private Coroutine respawnRoutine;
+    // [Header("Respawn")]
+    // [SerializeField] private float respawnDelay = 5f;
+    //
+    // [Header("Camera")]
+    // [SerializeField] private LevelCamera levelCamera;
+    //
+    // private Coroutine respawnRoutine;
     
     // public void HandleDeath(PlayerHealthManager deadPlayerHealth, PlayerMovement deadPlayerMovement, 
     //     CharacterController deadCharacterController, TrainCarZone forcedCarZone = null)

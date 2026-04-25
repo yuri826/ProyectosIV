@@ -42,7 +42,7 @@ public class CollapseRock : MonoBehaviour
         currentSpawnPoint = spawnPoint;
         collapseSystem = system;
 
-        currentSpawnPoint.SetOccupied(true);
+        currentSpawnPoint.isOccupied = true;
 
         transform.position = currentSpawnPoint.transform.position;
 
@@ -154,7 +154,7 @@ public class CollapseRock : MonoBehaviour
         hasReturnedTrainLife = true;
 
         TrainGameMode.instance.RepairTrain(damageToTrain);
-        currentSpawnPoint.SetOccupied(false);
+        currentSpawnPoint.isOccupied = false;
 
         Destroy(gameObject);
     }
