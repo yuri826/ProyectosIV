@@ -29,16 +29,19 @@ public class TrainGameMode : MonoBehaviour
 
     private void Start()
     {
+        //Los subsistemas toman referencia al gamemode
         uiUpdater.TrainGameMode = this;
         levelFlow.TrainGameMode = this;
         playerSystem.TrainGameMode = this;
         trainLife.TrainGameMode = this;
     
+        //Inicializa los subsistemas
         uiUpdater.OnStart();
         levelFlow.OnStart();
         playerSystem.OnStart();
         trainLife.OnStart();
 
+        //Suscribe todos los subsistemas necesarios a ganar y perder
         onWin += Win;
         onWin += uiUpdater.OnWin;
         onWin += levelFlow.OnWin;
@@ -65,7 +68,8 @@ public class TrainGameMode : MonoBehaviour
         }
     }
 
-    //GameState
+    #region GameState
+    
     public void StartGameplay()
     {
         currentState = LevelFlowState.Gameplay;
@@ -86,12 +90,10 @@ public class TrainGameMode : MonoBehaviour
         Time.timeScale = 0;
     }
     
-    public int GetLevelDuration()
-    {
-        return levelFlow.GetLevelDuration();
-    }
+    #endregion
 
-    //UI
+    #region UI
+    
     public void UpdateProgressBar(int progress, int maxProgress)
     {
         uiUpdater.UpdateProgressBar(progress, maxProgress);
@@ -106,8 +108,11 @@ public class TrainGameMode : MonoBehaviour
     {
         uiUpdater.TransitionIn();
     }
+    
+    #endregion
 
-    //PlayerSystem
+    #region PlayerSystem
+    
     public void SetPlayerState(PlayerState state, int currentPlayer)
     {
         playerSystem.SetState(state, currentPlayer);
@@ -123,7 +128,9 @@ public class TrainGameMode : MonoBehaviour
         return playerSystem.GetPlayer(playerN);
     }
     
-    //Health
+    #endregion
+    
+    #region Health
     public void TakeDamage(float damage)
     {
         trainLife.TakeDamage(damage);
@@ -136,39 +143,54 @@ public class TrainGameMode : MonoBehaviour
     
     public float GetCurrentTrainLife()
     {
-        return trainLife.GetCurrentTrainLife();
+        return trainLife.currentTrainLife;
     }
 
     public int GetMaxTrainLife()
     {
-        return trainLife.GetMaxTrainLife();
+        return trainLife.maxTrainLife;
     }
     
-    //CartManager
+    #endregion
+    
+    #region CartManager
+    
     public CartEnemyManager GetCartManager()
     {
         return cartManager;
     }
     
-    //Level event subsystem
+    #endregion
+    
+    #region Level event subsystem
+    
     public LevelEventSubsystem GetLevelEventSubsystem()
     {
         return levelEventSubsystem;
     }
     
-    //TrainSpawnDirector
+    #endregion
+    
+    #region TrainSpawnDirector
+    
     public TrainSpawnDirector GetTrainSpawnDirector()
     {
         return trainSpawnDirector;
     }
     
-    //SpeedManager
+    #endregion
+    
+    #region SpeedManager
+    
     public SpeedManager GetSpeedManager()
     {
         return speedManager;
     }
     
-    //Level
+    #endregion
+    
+    #region Level
+    
     public int GetLevelIndex()
     {
         return levelIndex;
@@ -179,5 +201,6 @@ public class TrainGameMode : MonoBehaviour
     
     public delegate void OnWin();
     public OnWin onWin;
-
+    
+    #endregion
 }

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class LevelProgressEventIconItem : MonoBehaviour
 {
+    //TO FIX
+    
     [Header("UI")]
     [SerializeField] private Image eventIconImage;
     [SerializeField] private TextMeshProUGUI baseValueText;
@@ -13,11 +15,10 @@ public class LevelProgressEventIconItem : MonoBehaviour
 
     public void Initialize(LevelEventData eventData)
     {
-        baseDuration = eventData.duration;
-
-
-        SetupBaseText();
-        UpdateModifierText();
+        // baseDuration = eventData.duration;
+        //
+        // SetupBaseText();
+        // UpdateModifierText();
     }
 
     private void Update()

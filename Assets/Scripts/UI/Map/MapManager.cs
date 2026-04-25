@@ -5,9 +5,11 @@ using UnityEngine.InputSystem;
 
 public class MapManager : MonoBehaviour
 {
+    //TO FIX
+    
     public static MapManager instance;
     
-    [SerializeField] private LevelManager levelManager;
+    private GameInstance gameInstance => GameInstance.instance;
     
     [Tooltip("RESPETAR ORDEN NUMERICO!")][SerializeField] private MapNode[] nodeList;
     [SerializeField] private GameObject mapCursor;
@@ -26,24 +28,24 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        //debería de ser currentLevel y luego animación hacia el next
-        currentNode = nodeList[levelManager.NewLevel];
-        
-        for (var i = 0; i < levelManager.CurrentLevel; i++)
-        {
-            nodeList[i].SetState(MapNodeState.Completed);
-        }
-        
-        nodeList[levelManager.NewLevel].SetState(MapNodeState.Unlocked);
-        
-        for (var i = levelManager.NewLevel+1; i < nodeList.Length; i++)
-        {
-            nodeList[i].SetState(MapNodeState.Locked);
-        }
-        
-        currentNode.ActivateNodeInfo();
-        mapCursor.transform.position = currentNode.CursorPos.position;
-        mapCamera.MoveToPos(currentNode.CameraPosition);
+        // //debería de ser currentLevel y luego animación hacia el next
+        // currentNode = nodeList[levelManager.NewLevel];
+        //
+        // for (var i = 0; i < levelManager.CurrentLevel; i++)
+        // {
+        //     nodeList[i].SetState(MapNodeState.Completed);
+        // }
+        //
+        // nodeList[levelManager.NewLevel].SetState(MapNodeState.Unlocked);
+        //
+        // for (var i = levelManager.NewLevel+1; i < nodeList.Length; i++)
+        // {
+        //     nodeList[i].SetState(MapNodeState.Locked);
+        // }
+        //
+        // currentNode.ActivateNodeInfo();
+        // mapCursor.transform.position = currentNode.CursorPos.position;
+        // mapCamera.MoveToPos(currentNode.CameraPosition);
     }
 
     private void OnEnable()
@@ -58,20 +60,20 @@ public class MapManager : MonoBehaviour
 
     private void MoveNode(int direction)
     {
-        currentNode.DeactivateNodeInfo();
-        
-        int oldCurrentNodeIndex = currentNodeIndex;
-        
-        currentNodeIndex += direction;
-        currentNodeIndex = Mathf.Clamp(currentNodeIndex,0,levelManager.NewLevel);
-        
-        currentNode = nodeList[currentNodeIndex];
-        
-        if (currentNodeIndex != oldCurrentNodeIndex)
-        {
-            currentNode.ActivateNodeInfo();
-            mapCursor.transform.position = currentNode.CursorPos.position;
-            mapCamera.MoveToPos(currentNode.CameraPosition);
-        }
+        // currentNode.DeactivateNodeInfo();
+        //
+        // int oldCurrentNodeIndex = currentNodeIndex;
+        //
+        // currentNodeIndex += direction;
+        // currentNodeIndex = Mathf.Clamp(currentNodeIndex,0,levelManager.NewLevel);
+        //
+        // currentNode = nodeList[currentNodeIndex];
+        //
+        // if (currentNodeIndex != oldCurrentNodeIndex)
+        // {
+        //     currentNode.ActivateNodeInfo();
+        //     mapCursor.transform.position = currentNode.CursorPos.position;
+        //     mapCamera.MoveToPos(currentNode.CameraPosition);
+        // }
     }
 }

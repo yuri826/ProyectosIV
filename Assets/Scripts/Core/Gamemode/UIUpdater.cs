@@ -29,6 +29,7 @@ public class UIUpdater : GamemodeSubsystem
         progressBar.fillAmount = 0f;
     }
 
+    //Aparece una cuenta atrás
     public IEnumerator IntroRoutine(float timeBetween)
     {
         yield return new WaitForSeconds(timeBetween);
@@ -45,7 +46,14 @@ public class UIUpdater : GamemodeSubsystem
 
         TrainGameMode.StartGameplay();
     }
+    
+    private void ShowIntroText(string textToShow)
+    {
+        introNumbers.text = textToShow;
+        numberAnim.SetTrigger("numberPop");
+    }
 
+    //Updatea el fill de las barras
     public void UpdateProgressBar(int progress, int maxProgress)
     {
         progressBar.fillAmount = (float)progress / maxProgress;
@@ -56,12 +64,7 @@ public class UIUpdater : GamemodeSubsystem
         healthBar.fillAmount = currentLife / maxLife;
     }
 
-    private void ShowIntroText(string textToShow)
-    {
-        introNumbers.text = textToShow;
-        numberAnim.SetTrigger("numberPop");
-    }
-
+    //Eventos de ganar, game over y transición
     public override void OnGameOver()
     {
         levelMenuManager.OpenDefeatMenu();

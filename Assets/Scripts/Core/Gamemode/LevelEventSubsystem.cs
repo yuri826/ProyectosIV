@@ -8,11 +8,12 @@ public class LevelEventSubsystem
     
     public void UpdateEventTimeline(int currentLevelTime)
     {
-        for (int i = 0; i < levelEvents.Length; i++)
+        //Mira que eventos son ejecutables en el tiempo
+        foreach (var t in levelEvents)
         {
-            if (levelEvents[i].execTime == currentLevelTime)
+            if (t.execTime == currentLevelTime)
             {
-                levelEvents[i].levelEvent.ExecuteEvent();
+                t.levelEvent.ExecuteEvent();
             }
         }
     }

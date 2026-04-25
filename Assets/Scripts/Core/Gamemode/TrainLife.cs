@@ -4,12 +4,10 @@ using UnityEngine;
 [Serializable]
 public class TrainLife : GamemodeSubsystem
 {
-    [field: SerializeField]
-    public int maxTrainLife { get; set; }
+    [field: SerializeField] public int maxTrainLife { get; set; }
+    public float currentTrainLife { get; private set; }
 
-    [field: SerializeField] private float currentTrainLife { get; set; }
-
-    private bool isDead = false;
+    public bool isDead { get; private set; } = false;
 
     public override void OnStart()
     {
@@ -20,24 +18,18 @@ public class TrainLife : GamemodeSubsystem
 
     public void TakeDamage(float amount)
     {
-        if (isDead)
-        {
-            return;
-        }
+        if (isDead) return;
 
         currentTrainLife -= amount;
         currentTrainLife = Mathf.Clamp(currentTrainLife, 0f, maxTrainLife);
 
         UpdateLifeBar();
 
+        //Si es menor a 0 muere y se lo dice al gamemode
         if (currentTrainLife <= 0f)
         {
             isDead = true;
-
-            if (TrainGameMode.onGameOver != null)
-            {
-                TrainGameMode.onGameOver();
-            }
+            if (TrainGameMode.onGameOver != null) TrainGameMode.onGameOver();
         }
     }
 
@@ -57,20 +49,5 @@ public class TrainLife : GamemodeSubsystem
     private void UpdateLifeBar()
     {
         TrainGameMode.UpdateLifeBar(currentTrainLife, maxTrainLife);
-    }
-
-    public float GetCurrentTrainLife()
-    {
-        return currentTrainLife;
-    }
-
-    public int GetMaxTrainLife()
-    {
-        return maxTrainLife;
-    }
-
-    public bool IsDead()
-    {
-        return isDead;
     }
 }

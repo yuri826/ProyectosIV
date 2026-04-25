@@ -64,10 +64,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
 
     public void StartInvulnerability()
     {
-        if (invulnerabilityRoutine != null)
-        {
-            StopCoroutine(invulnerabilityRoutine);
-        }
+        if (invulnerabilityRoutine != null) StopCoroutine(invulnerabilityRoutine);
 
         invulnerabilityRoutine = StartCoroutine(InvulnerabilityRoutine());
     }
@@ -79,7 +76,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(respawnInvulnerabilityTime);
 
         isInvulnerable = false;
-        invulnerabilityRoutine = null;
     }
 
     public void ForceDie()
@@ -107,7 +103,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         playerMovement.currentState = PlayerState.Locked;
         
         //Camara
-        levelCamera.SetOverrideTarget(respawnPoint, respawnCameraSmoothSpeed);
+        levelCamera.lookAt = respawnPoint;
     
         //Outlaws
         TrainGameMode.instance.GetTrainSpawnDirector().NotifyOutlawsInDeadCar(currentCarZone, playerMovement);
@@ -166,6 +162,6 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         
         playerMesh.SetActive(true);
         
-        levelCamera.ClearOverrideTarget();
+        levelCamera.lookAt = playerMovement.gameObject.transform;
     }
 }

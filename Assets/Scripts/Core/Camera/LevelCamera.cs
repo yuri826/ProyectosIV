@@ -3,7 +3,7 @@ using UnityEngine;
 public class LevelCamera : MonoBehaviour
 {
     [Header("Follow")]
-    [SerializeField] private Transform lookAt;
+    [field: SerializeField] public Transform lookAt {get; set;}
     [SerializeField] private float followSmoothSpeed = 8f;
 
     [Header("Shake")]
@@ -13,7 +13,6 @@ public class LevelCamera : MonoBehaviour
     private Vector3 lookOffset;
     private Vector3 currentBasePosition;
 
-    private Transform overrideTarget;
     private bool useOverrideTarget = false;
     private float currentSmoothSpeed;
 
@@ -36,9 +35,7 @@ public class LevelCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        Transform currentTarget = GetCurrentTarget();
-
-        Vector3 targetPosition = currentTarget.position + lookOffset;
+        Vector3 targetPosition = lookAt.position + lookOffset;
 
         currentBasePosition = Vector3.Lerp(
             currentBasePosition,
@@ -49,35 +46,6 @@ public class LevelCamera : MonoBehaviour
         transform.position = currentBasePosition + GetShakeOffset();
 
         currentImpactShake = Mathf.Lerp(currentImpactShake, 0f, Time.deltaTime * impactShakeFadeSpeed);
-    }
-
-    private Transform GetCurrentTarget()
-    {
-        if (useOverrideTarget)
-        {
-            return overrideTarget;
-        }
-
-        return lookAt;
-    }
-
-    public void SetOverrideTarget(Transform newTarget, float overrideSmoothSpeed)
-    {
-        overrideTarget = newTarget;
-        useOverrideTarget = true;
-        currentSmoothSpeed = overrideSmoothSpeed;
-    }
-
-    public void ClearOverrideTarget()
-    {
-        overrideTarget = null;
-        useOverrideTarget = false;
-        currentSmoothSpeed = followSmoothSpeed;
-    }
-
-    public Transform GetFollowTarget()
-    {
-        return lookAt;
     }
 
     public void SetCollapseShake(float amount)
