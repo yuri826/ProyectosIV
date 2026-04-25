@@ -206,4 +206,11 @@ public class SpeedManager : GamemodeSubsystem
     {
         return isStartingUp;
     }
+    
+    public void ApplyBrakeMultiplier(float brakeMultiplier)
+    {
+        float brakeDecay = speedDecayAmount * brakeMultiplier;
+        currentSpeed -= brakeDecay * Time.deltaTime;
+        currentSpeed = Mathf.Max(currentSpeed, 0f);
+    }
 }

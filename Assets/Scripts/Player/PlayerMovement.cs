@@ -49,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector3 interactionOffset;
     private DepositObj currentRepairDeposit;
     
+    private bool isHoldingInteract = false;
+    public bool IsHoldingInteract => isHoldingInteract;
+    
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -61,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed += UpdateMovementInput;
         playerInput.actions["Move"].canceled += UpdateMovementInput;
         playerInput.actions["Interact"].started += Interact;
+        playerInput.actions["Interact"].canceled += StopInteract;
         playerInput.actions["MoveObject"].started += StartMoveObject;
         playerInput.actions["MoveObject"].canceled += StopMoveObject;
         playerInput.actions["Act"].started += Act;
@@ -76,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.actions["Move"].performed -= UpdateMovementInput;
         playerInput.actions["Move"].canceled -= UpdateMovementInput;
         playerInput.actions["Interact"].started -= Interact;
+        playerInput.actions["Interact"].canceled -= StopInteract;
         playerInput.actions["MoveObject"].started -= StartMoveObject;
         playerInput.actions["MoveObject"].canceled -= StopMoveObject;
         playerInput.actions["Act"].started -= Act;
@@ -252,17 +257,24 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
+        isHoldingInteract = true;
+        
         if (currentState != PlayerState.Move)
         {
             return;
         }
 
-        if (playerWeapon != null && playerWeapon.IsReloading())
+        if (playerWeapon.IsReloading())
         {
             return;
         }
 
         StartCoroutine(InteractionWait());
+    }
+    
+    private void StopInteract(InputAction.CallbackContext obj)
+    {
+        isHoldingInteract = false;
     }
 
     private void Interaction()
@@ -364,6 +376,7 @@ public class PlayerMovement : MonoBehaviour
         
         EndOfInteraction: ; //print("end of interaction");
     }
+    
     
     private void StartMoveObject(InputAction.CallbackContext obj)
     {
@@ -535,6 +548,7 @@ public class PlayerMovement : MonoBehaviour
     public void DisablePlayer()
     {
         StopMovingPushable();
+        isHoldingInteract = false;
         currentState = PlayerState.Locked;
     }
     
