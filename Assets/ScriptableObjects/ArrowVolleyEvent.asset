@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ArrowVolleyEvent
   m_EditorClassIdentifier: Assembly-CSharp::ArrowVolleyEvent
   volleyCount: 3
-  timeBetweenVolleys: 1.5
+  timeBetweenVolleys: 3
   warningTime: 3
-  damage: 1
-  useRandomDirections: 1
-  fixedDirections: 
+  damage: 999
+  useRandomDirections: 0
+  fixedDirections: 00000000010000000200000003000000

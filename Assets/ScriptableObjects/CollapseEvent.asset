@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca1acc243588c7438cf150e437960c0, type: 3}
   m_Name: CollapseEvent
   m_EditorClassIdentifier: Assembly-CSharp::CollapseEvent
-  <execTime>k__BackingField: 5
-  duration: 10
+  duration: 5
   rockCount: 7

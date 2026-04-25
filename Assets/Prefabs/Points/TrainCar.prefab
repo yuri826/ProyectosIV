@@ -1389,11 +1389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
-  outlawSpawnPoints:
-  - {fileID: 5864858097779467730}
-  - {fileID: 9041521994549920593}
-  - {fileID: 8013593876676545168}
-  - {fileID: 3263060261857193654}
+  <outlawSpawnPoints>k__BackingField: []
   sabotagePoints:
   - {fileID: 1410768377195411482}
   - {fileID: 257902781653806332}
@@ -1409,14 +1405,10 @@ MonoBehaviour:
   - {fileID: 454853339057607964}
   - {fileID: 5919957351527289781}
   - {fileID: 7548441878355798003}
-  collapseSpawnPoints:
-  - {fileID: 1157732316870906842}
-  - {fileID: 3076370945137093502}
-  - {fileID: 6811798368132701390}
-  - {fileID: 6884444681094583330}
+  <collapseSpawnPoints>k__BackingField: []
   maxBrokenPoints: 5
   playersInsideCar: []
-  playerRespawnPoint: {fileID: 1674898121822785673}
+  <playerRespawnPoint>k__BackingField: {fileID: 1674898121822785673}
 --- !u!114 &6001883400579917222
 MonoBehaviour:
   m_ObjectHideFlags: 0
