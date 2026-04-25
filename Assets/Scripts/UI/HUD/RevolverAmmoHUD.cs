@@ -33,7 +33,7 @@ public class RevolverAmmoHUD : MonoBehaviour
         SetAmmoInstant(chamberAmmo);
     }
 
-    public void SetAmmoInstant(int chamberAmmo)
+    private void SetAmmoInstant(int chamberAmmo)
     {
         chamberAmmo = Mathf.Clamp(chamberAmmo, 0, chamberSprites.Length - 1);
         chamberImage.sprite = chamberSprites[chamberAmmo];

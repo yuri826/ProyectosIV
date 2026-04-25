@@ -15,9 +15,6 @@ public class RespawnCountdownDisplay : MonoBehaviour
 
     public void ShowTime(float remainingTime)
     {
-            print("wiwiwi");
-        
-            
         int secondsToShow = Mathf.CeilToInt(remainingTime);
         countdownText.text = secondsToShow.ToString();
         countdownText.gameObject.SetActive(true);
