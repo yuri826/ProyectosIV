@@ -117,3 +117,11 @@ public enum RenegadeTargetState
     Reserved,
     Broken
 }
+
+public enum ArrowVolleyDirection
+{
+    TopToBottom,
+    BottomToTop,
+    LeftToRight,
+    RightToLeft
+}
