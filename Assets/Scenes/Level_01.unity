@@ -3784,6 +3784,11 @@ MonoBehaviour:
   reloadTimePerBullet: 0.5
   beltAmmoText: {fileID: 1031725887}
   revolverAmmoHUD: {fileID: 1097428492}
+--- !u!1 &464277595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7355165125935928379, guid: fac2a833ce71fdc4eaa34c82582e6d91, type: 3}
+  m_PrefabInstance: {fileID: 1467596878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &469651153
 GameObject:
   m_ObjectHideFlags: 0
@@ -36404,6 +36409,7 @@ MonoBehaviour:
   playerMovement: {fileID: 8055160176714418453}
   playerWeapon: {fileID: 439867393}
   respawnInvulnerabilityTime: 3
+  playerMesh: {fileID: 464277595}
   maxHealth: 3
   damageCooldown: 1
   respawnDelay: 5

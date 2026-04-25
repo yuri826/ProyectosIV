@@ -11,6 +11,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     //[SerializeField] private PlayerRespawnManager playerRespawnManager;
     [SerializeField] private float respawnInvulnerabilityTime = 1.5f;
 
+    [SerializeField] private GameObject playerMesh;
+
     [Header("Health")]
     [SerializeField] private float maxHealth = 3f;
     [SerializeField] private float damageCooldown = 1f;
@@ -135,21 +137,19 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     
         deadPlayerMovement.currentState = PlayerState.Locked;
         deadCharacterController.enabled = false;
-        deadPlayer.SetActive(false);
         
+        playerMesh.SetActive(false);
         print("AWAWAWAW");
     
         Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
         RespawnCountdownDisplay countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
         Vector3 respawnPosition = deadCarZone.transform.position;
 
-        // for (int i = respawnDelay; i > 0; i--)
-        // {
-        //     countdownDisplay?.ShowTime(i);
-        print("ANTESDELYIELD abrochense");
-             yield return null;
-             print("endHealthStuff");
-        // }
+         for (int i = respawnDelay; i > 0; i--)
+         {
+             countdownDisplay?.ShowTime(i);
+             yield return new WaitForSeconds(1);
+         }
     
         countdownDisplay?.Hide();
 
@@ -163,6 +163,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         deadPlayerHealth.StartInvulnerability();
     
         deadPlayerMovement.currentState = PlayerState.Move;
+        
+        playerMesh.SetActive(true);
         
         levelCamera.ClearOverrideTarget();
     }
