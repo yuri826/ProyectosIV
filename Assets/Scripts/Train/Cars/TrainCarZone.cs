@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class TrainCarZone : MonoBehaviour
 {
     [Header("Enemy Spawn Points")]
-    [SerializeField] private Transform[] outlawSpawnPoints;
+    [field: SerializeField] public Transform[] outlawSpawnPoints { get; private set; }
 
     [Header("Sabotage Points")] [SerializeField]
     private SabotagePoint[] sabotagePoints;
@@ -17,7 +18,7 @@ public class TrainCarZone : MonoBehaviour
     [SerializeField] private Transform[] safePoints;
     
     [Header("Collapse Spawn Points")]
-    [SerializeField] private CollapseRockSpawnPoint[] collapseSpawnPoints;
+    [field: SerializeField] public CollapseRockSpawnPoint[] collapseSpawnPoints { get; private set; }
 
     [Header("Broken Points Limit")]
     [SerializeField] private int maxBrokenPoints = 5;
@@ -26,7 +27,7 @@ public class TrainCarZone : MonoBehaviour
     [SerializeField] private List<PlayerMovement> playersInsideCar = new List<PlayerMovement>();
 
     [Header("Player Respawn")]
-    [SerializeField] private Transform playerRespawnPoint;
+    [field: SerializeField] public Transform playerRespawnPoint { get; private set; }
     
 
     private Collider zoneCollider;
@@ -35,122 +36,42 @@ public class TrainCarZone : MonoBehaviour
     {
         zoneCollider = GetComponent<Collider>();
     }
-
-    public Transform[] GetSpawnPoints()
+    
+    private void OnTriggerEnter(Collider other)
     {
-        return outlawSpawnPoints;
+        PlayerMovement player = other.GetComponent<PlayerMovement>();
+
+        if (player != null && !playersInsideCar.Contains(player)) playersInsideCar.Add(player);
     }
 
-    public SabotagePoint[] GetSabotagePoints()
+    private void OnTriggerExit(Collider other)
     {
-        return sabotagePoints;
+        PlayerMovement player = other.GetComponent<PlayerMovement>();
+
+        if (player != null && playersInsideCar.Contains(player)) playersInsideCar.Remove(player);
     }
 
-    public List<PlayerMovement> GetPlayersInsideCar()
-    {
-        RefreshPlayersInsideCar();
-        RemoveNullPlayers();
-        return playersInsideCar;
-    }
-
-    public Transform GetPlayerRespawnPoint()
-    {
-        return playerRespawnPoint;
-    }
-
-    public int GetBrokenPointsCount()
-    {
-        int brokenPointsCount = 0;
-
-        for (int i = 0; i < sabotagePoints.Length; i++)
-        {
-            if (sabotagePoints[i].IsBroken())
-            {
-                brokenPointsCount++;
-            }
-        }
-
-        return brokenPointsCount;
-    }
-
-    public bool CanBreakMorePoints()
-    {
-        return GetBrokenPointsCount() < maxBrokenPoints;
-    }
-
-    public SabotagePoint GetRandomFreeSabotagePoint()
-    {
-        if (!CanBreakMorePoints())
-        {
-            return null;
-        }
-
-        List<SabotagePoint> freePoints = new List<SabotagePoint>();
-
-        for (int i = 0; i < sabotagePoints.Length; i++)
-        {
-            if (sabotagePoints[i].CanBeTargeted())
-            {
-                freePoints.Add(sabotagePoints[i]);
-            }
-        }
-
-        if (freePoints.Count == 0)
-        {
-            return null;
-        }
-
-        int randomIndex = Random.Range(0, freePoints.Count);
-        SabotagePoint selectedPoint = freePoints[randomIndex];
-
-        bool pointReserved = selectedPoint.ReservePoint();
-
-        if (!pointReserved)
-        {
-            return null;
-        }
-
-        return selectedPoint;
-    }
-
-    public bool HasPlayersInside()
-    {
-        RefreshPlayersInsideCar();
-        RemoveNullPlayers();
-        return playersInsideCar.Count > 0;
-    }
-
-    public List<PlayerMovement> GetPlayersInRange(Vector3 centerPoint, float range)
-    {
-        RefreshPlayersInsideCar();
-        RemoveNullPlayers();
-
-        List<PlayerMovement> playersInRange = new List<PlayerMovement>();
-
-        for (int i = 0; i < playersInsideCar.Count; i++)
-        {
-            float distanceToPlayer = Vector3.Distance(centerPoint, playersInsideCar[i].transform.position);
-
-            if (distanceToPlayer <= range)
-            {
-                playersInRange.Add(playersInsideCar[i]);
-            }
-        }
-
-        return playersInRange;
-    }
+    //Inutilizado
+    // public bool HasPlayersInside()
+    // {
+    //     RefreshPlayersInsideCar();
+    //     RemoveNullPlayers();
+    //     return playersInsideCar.Count > 0;
+    // }
+    
+    #region Point management
 
     public Vector3 GetRandomPatrolPointFarFrom(Vector3 originPoint, float minDistance)
     {
         List<Vector3> validPoints = new List<Vector3>();
 
-        for (int i = 0; i < patrolPoints.Length; i++)
+        foreach (var point in patrolPoints)
         {
-            float distance = Vector3.Distance(originPoint, patrolPoints[i].position);
+            float distance = Vector3.Distance(originPoint, point.position);
 
             if (distance >= minDistance)
             {
-                validPoints.Add(patrolPoints[i].position);
+                validPoints.Add(point.position);
             }
         }
 
@@ -174,29 +95,20 @@ public class TrainCarZone : MonoBehaviour
 
         List<Vector3> validPoints = new List<Vector3>();
 
-        for (int i = 0; i < safePoints.Length; i++)
+        foreach (var point in safePoints)
         {
-            Vector3 candidate = safePoints[i].position;
+            Vector3 candidate = point.position;
 
             float distanceFromOrigin = Vector3.Distance(candidate, dangerOrigin);
-            if (distanceFromOrigin < minDistanceFromOrigin)
-            {
-                continue;
-            }
+            if (distanceFromOrigin < minDistanceFromOrigin) continue;
 
             float distanceFromExplosion = Vector3.Distance(candidate, dangerOrigin);
-            if (distanceFromExplosion < minSafeDistanceFromExplosion)
-            {
-                continue;
-            }
+            if (distanceFromExplosion < minSafeDistanceFromExplosion) continue;
 
             validPoints.Add(candidate);
         }
 
-        if (validPoints.Count == 0)
-        {
-            return false;
-        }
+        if (validPoints.Count == 0) return false;
 
         safePoint = validPoints[Random.Range(0, validPoints.Count)];
         return true;
@@ -206,60 +118,121 @@ public class TrainCarZone : MonoBehaviour
     {
         return zoneCollider.bounds.Contains(worldPoint);
     }
-
-    private void OnTriggerEnter(Collider other)
+    
+    private int GetBrokenPointsCount()
     {
-        PlayerMovement player = other.GetComponent<PlayerMovement>();
+        int brokenPointsCount = 0;
 
-        if (player != null && !playersInsideCar.Contains(player))
+        foreach (var point in sabotagePoints)
         {
-            playersInsideCar.Add(player);
+            if (point.IsBroken())
+            {
+                brokenPointsCount++;
+            }
         }
+
+        return brokenPointsCount;
     }
 
-    private void OnTriggerExit(Collider other)
+    private bool CanBreakMorePoints()
     {
-        PlayerMovement player = other.GetComponent<PlayerMovement>();
-
-        if (player != null && playersInsideCar.Contains(player))
-        {
-            playersInsideCar.Remove(player);
-        }
+        return GetBrokenPointsCount() < maxBrokenPoints;
     }
 
-    public bool TryGetRandomNavMeshPointInCar(Vector3 originPoint, float minDistance, out Vector3 randomPoint)
+    public SabotagePoint GetRandomFreeSabotagePoint()
     {
-        randomPoint = transform.position;
+        if (!CanBreakMorePoints()) return null;
 
-        for (int i = 0; i < 20; i++)
+        List<SabotagePoint> freePoints = new List<SabotagePoint>();
+
+        foreach (var point in sabotagePoints)
         {
-            Vector3 candidatePoint = new Vector3(
-                Random.Range(zoneCollider.bounds.min.x, zoneCollider.bounds.max.x),
-                transform.position.y,
-                Random.Range(zoneCollider.bounds.min.z, zoneCollider.bounds.max.z)
-            );
-
-            if (Vector3.Distance(originPoint, candidatePoint) < minDistance)
+            if (point.CanBeTargeted())
             {
-                continue;
+                freePoints.Add(point);
             }
-
-            NavMeshHit navMeshHit;
-            if (!NavMesh.SamplePosition(candidatePoint, out navMeshHit, 1.5f, NavMesh.AllAreas))
-            {
-                continue;
-            }
-
-            if (!ContainsPoint(navMeshHit.position))
-            {
-                continue;
-            }
-
-            randomPoint = navMeshHit.position;
-            return true;
         }
 
-        return false;
+        if (freePoints.Count == 0)
+        {
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, freePoints.Count);
+        SabotagePoint selectedPoint = freePoints[randomIndex];
+
+        bool pointReserved = selectedPoint.ReservePoint();
+
+        if (!pointReserved) return null;
+
+        return selectedPoint;
+    }
+    
+    #endregion
+
+    //Inutilizado
+    // public bool TryGetRandomNavMeshPointInCar(Vector3 originPoint, float minDistance, out Vector3 randomPoint)
+    // {
+    //     randomPoint = transform.position;
+    //
+    //     for (int i = 0; i < 20; i++)
+    //     {
+    //         Vector3 candidatePoint = new Vector3(
+    //             Random.Range(zoneCollider.bounds.min.x, zoneCollider.bounds.max.x),
+    //             transform.position.y,
+    //             Random.Range(zoneCollider.bounds.min.z, zoneCollider.bounds.max.z)
+    //         );
+    //
+    //         if (Vector3.Distance(originPoint, candidatePoint) < minDistance)
+    //         {
+    //             continue;
+    //         }
+    //
+    //         NavMeshHit navMeshHit;
+    //         if (!NavMesh.SamplePosition(candidatePoint, out navMeshHit, 1.5f, NavMesh.AllAreas))
+    //         {
+    //             continue;
+    //         }
+    //
+    //         if (!ContainsPoint(navMeshHit.position))
+    //         {
+    //             continue;
+    //         }
+    //
+    //         randomPoint = navMeshHit.position;
+    //         return true;
+    //     }
+    //
+    //     return false;
+    // }
+    
+    #region Player in cart management
+    
+    public List<PlayerMovement> GetPlayersInRange(Vector3 centerPoint, float range)
+    {
+        RefreshPlayersInsideCar();
+        RemoveNullPlayers();
+
+        List<PlayerMovement> playersInRange = new List<PlayerMovement>();
+
+        for (int i = 0; i < playersInsideCar.Count; i++)
+        {
+            float distanceToPlayer = Vector3.Distance(centerPoint, playersInsideCar[i].transform.position);
+
+            if (distanceToPlayer <= range)
+            {
+                playersInRange.Add(playersInsideCar[i]);
+            }
+        }
+
+        return playersInRange;
+    }
+    
+    public List<PlayerMovement> GetPlayersInsideCar()
+    {
+        RefreshPlayersInsideCar();
+        RemoveNullPlayers();
+        return playersInsideCar;
     }
 
     private void RefreshPlayersInsideCar()
@@ -271,37 +244,30 @@ public class TrainCarZone : MonoBehaviour
 
         Collider[] overlaps = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
 
-        for (int i = 0; i < overlaps.Length; i++)
+        foreach (var col in overlaps)
         {
-            PlayerMovement player = overlaps[i].GetComponent<PlayerMovement>();
+            PlayerMovement player = col.GetComponent<PlayerMovement>();
 
-            if (player == null)
-            {
-                continue;
-            }
+            if (player is null) continue;
 
-            if (!playersInsideCar.Contains(player))
-            {
-                playersInsideCar.Add(player);
-            }
+            if (!playersInsideCar.Contains(player)) playersInsideCar.Add(player);
         }
     }
 
     private void RemoveNullPlayers()
     {
-        for (int i = playersInsideCar.Count - 1; i >= 0; i--)
+        // for (int i = playersInsideCar.Count - 1; i >= 0; i--)
+        // {
+        //     if (playersInsideCar[i] is null) playersInsideCar.RemoveAt(i);
+        // }
+
+        foreach (var player in playersInsideCar.ToList())
         {
-            if (playersInsideCar[i] == null)
-            {
-                playersInsideCar.RemoveAt(i);
-            }
+            playersInsideCar.Remove(player);
         }
     }
     
-    public CollapseRockSpawnPoint[] GetCollapseSpawnPoints()
-    {
-        return collapseSpawnPoints;
-    }
+    #endregion
 
     private void OnDrawGizmosSelected()
     {

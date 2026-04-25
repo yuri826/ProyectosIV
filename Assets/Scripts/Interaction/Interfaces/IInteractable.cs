@@ -6,4 +6,9 @@ public interface IInteractable
     {
         
     }
+
+    public virtual void OnDeInteract()
+    {
+        
+    }
 }

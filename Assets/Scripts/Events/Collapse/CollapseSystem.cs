@@ -94,7 +94,7 @@ public class CollapseSystem : MonoBehaviour
 
         for (int i = 0; i < trainCarZones.Length; i++)
         {
-            CollapseRockSpawnPoint[] carSpawnPoints = trainCarZones[i].GetCollapseSpawnPoints();
+            CollapseRockSpawnPoint[] carSpawnPoints = trainCarZones[i].collapseSpawnPoints;
 
             for (int j = 0; j < carSpawnPoints.Length; j++)
             {

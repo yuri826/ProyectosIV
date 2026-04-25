@@ -83,7 +83,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         
         //Variables locales
         TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);
-        Transform respawnPoint = currentCarZone.GetPlayerRespawnPoint();
+        Transform respawnPoint = currentCarZone.playerRespawnPoint;
 
         //Setteo de variables
         isDead = true;
@@ -134,7 +134,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         playerMesh.SetActive(false);
         
         //Variables locales respecto al respawn
-        Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
+        Transform respawnPoint = deadCarZone.playerRespawnPoint;
         RespawnCountdownDisplay countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
         Vector3 respawnPosition = deadCarZone.transform.position;
 

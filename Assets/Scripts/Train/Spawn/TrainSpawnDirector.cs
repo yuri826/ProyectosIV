@@ -39,16 +39,16 @@ public class TrainSpawnDirector : GamemodeSubsystem
     {
         allOutlawSpawnPoints.Clear();
 
-        for (int i = 0; i < trainCarZones.Length; i++)
+        foreach (var zone in trainCarZones)
         {
-            Transform[] spawnPoints = trainCarZones[i].GetSpawnPoints();
+            Transform[] spawnPoints = zone.outlawSpawnPoints;
 
-            for (int j = 0; j < spawnPoints.Length; j++)
+            foreach (var point in spawnPoints)
             {
                 SpawnPointData newData = new SpawnPointData
                 {
-                    spawnPoint = spawnPoints[j],
-                    carZone = trainCarZones[i]
+                    spawnPoint = point,
+                    carZone = zone
                 };
 
                 allOutlawSpawnPoints.Add(newData);
@@ -132,24 +132,14 @@ public class TrainSpawnDirector : GamemodeSubsystem
     
     public void NotifyOutlawsInDeadCar(TrainCarZone deadCarZone, PlayerMovement deadPlayerMovement)
     {
-        if (deadCarZone == null)
-        {
-            return;
-        }
+        if (deadCarZone is null) return;
     
         OutlawSystem[] outlaws = currentOutlaws.ToArray();
     
         foreach (var outlaw in outlaws)
         {
-            if (outlaw == null)
-            {
-                continue;
-            }
-    
-            if (!deadCarZone.ContainsPoint(outlaw.transform.position))
-            {
-                continue;
-            }
+            if ((outlaw is null)
+                || (!deadCarZone.ContainsPoint(outlaw.transform.position))) continue;
     
             outlaw.OnPlayerFell(deadPlayerMovement);
         }

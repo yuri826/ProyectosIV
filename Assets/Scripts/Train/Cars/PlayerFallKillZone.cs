@@ -6,13 +6,9 @@ public class PlayerFallKillZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerHealthManager playerHealth = other.GetComponent<PlayerHealthManager>();
-
-        if (playerHealth == null)
+        if (other.TryGetComponent(out PlayerHealthManager otherPlayerHealth))
         {
-            return;
+            otherPlayerHealth.ForceDie();
         }
-
-        playerHealth.ForceDie();
     }
 }

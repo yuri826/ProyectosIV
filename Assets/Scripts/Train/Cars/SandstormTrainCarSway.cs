@@ -22,21 +22,10 @@ public class SandstormTrainCarSway : MonoBehaviour
 
     private void Start()
     {
-        if (visualRoot == null)
-        {
-            visualRoot = transform;
-        }
-
+        visualRoot ??= transform;
         baseLocalRotation = visualRoot.localRotation;
 
-        if (randomizeInitialPhase)
-        {
-            swayTimer = Random.Range(0f, Mathf.PI * 2f);
-        }
-        else
-        {
-            swayTimer = initialPhaseOffset;
-        }
+        swayTimer = randomizeInitialPhase ? Random.Range(0f, Mathf.PI * 2f) : initialPhaseOffset;
     }
 
     private void Update()

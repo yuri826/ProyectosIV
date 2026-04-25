@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,22 +57,12 @@ public class TrainDamageRepairDeposit : DepositObj
     {
         base.Completed();
 
-        if (targetSabotagePoint != null)
-        {
-            targetSabotagePoint.RepairPoint();
-        }
+        targetSabotagePoint?.RepairPoint();
 
-        if (TrainGameMode.instance != null)
-        {
-            float repairAmount = repairedLifeAmount;
+        float repairAmount = repairedLifeAmount;
+        if (targetSabotagePoint is not null) repairAmount = targetSabotagePoint.damageAmount;
 
-            if (targetSabotagePoint != null)
-            {
-                repairAmount = targetSabotagePoint.GetDamageValue();
-            }
-
-            TrainGameMode.instance.RepairTrain(repairAmount);
-        }
+        TrainGameMode.instance.RepairTrain(repairAmount);
 
         ResetRepairDeposit();
     }
@@ -90,71 +81,31 @@ public class TrainDamageRepairDeposit : DepositObj
         repairing = false;
         currentPlayer = 0;
 
-        if (repairBar != null)
-        {
-            repairBar.SetActive(false);
-        }
-
-        if (repairBarImage != null)
-        {
-            repairBarImage.fillAmount = 0f;
-        }
+        repairBar?.SetActive(false);
+        if (repairBarImage is not null) repairBarImage.fillAmount = 0f;
     }
 
     private bool AreAllRequirementsFilled()
     {
-        if (requirementSlots == null || requirementSlots.Length == 0)
-        {
-            return false;
-        }
+        if (requirementSlots == null || requirementSlots.Length == 0) return false;
 
-        for (int i = 0; i < requirementSlots.Length; i++)
-        {
-            if (!requirementSlots[i].isFilled)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return requirementSlots.All(t => t.isFilled);
     }
 
     private void UpdateRequirementSlotVisual(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= requirementSlots.Length)
-        {
-            return;
-        }
-
-        if (requirementSlots[slotIndex].slotImage == null)
-        {
-            return;
-        }
-
-        if (requirementSlots[slotIndex].filledSprite == null)
-        {
-            return;
-        }
+        if ((slotIndex < 0 || slotIndex >= requirementSlots.Length)
+            || (requirementSlots[slotIndex].slotImage is null)
+            || (requirementSlots[slotIndex].filledSprite is null)) return;
 
         requirementSlots[slotIndex].slotImage.sprite = requirementSlots[slotIndex].filledSprite;
     }
 
     private void ResetRequirementSlotVisual(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= requirementSlots.Length)
-        {
-            return;
-        }
-
-        if (requirementSlots[slotIndex].slotImage == null)
-        {
-            return;
-        }
-
-        if (requirementSlots[slotIndex].emptySprite == null)
-        {
-            return;
-        }
+        if ((slotIndex < 0 || slotIndex >= requirementSlots.Length)
+            || (requirementSlots[slotIndex].slotImage is null)
+            || (requirementSlots[slotIndex].emptySprite is null)) return;
 
         requirementSlots[slotIndex].slotImage.sprite = requirementSlots[slotIndex].emptySprite;
     }

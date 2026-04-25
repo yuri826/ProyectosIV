@@ -44,7 +44,7 @@ public class OutlawDynamite : MonoBehaviour
 
         //Hace daño al tren
         float finalDamageToTrain = damageToTrain;
-        if (targetSabotagePoint is not null) finalDamageToTrain = targetSabotagePoint.GetDamageValue();
+        if (targetSabotagePoint is not null) finalDamageToTrain = targetSabotagePoint.damageAmount;
         TrainGameMode.instance.TakeDamage(finalDamageToTrain);
         
         //Busca a los colliders que puedan recibir daño de la dinamita
