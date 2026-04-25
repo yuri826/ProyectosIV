@@ -19,6 +19,7 @@ public class ObjectEnvironmentScroll : MonoBehaviour
 
     private void Start()
     {
+        //Los objetos se añaden a la lista
         foreach (Transform child in transform)
         {
             if (child.TryGetComponent(out EnvironmentObject obj))
@@ -30,6 +31,7 @@ public class ObjectEnvironmentScroll : MonoBehaviour
 
     private void Update()
     {
+        //Cambia la velocidad de scroll según la velocidad del tren
         currentSpeed = TrainGameMode.instance.GetSpeedManager().GetCurrentSpeedState() switch
         {
             SpeedState.High => Mathf.Lerp(currentSpeed, highSpeed, Time.deltaTime * moveLerpQ),
@@ -38,6 +40,7 @@ public class ObjectEnvironmentScroll : MonoBehaviour
             _ => currentSpeed
         };
 
+        //Mueve a los objetos
         foreach (EnvironmentObject obj in levelObjects)
         {
             obj.Move(currentSpeed, xMinPos, xSpawnPos);
