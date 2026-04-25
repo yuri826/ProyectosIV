@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePushable()
     {
-        if (currentPushable == null)
+        if (currentPushable is null)
         {
             ClearPushableMovement();
             return;
@@ -221,30 +221,20 @@ public class PlayerMovement : MonoBehaviour
     
     private Vector3 GetSandstormDisplacement(float baseSpeed)
     {
-        if (SandstormSystem.Instance == null)
+        Vector3 returnVector = Vector3.zero;
+
+        if (SandstormSystem.Instance.IsSandstormActive())
         {
-            return Vector3.zero;
+            returnVector = SandstormSystem.Instance.GetWindDisplacement(baseSpeed) * Time.deltaTime;
         }
 
-        if (!SandstormSystem.Instance.IsSandstormActive())
-        {
-            return Vector3.zero;
-        }
-
-        return SandstormSystem.Instance.GetWindDisplacement(baseSpeed) * Time.deltaTime;
+        return returnVector;
     }
     
     private void StartDash(InputAction.CallbackContext obj)
     {
-        if (currentState != PlayerState.Move)
-        {
-            return;
-        }
-
-        if (playerWeapon != null && playerWeapon.IsReloading())
-        {
-            return;
-        }
+        if ((currentState != PlayerState.Move) || 
+            (playerWeapon != null && playerWeapon.IsReloading())) return;
 
         dashTimer = maxDashTimer;
         currentState = PlayerState.Dash;
@@ -257,6 +247,9 @@ public class PlayerMovement : MonoBehaviour
     
     private void Interact(InputAction.CallbackContext obj)
     {
+        if ((currentState != PlayerState.Move) || 
+            (playerWeapon != null && playerWeapon.IsReloading())) return;
+
         isHoldingInteract = true;
         
         if (currentState != PlayerState.Move)
@@ -269,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+
         StartCoroutine(InteractionWait());
     }
     
@@ -279,16 +273,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Interaction()
     {
-        GetComponent<PlayerHealthManager>().ForceDie();
-        
         if (currentState != PlayerState.Move) return;
         
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);
-
-        // print("interaction");
-        // print($"{cols.Length} colliders found");
-        // print($"isPicking: {isPicking}");
-
         bool canDrop = false;
         
         foreach (Collider col in cols)
@@ -297,48 +284,48 @@ public class PlayerMovement : MonoBehaviour
             //Can pick objects from ground and box
             if (!isPicking)
             {
-                if (col.TryGetComponent<IInteractable>(out var interactable))
-                {
+                // if (col.TryGetComponent<IInteractable>(out var interactable))
+                // {
                     //print ("interactable collider");
                     
-                    if (col.TryGetComponent<PickableObj>(out var pickableObj))
+                if (col.TryGetComponent<PickableObj>(out var pickableObj))
+                {
+                    // Caso especial: si son balas y tengo hueco en el cinturón, se equipan directamente.
+                    if (pickableObj.type == ResourceType.Bullets)
                     {
-                        // Caso especial: si son balas y tengo hueco en el cinturón, se equipan directamente.
-                        if (pickableObj.type == ResourceType.Bullets)
+                        int ammoBatchAmount = playerWeapon.GetMaxChamberAmmo();
+                        int addedAmmo = playerWeapon.AddBeltAmmo(ammoBatchAmount);
+
+                        if (addedAmmo > 0)
                         {
-                            int ammoBatchAmount = playerWeapon.GetMaxChamberAmmo();
-                            int addedAmmo = playerWeapon.AddBeltAmmo(ammoBatchAmount);
-
-                            if (addedAmmo > 0)
-                            {
-                                Destroy(pickableObj.gameObject);
-                                goto EndOfInteraction;
-                            }
+                            Destroy(pickableObj.gameObject);
+                            goto EndOfInteraction;
                         }
-
-                        pickableObj.OnPick(this.transform);
-                        currentObj = pickableObj;
-                        isPicking = true;
-
-                        goto EndOfInteraction;
                     }
+
+                    pickableObj.OnPick(this.transform);
+                    currentObj = pickableObj;
+                    isPicking = true;
+
+                    goto EndOfInteraction;
+                }
+                
+                if (col.TryGetComponent<ObjectBox>(out var objectBox))
+                {
+                    //print("object box");
                     
-                    if (col.TryGetComponent<ObjectBox>(out var objectBox))
-                    {
-                        //print("object box");
-                        
-                        PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
-                        newPickable.OnPick(this.transform);
-                        currentObj = newPickable;
-                        isPicking = true;
+                    PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
+                    newPickable.OnPick(this.transform);
+                    currentObj = newPickable;
+                    isPicking = true;
 
-                        goto EndOfInteraction;
-                    }
-
-                    throw new WarningException("Object with IInteractable which doesn't need it");
+                    goto EndOfInteraction;
                 }
 
-                //print("non interactable collider");
+                throw new WarningException("Object with IInteractable which doesn't need it");
+                // }
+                //
+                // //print("non interactable collider");
             }
             else
             {
@@ -380,15 +367,8 @@ public class PlayerMovement : MonoBehaviour
     
     private void StartMoveObject(InputAction.CallbackContext obj)
     {
-        if (currentState != PlayerState.Move)
-        {
-            return;
-        }
-
-        if (playerWeapon != null && playerWeapon.IsReloading())
-        {
-            return;
-        }
+        if ((currentState != PlayerState.Move) ||
+            (playerWeapon != null && playerWeapon.IsReloading())) return;
 
         TryStartMovingPushable();
     }
@@ -406,27 +386,17 @@ public class PlayerMovement : MonoBehaviour
     
     private void TryStartMovingPushable()
     {
-        if (isPicking)
-        {
-            return;
-        }
+        if (isPicking) return;
 
         Collider[] cols = Physics.OverlapSphere(
             transform.position + ((lookDir + interactionOffset) * interactionDistance),
             interactionRadius
         );
 
-        for (int i = 0; i < cols.Length; i++)
+        foreach (var t in cols)
         {
-            if (!cols[i].TryGetComponent(out PushableObj pushable))
-            {
-                continue;
-            }
-
-            if (!pushable.CanStartMoving(this))
-            {
-                continue;
-            }
+            if ((!t.TryGetComponent(out PushableObj pushable)) || 
+                (!pushable.CanStartMoving(this))) continue;
 
             currentPushable = pushable;
             isMovingPushable = true;
@@ -437,15 +407,9 @@ public class PlayerMovement : MonoBehaviour
     
     private void StopMovingPushable()
     {
-        if (!isMovingPushable)
-        {
-            return;
-        }
-
-        if (currentPushable != null)
-        {
-            currentPushable.StopMoving(this);
-        }
+        if (!isMovingPushable) return;
+        
+        if (currentPushable is not null) currentPushable.StopMoving(this);
 
         ClearPushableMovement();
     }
@@ -458,11 +422,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ForcePick(PickableObj p)
     {
-        if (isPicking)
-        {
-            throw new ArgumentException("Forcing pick when picking");
-            return;
-        }
+        if (isPicking) throw new ArgumentException("Forcing pick when picking");
             
         p.OnPick(this.transform);
         currentObj = p;
@@ -471,25 +431,17 @@ public class PlayerMovement : MonoBehaviour
     
     private void Act(InputAction.CallbackContext obj)
     {
-        if (currentState != PlayerState.Move)
-        {
-            return;
-        }
-
-        if (playerWeapon != null && playerWeapon.IsReloading())
-        {
-            return;
-        }
+        if ((currentState != PlayerState.Move)
+            || (playerWeapon != null && playerWeapon.IsReloading())) return;
 
         if (isPicking)
         {
             currentObj.Throw(lookDir, out var dropObj);
 
-            if (dropObj)
-            {
-                currentObj = null;
-                isPicking = false;
-            }
+            if (!dropObj) return;
+            
+            currentObj = null;
+            isPicking = false;
         }
         else
         {
@@ -521,19 +473,11 @@ public class PlayerMovement : MonoBehaviour
         currentRepairDeposit = null;
     }
 
-    public void OnCannon(Transform cannonPos, bool onCannon)
-    {
-        
-    }
-
     public void ForceDropObj()
     {
         StopMovingPushable();
 
-        if (!isPicking)
-        {
-            return;
-        }
+        if (!isPicking) return;
 
         currentObj.Drop(lookDir);
         currentObj = null;
