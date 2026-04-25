@@ -10,7 +10,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float shootCooldown = 0.2f;
 
     [Header("Ammo")]
-    [SerializeField] private int maxChamberAmmo = 6;
+    [field:SerializeField] public int maxChamberAmmo { get; private set; } = 6;
     [SerializeField] private int maxBeltAmmo = 18;
     [SerializeField] private float reloadTimePerBullet = 0.5f;
 
@@ -19,7 +19,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private RevolverAmmoHUD revolverAmmoHUD;
 
     private bool canShoot = true;
-    private bool isReloading = false;
+    public bool isReloading { get; private set; }
 
     private int currentChamberAmmo;
     private int currentBeltAmmo;
@@ -37,15 +37,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void Shoot(Vector3 dir)
     {
-        if (isReloading)
-        {
-            return;
-        }
-
-        if (!canShoot)
-        {
-            return;
-        }
+        if ((isReloading) || (!canShoot)) return;
 
         if (currentChamberAmmo > 0)
         {
@@ -79,20 +71,9 @@ public class PlayerWeapon : MonoBehaviour
 
     private void StartReload()
     {
-        if (isReloading)
-        {
-            return;
-        }
-
-        if (currentBeltAmmo <= 0)
-        {
-            return;
-        }
-
-        if (currentChamberAmmo >= maxChamberAmmo)
-        {
-            return;
-        }
+        if ((isReloading) 
+            || (currentBeltAmmo <= 0)
+            || (currentChamberAmmo >= maxChamberAmmo)) return;
 
         reloadRoutine = StartCoroutine(ReloadRoutine());
     }
@@ -137,10 +118,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public int AddBeltAmmo(int amount)
     {
-        if (amount <= 0)
-        {
-            return 0;
-        }
+        if (amount <= 0) return 0;
 
         int freeSpace = maxBeltAmmo - currentBeltAmmo;
         int addedAmount = Mathf.Clamp(amount, 0, freeSpace);
@@ -151,43 +129,11 @@ public class PlayerWeapon : MonoBehaviour
         return addedAmount;
     }
 
-    public bool IsReloading()
-    {
-        return isReloading;
-    }
-
-    public int GetCurrentChamberAmmo()
-    {
-        return currentChamberAmmo;
-    }
-
-    public int GetCurrentBeltAmmo()
-    {
-        return currentBeltAmmo;
-    }
-
-    public int GetMaxChamberAmmo()
-    {
-        return maxChamberAmmo;
-    }
-
-    public int GetMaxBeltAmmo()
-    {
-        return maxBeltAmmo;
-    }
-
     public void CancelReload()
     {
-        if (!isReloading)
-        {
-            return;
-        }
-
-        if (reloadRoutine != null)
-        {
-            StopCoroutine(reloadRoutine);
-            reloadRoutine = null;
-        }
+        if (!isReloading) return;
+        
+        if (reloadRoutine != null) StopCoroutine(reloadRoutine);
 
         isReloading = false;
         UpdateBeltAmmoText();

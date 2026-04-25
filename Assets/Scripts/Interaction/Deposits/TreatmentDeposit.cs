@@ -76,7 +76,7 @@ public class TreatmentDeposit : DepositObj
 
             if (weapon is not null)
             {
-                int ammoBatchAmount = weapon.GetMaxChamberAmmo();
+                int ammoBatchAmount = weapon.maxChamberAmmo;
                 int addedAmmo = weapon.AddBeltAmmo(ammoBatchAmount);
 
                 // Si al menos una bala cabe en el cinturón, se añade directamente.

@@ -21,12 +21,14 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, lifeTime);
-    }
-
-    private void FixedUpdate()
-    {
         rb.linearVelocity = shootDirection * speed;
     }
+
+    //Podría in en el start y no pasaría nada, si no cambia no hace falta que esté en update
+    // private void FixedUpdate()
+    // {
+    //     rb.linearVelocity = shootDirection * speed;
+    // }
 
     public void Init(Vector3 direction, GameObject newOwner)
     {
@@ -38,37 +40,32 @@ public class Bullet : MonoBehaviour
 
     private void IgnoreOwnerCollisions()
     {
-        if (owner == null)
-        {
-            return;
-        }
+        if (owner is null) return;
 
         Collider[] ownerColliders = owner.GetComponentsInChildren<Collider>();
 
-        for (int i = 0; i < ownerColliders.Length; i++)
+        foreach (var col in ownerColliders)
         {
-            Physics.IgnoreCollision(bulletCollider, ownerColliders[i], true);
+            Physics.IgnoreCollision(bulletCollider, col, true);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    //cambiado a onCollision porque después salías del método si era trigger
+    private void OnCollisionEnter(Collision other)
     {
-        if (owner != null && other.transform.root.gameObject == owner)
-        {
-            return;
-        }
+        if (owner is not null && other.transform.root.gameObject == owner) return;
 
-        IDamageable damageable = other.GetComponent<IDamageable>();
-
-        if (other.isTrigger && damageable == null)
-        {
-            return;
-        }
-
-        if (damageable != null)
-        {
-            damageable.TakeDamage(damage);
-        }
+        // IDamageable damageable = other.GetComponent<IDamageable>();
+        //
+        // if (other.isTrigger && damageable == null)
+        // {
+        //     return;
+        // }
+        //
+        // damageable?.TakeDamage(damage);
+        
+        //creo que así bastante mejor
+        if (other.gameObject.TryGetComponent(out IDamageable damageable)) damageable.TakeDamage(damage);
 
         Destroy(gameObject);
     }

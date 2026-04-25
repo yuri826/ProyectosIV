@@ -61,7 +61,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
         damageCooldownRoutine = null;
     }
 
-    public void StartInvulnerability()
+    private void StartInvulnerability()
     {
         if (invulnerabilityRoutine != null) StopCoroutine(invulnerabilityRoutine);
 
@@ -112,7 +112,7 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
             playerMovement.GetComponent<CharacterController>(), currentCarZone));
     }
 
-    public void ReviveToFullHealth()
+    private void ReviveToFullHealth()
     {
         currentHealth = maxHealth;
         isDead = false;
@@ -128,39 +128,39 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     private IEnumerator RespawnRoutine(PlayerHealthManager deadPlayerHealth, PlayerMovement deadPlayerMovement, 
         CharacterController deadCharacterController, TrainCarZone deadCarZone)
     {
-        GameObject deadPlayer = deadPlayerHealth.gameObject;
-    
+        //Bloquea y desaparece al jugador
         deadPlayerMovement.currentState = PlayerState.Locked;
         deadCharacterController.enabled = false;
-        
         playerMesh.SetActive(false);
-        print("AWAWAWAW");
-    
+        
+        //Variables locales respecto al respawn
         Transform respawnPoint = deadCarZone.GetPlayerRespawnPoint();
         RespawnCountdownDisplay countdownDisplay = respawnPoint.GetComponent<RespawnCountdownDisplay>();
         Vector3 respawnPosition = deadCarZone.transform.position;
 
-         for (int i = respawnDelay; i > 0; i--)
-         {
-             countdownDisplay?.ShowTime(i);
-             yield return new WaitForSeconds(1);
-         }
+        //Cuenta atrás del respawn
+        for (int i = respawnDelay; i > 0; i--) 
+        {
+            countdownDisplay?.ShowTime(i); 
+            yield return new WaitForSeconds(1);
+        }
     
         countdownDisplay?.Hide();
 
+        //Mueve al jugador
+        var deadPlayer = deadPlayerHealth.gameObject;
         deadPlayer.transform.position = respawnPosition;
-        deadPlayer.SetActive(true);
+
+        //Reactiva los sistemas y la apariencia del jugador
         deadCharacterController.enabled = true;
+        deadPlayerMovement.currentState = PlayerState.Move;
+        playerMesh.SetActive(true);
         
-        print("endHealthStuff");
-    
+        //Resetea la vida del jugador
         deadPlayerHealth.ReviveToFullHealth();
         deadPlayerHealth.StartInvulnerability();
     
-        deadPlayerMovement.currentState = PlayerState.Move;
-        
-        playerMesh.SetActive(true);
-        
+        //La cámara mira al jugador de vuelta
         levelCamera.lookAt = playerMovement.gameObject.transform;
     }
 }
