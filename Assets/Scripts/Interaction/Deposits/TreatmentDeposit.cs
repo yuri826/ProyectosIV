@@ -11,8 +11,10 @@ public class TreatmentDeposit : DepositObj
     {
         if (repairing)
         {
+            //Suma al tiempo de reparación
             repairTimer += Time.deltaTime;
             
+            //Updatea barra
             repairBarImage.fillAmount = repairTimer / maxRepairTimer;
 
             if (repairTimer >= maxRepairTimer)
@@ -36,7 +38,6 @@ public class TreatmentDeposit : DepositObj
                 for (var i = 0; i < objectTypeList.Length; i++)
                 {
                     if (pickableObj.type != objectTypeList[i]) continue;
-                    Debug.Log("Correct object");
             
                     objectIndex = i;
                     currentState = DepositState.Tool;
@@ -59,35 +60,31 @@ public class TreatmentDeposit : DepositObj
 
         GameObject treatedPrefab = treatedObjects[objectIndex];
 
-        if (treatedPrefab == null)
+        if (treatedPrefab is null)
         {
             currentState = DepositState.Objects;
             return;
         }
 
         PickableObj treatedPickable = treatedPrefab.GetComponent<PickableObj>();
-        bool isBulletOutput = treatedPickable != null && treatedPickable.type == ResourceType.Bullets;
+        bool isBulletOutput = treatedPickable is not null && treatedPickable.type == ResourceType.Bullets;
 
         if (isBulletOutput)
         {
             PlayerMovement player = TrainGameMode.instance.GetPlayer(currentPlayer);
+            PlayerWeapon weapon = player?.GetComponent<PlayerWeapon>();
 
-            if (player != null)
+            if (weapon is not null)
             {
-                PlayerWeapon weapon = player.GetComponent<PlayerWeapon>();
+                int ammoBatchAmount = weapon.GetMaxChamberAmmo();
+                int addedAmmo = weapon.AddBeltAmmo(ammoBatchAmount);
 
-                if (weapon != null)
+                // Si al menos una bala cabe en el cinturón, se añade directamente.
+                // Si sobran, se pierden.
+                if (addedAmmo > 0)
                 {
-                    int ammoBatchAmount = weapon.GetMaxChamberAmmo();
-                    int addedAmmo = weapon.AddBeltAmmo(ammoBatchAmount);
-
-                    // Si al menos una bala cabe en el cinturón, se añade directamente.
-                    // Si sobran, se pierden.
-                    if (addedAmmo > 0)
-                    {
-                        currentState = DepositState.Objects;
-                        return;
-                    }
+                    currentState = DepositState.Objects;
+                    return;
                 }
             }
 

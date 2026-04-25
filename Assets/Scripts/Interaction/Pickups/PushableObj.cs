@@ -26,10 +26,7 @@ public class PushableObj : MonoBehaviour
 
     public void StopMoving(PlayerMovement player)
     {
-        if (currentPlayer != player)
-        {
-            return;
-        }
+        if (currentPlayer != player) return;
 
         dragParts.Stop();
         currentPlayer = null;
@@ -38,10 +35,7 @@ public class PushableObj : MonoBehaviour
 
     public Vector3 Move(Vector3 moveDirection)
     {
-        if (!isBeingMoved)
-        {
-            return Vector3.zero;
-        }
+        if (!isBeingMoved) return Vector3.zero;
 
         Vector3 displacement = moveDirection * (moveSpeed * Time.deltaTime);
         Vector3 targetPosition = rb.position + displacement;
@@ -52,8 +46,9 @@ public class PushableObj : MonoBehaviour
         return displacement;
     }
 
-    public bool IsBeingMoved()
-    {
-        return isBeingMoved;
-    }
+    //Inutilizado
+    // public bool IsBeingMoved()
+    // {
+    //     return isBeingMoved;
+    // }
 }

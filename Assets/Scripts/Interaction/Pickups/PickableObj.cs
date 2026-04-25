@@ -43,7 +43,6 @@ public class PickableObj : MonoBehaviour, IInteractable
                 
                 if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit,  0.2f, groundLayer))
                 {
-                    Debug.Log(Vector3.Dot(hit.normal, Vector3.up));
                     if (Vector3.Dot(hit.normal, Vector3.up) > 0.9f)
                     {
                         currentState = PickableState.Ground;
@@ -73,10 +72,5 @@ public class PickableObj : MonoBehaviour, IInteractable
         throwDirection = throwDir;
         yThrowSpeed = maxYThrowSpeed;
         currentState = PickableState.Throw;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, -transform.up);
     }
 }
