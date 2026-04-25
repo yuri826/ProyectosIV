@@ -54,15 +54,8 @@ public class OutlawSystem : MonoBehaviour
 
     private void Start()
     {
-        if (currentCarZone == null)
-        {
-            currentCarZone = GetComponentInParent<TrainCarZone>();
-        }
-
-        if (SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive())
-        {
-            SetSandstormState(true);
-        }
+        if (currentCarZone == null) currentCarZone = GetComponentInParent<TrainCarZone>();
+        if (SandstormSystem.Instance != null && SandstormSystem.Instance.IsSandstormActive()) SetSandstormState(true);
     }
 
     private void Update()
@@ -74,13 +67,12 @@ public class OutlawSystem : MonoBehaviour
             return;
         }
 
-        if (currentState != OutlawState.Combat && currentState != OutlawState.Laugh)
+        if (currentState != OutlawState.Combat 
+            && currentState != OutlawState.Laugh 
+            && outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
-            if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
-            {
-                CancelCurrentSabotage();
-                currentState = OutlawState.Combat;
-            }
+            CancelCurrentSabotage();
+            currentState = OutlawState.Combat;
         }
 
         switch (currentState)
@@ -146,10 +138,11 @@ public class OutlawSystem : MonoBehaviour
         }
     }
 
-    public void OnPlayerLeftCar(PlayerMovement player, Vector3 lastPosition)
-    {
-        outlawCombat.OnPlayerLeftCar(player, lastPosition);
-    }
+    //Inutilizado
+    // public void OnPlayerLeftCar(PlayerMovement player, Vector3 lastPosition)
+    // {
+    //     outlawCombat.OnPlayerLeftCar(player, lastPosition);
+    // }
 
     public void OnPlayerFell(PlayerMovement player)
     {
@@ -169,7 +162,7 @@ public class OutlawSystem : MonoBehaviour
     {
         currentTargetSabotagePoint = currentCarZone.GetRandomFreeSabotagePoint();
 
-        if (currentTargetSabotagePoint == null)
+        if (currentTargetSabotagePoint is null)
         {
             StartPatrol();
             return;
@@ -190,7 +183,7 @@ public class OutlawSystem : MonoBehaviour
             return;
         }
 
-        if (currentTargetSabotagePoint == null)
+        if (currentTargetSabotagePoint is null)
         {
             currentState = OutlawState.PickSabotage;
             return;
@@ -214,7 +207,7 @@ public class OutlawSystem : MonoBehaviour
             return;
         }
 
-        if (currentTargetSabotagePoint == null)
+        if (currentTargetSabotagePoint is null)
         {
             currentState = OutlawState.PickSabotage;
             return;
@@ -237,10 +230,7 @@ public class OutlawSystem : MonoBehaviour
                 out safePosition
             );
 
-            if (!foundSafePoint)
-            {
-                safePosition = transform.position;
-            }
+            if (!foundSafePoint) safePosition = transform.position;
 
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(safePosition);
@@ -252,7 +242,7 @@ public class OutlawSystem : MonoBehaviour
 
     private void UpdateMoveToSafePosition()
     {
-        if (currentDynamite == null)
+        if (currentDynamite is null)
         {
             StartPatrol();
             return;
@@ -267,10 +257,7 @@ public class OutlawSystem : MonoBehaviour
 
     private void UpdateWaitExplosion()
     {
-        if (currentDynamite == null)
-        {
-            StartPatrol();
-        }
+        if (currentDynamite is null) StartPatrol();
     }
 
     private void StartPatrol()
@@ -284,19 +271,20 @@ public class OutlawSystem : MonoBehaviour
 
     private void UpdatePatrol()
     {
+        //Mira mientras patrulla si está el jugador para atacarle
         if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
         {
             currentState = OutlawState.Combat;
             return;
         }
 
-        if (!HasReachedDestination())
-        {
-            return;
-        }
+        //Si no ha llegado al destino sigue
+        if (!HasReachedDestination()) return;
 
+        //Va al siguiente punto
         currentPatrolPointsDone++;
 
+        //Si ha patrullado suficiente va a poner dinamita
         if (currentPatrolPointsDone >= patrolPointsAfterExplosion)
         {
             currentState = OutlawState.PickSabotage;
@@ -322,10 +310,7 @@ public class OutlawSystem : MonoBehaviour
     {
         bool shouldStayInCombat = outlawCombat.UpdateCombat(currentCarZone);
 
-        if (!shouldStayInCombat)
-        {
-            currentState = OutlawState.PickSabotage;
-        }
+        if (!shouldStayInCombat) currentState = OutlawState.PickSabotage;
     }
 
     private void UpdateLaugh()
@@ -334,23 +319,14 @@ public class OutlawSystem : MonoBehaviour
 
         if (currentStateTimer <= 0f)
         {
-            if (outlawCombat.IsAnyPlayerInAttackRange(currentCarZone))
-            {
-                currentState = OutlawState.Combat;
-            }
-            else
-            {
-                currentState = OutlawState.PickSabotage;
-            }
+            currentState = outlawCombat.IsAnyPlayerInAttackRange(currentCarZone) ? 
+                OutlawState.Combat : OutlawState.PickSabotage;
         }
     }
 
     private void SpawnDynamite()
     {
-        if (currentTargetSabotagePoint == null)
-        {
-            return;
-        }
+        if (currentTargetSabotagePoint is null) return;
 
         GameObject dynamiteObject = Instantiate(
             outlawDynamitePrefab,
@@ -377,15 +353,8 @@ public class OutlawSystem : MonoBehaviour
 
     private bool HasReachedDestination()
     {
-        if (navMeshAgent.pathPending)
-        {
+        if ((navMeshAgent.pathPending) || (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance + 0.15f))
             return false;
-        }
-
-        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance + 0.15f)
-        {
-            return false;
-        }
 
         return true;
     }
@@ -395,23 +364,21 @@ public class OutlawSystem : MonoBehaviour
         if (currentState != OutlawState.MoveToSabotage &&
             currentState != OutlawState.MoveToSafePosition &&
             currentState != OutlawState.Patrol)
-        {
             return;
-        }
 
-        Vector3 lookDirection = navMeshAgent.desiredVelocity;
+        /*Vector3 lookDirection = navMeshAgent.desiredVelocity;
 
-        if (lookDirection.sqrMagnitude <= 0.0001f)
-        {
-            lookDirection = navMeshAgent.velocity;
-        }
+        if (lookDirection.sqrMagnitude <= 0.0001f) lookDirection = navMeshAgent.velocity;
 
         lookDirection.y = 0f;
 
-        if (lookDirection.sqrMagnitude <= 0.0001f)
-        {
-            return;
-        }
+        if (lookDirection.sqrMagnitude <= 0.0001f) return;*/
+        
+        //Puede que así sea virtualmente igual pero ligeramente más óptimo
+        Vector3 lookDirection = navMeshAgent.velocity;
+        lookDirection.y = 0f;
+
+        if (lookDirection.sqrMagnitude <= 0.0001f) return;
 
         Quaternion targetRotation = Quaternion.LookRotation(lookDirection.normalized, Vector3.up);
 

@@ -57,13 +57,10 @@ public class OutlawCombat : MonoBehaviour
     public bool UpdateCombat(TrainCarZone currentCar)
     {
         // 1. Si no tengo objetivo, intento conseguir uno
-        if (currentTarget == null)
-        {
-            currentTarget = GetNextTargetPlayer(currentCar, lastPlayerShot);
-        }
+        currentTarget ??= GetNextTargetPlayer(currentCar, lastPlayerShot);
 
         // 2. Si sigo sin objetivo, miro un rato hacia la última posición conocida
-        if (currentTarget == null)
+        if (currentTarget is null)
         {
             if (currentAimLastPositionTimer > 0f)
             {
@@ -84,13 +81,10 @@ public class OutlawCombat : MonoBehaviour
                 currentTarget = GetNextTargetPlayer(currentCar, lastPlayerShot);
                 CancelReposition();
 
-                if (currentTarget == null)
-                {
-                    currentAimLastPositionTimer = 0f;
-                    return false;
-                }
-
-                return true;
+                if (currentTarget is not null) return true;
+                
+                currentAimLastPositionTimer = 0f;
+                return false;
             }
 
             SaveLastKnownPlayerPosition(currentTarget.transform.position);
@@ -133,12 +127,7 @@ public class OutlawCombat : MonoBehaviour
                 CancelReposition();
                 StopMoving();
 
-                PlayerMovement playerToShoot = GetNextTargetPlayer(currentCar, lastPlayerShot);
-
-                if (playerToShoot == null)
-                {
-                    playerToShoot = currentTarget;
-                }
+                PlayerMovement playerToShoot = GetNextTargetPlayer(currentCar, lastPlayerShot) ?? currentTarget;
 
                 Shoot(playerToShoot);
 
@@ -172,12 +161,7 @@ public class OutlawCombat : MonoBehaviour
             CancelReposition();
             StopMoving();
 
-            PlayerMovement playerToShoot = GetNextTargetPlayer(currentCar, lastPlayerShot);
-
-            if (playerToShoot == null)
-            {
-                playerToShoot = currentTarget;
-            }
+            PlayerMovement playerToShoot = GetNextTargetPlayer(currentCar, lastPlayerShot) ?? currentTarget;
 
             Shoot(playerToShoot);
 
@@ -197,14 +181,14 @@ public class OutlawCombat : MonoBehaviour
             {
                 isRepositioning = true;
                 MoveToPosition(currentRepositionTarget);
-                return true;
             }
             else
             {
                 // Si no encuentro ningún punto bueno, me quedo quieto.
                 StopMoving();
-                return true;
             }
+
+            return true;
         }
 
         // 11. Si ya estoy recolocándome, sigo yendo hacia ese mismo punto.
@@ -214,22 +198,20 @@ public class OutlawCombat : MonoBehaviour
     
     public void OnPlayerLeftCar(PlayerMovement player, Vector3 lastPosition)
     {
-        if (currentTarget == player)
-        {
-            SaveLastKnownPlayerPosition(lastPosition);
-            currentTarget = null;
-            CancelReposition();
-        }
+        if (currentTarget != player) return;
+        
+        SaveLastKnownPlayerPosition(lastPosition);
+        currentTarget = null;
+        CancelReposition();
     }
     
     public void OnPlayerFell(PlayerMovement player)
     {
-        if (currentTarget == player)
-        {
-            currentTarget = null;
-            currentAimLastPositionTimer = 0f;
-            CancelReposition();
-        }
+        if (currentTarget != player) return;
+        
+        currentTarget = null;
+        currentAimLastPositionTimer = 0f;
+        CancelReposition();
     }
 
     public void ClearCombatData()
@@ -243,16 +225,7 @@ public class OutlawCombat : MonoBehaviour
     // GESTIÓN DE OBJETIVOS
     private bool IsPlayerValid(PlayerMovement player)
     {
-        if (player == null)
-        {
-            return false;
-        }
-
-        if (!player.gameObject.activeInHierarchy)
-        {
-            return false;
-        }
-
+        if ((player is null) || (!player.gameObject.activeInHierarchy)) return false;
         return true;
     }
     
@@ -262,24 +235,13 @@ public class OutlawCombat : MonoBehaviour
 
         PlayerMovement fallbackPlayer = null;
 
-        for (int i = 0; i < playersInRange.Count; i++)
+        foreach (var candidate in playersInRange)
         {
-            PlayerMovement candidate = playersInRange[i];
+            if (!IsPlayerValid(candidate)) continue;
 
-            if (!IsPlayerValid(candidate))
-            {
-                continue;
-            }
+            if (candidate != playerToAvoid) return candidate;
 
-            if (candidate != playerToAvoid)
-            {
-                return candidate;
-            }
-
-            if (fallbackPlayer == null)
-            {
-                fallbackPlayer = candidate;
-            }
+            fallbackPlayer ??= candidate;
         }
 
         return fallbackPlayer;
@@ -307,20 +269,7 @@ public class OutlawCombat : MonoBehaviour
 
     private void Shoot(PlayerMovement targetPlayer)
     {
-        if (targetPlayer == null)
-        {
-            return;
-        }
-
-        if (outlawBulletPrefab == null)
-        {
-            return;
-        }
-
-        if (shootPoint == null)
-        {
-            return;
-        }
+        if ((targetPlayer is null) || (outlawBulletPrefab is null) || (shootPoint is null)) return;
 
         Vector3 shootDirection = (targetPlayer.transform.position - shootPoint.position).normalized;
         shootDirection.y = 0f;
@@ -332,20 +281,12 @@ public class OutlawCombat : MonoBehaviour
 
     private bool HasClearShotToPlayer(PlayerMovement targetPlayer)
     {
-        if (targetPlayer == null || shootPoint == null)
-        {
-            return false;
-        }
-
+        if (targetPlayer is null || shootPoint is null) return false;
+        
         Vector3 shootDirection = (targetPlayer.transform.position - shootPoint.position).normalized;
         float distanceToPlayer = Vector3.Distance(shootPoint.position, targetPlayer.transform.position);
 
-        if (Physics.Raycast(shootPoint.position, shootDirection, distanceToPlayer, obstacleMask))
-        {
-            return false;
-        }
-
-        return true;
+        return !Physics.Raycast(shootPoint.position, shootDirection, distanceToPlayer, obstacleMask);
     }
 
     private bool HasClearShotFromPosition(Vector3 fromPosition, Vector3 targetPosition)
@@ -356,12 +297,7 @@ public class OutlawCombat : MonoBehaviour
         Vector3 directionToTarget = (targetPosition - rayOrigin).normalized;
         float distanceToTarget = Vector3.Distance(rayOrigin, targetPosition);
 
-        if (Physics.Raycast(rayOrigin, directionToTarget, distanceToTarget, obstacleMask))
-        {
-            return false;
-        }
-
-        return true;
+        return !Physics.Raycast(rayOrigin, directionToTarget, distanceToTarget, obstacleMask);
     }
     
     // MOVIMIENTO
@@ -380,10 +316,10 @@ public class OutlawCombat : MonoBehaviour
             (Vector3.back + Vector3.left).normalized
         };
 
-        for (int i = 0; i < possibleDirections.Length; i++)
+        foreach (var direction in possibleDirections)
         {
             // Buscamos posiciones alrededor del jugador, a la distancia ideal de ataque
-            Vector3 candidatePosition = targetPosition + possibleDirections[i] * attackDistance;
+            Vector3 candidatePosition = targetPosition + direction * attackDistance;
 
             // Si esa posición se sale del vagón, no nos vale
             if (!currentCar.ContainsPoint(candidatePosition))
@@ -391,16 +327,12 @@ public class OutlawCombat : MonoBehaviour
                 continue;
             }
 
-            NavMeshHit navMeshHit;
-
-            if (NavMesh.SamplePosition(candidatePosition, out navMeshHit, 1.5f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(candidatePosition, out var navMeshHit, 1.5f, NavMesh.AllAreas) 
+                && HasClearShotFromPosition(navMeshHit.position, targetPosition))
             {
                 // Si desde esta nueva posición sí habría línea de tiro, nos la quedamos
-                if (HasClearShotFromPosition(navMeshHit.position, targetPosition))
-                {
-                    currentRepositionTarget = navMeshHit.position;
-                    return true;
-                }
+                currentRepositionTarget = navMeshHit.position;
+                return true;
             }
         }
 
@@ -409,10 +341,7 @@ public class OutlawCombat : MonoBehaviour
 
     private void MoveAwayFromTarget(TrainCarZone currentCar, Vector3 playerPosition)
     {
-        if (currentCar == null)
-        {
-            return;
-        }
+        if (currentCar is null) return;
 
         Vector3 directionAwayFromPlayer = (transform.position - playerPosition).normalized;
         Vector3 desiredPosition = transform.position + directionAwayFromPlayer * 2f;
@@ -423,9 +352,7 @@ public class OutlawCombat : MonoBehaviour
             return;
         }
 
-        NavMeshHit navMeshHit;
-
-        if (NavMesh.SamplePosition(desiredPosition, out navMeshHit, 1.5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(desiredPosition, out var navMeshHit, 1.5f, NavMesh.AllAreas))
         {
             MoveToPosition(navMeshHit.position);
         }
@@ -437,10 +364,7 @@ public class OutlawCombat : MonoBehaviour
 
     private void MoveToPosition(Vector3 targetPosition)
     {
-        if (navMeshAgent == null)
-        {
-            return;
-        }
+        if (navMeshAgent is null) return;
 
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(targetPosition);
@@ -448,10 +372,7 @@ public class OutlawCombat : MonoBehaviour
 
     private void StopMoving()
     {
-        if (navMeshAgent == null)
-        {
-            return;
-        }
+        if (navMeshAgent is null) return;
 
         navMeshAgent.isStopped = true;
     }
@@ -464,21 +385,10 @@ public class OutlawCombat : MonoBehaviour
     
     private bool HasReachedDestination()
     {
-        if (navMeshAgent == null)
-        {
-            return false;
-        }
-
-        if (navMeshAgent.pathPending)
-        {
-            return false;
-        }
-
-        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance + 0.15f)
-        {
-            return false;
-        }
-
+        if ((navMeshAgent is null)
+            || (navMeshAgent.pathPending)
+            || (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance + 0.15f)) return false;
+        
         return true;
     }
 
@@ -487,24 +397,15 @@ public class OutlawCombat : MonoBehaviour
         Vector3 lookDirection = targetPosition - transform.position;
         lookDirection.y = 0f;
 
-        if (lookDirection == Vector3.zero)
-        {
-            return;
-        }
+        if (lookDirection == Vector3.zero) return;
 
         transform.forward = lookDirection.normalized;
     }
     
     private void UpdateCooldowns()
     {
-        if (currentShootCooldown > 0f)
-        {
-            currentShootCooldown -= Time.deltaTime;
-        }
+        if (currentShootCooldown > 0f) currentShootCooldown -= Time.deltaTime;
 
-        if (currentAimLastPositionTimer > 0f)
-        {
-            currentAimLastPositionTimer -= Time.deltaTime;
-        }
+        if (currentAimLastPositionTimer > 0f) currentAimLastPositionTimer -= Time.deltaTime;
     }
 }

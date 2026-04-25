@@ -22,10 +22,7 @@ public class OutlawHealth : MonoBehaviour, IDamageable
     {
         currentHealth -= damageAmount;
 
-        if (currentHealth <= 0f)
-        {
-            Die();
-        }
+        if (currentHealth <= 0f) Die();
     }
 
     private void Die()

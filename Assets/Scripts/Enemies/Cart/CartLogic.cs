@@ -36,6 +36,7 @@ public class CartLogic : MonoBehaviour
     
     private void Start()
     {
+        //Se adjudica un carro en el que ponerse
         GetRandomCart();
     }
 
@@ -79,24 +80,27 @@ public class CartLogic : MonoBehaviour
 
     private void GetRandomCart()
     {
+        //Busca un punto posible
         List<CartPoint> possibleLocations = new List<CartPoint>();
-
-        for (int i = 0; i < cartManager.cartPoints.Length; i++)
+        
+        foreach (var cart in cartManager.cartPoints)
         {
-            if (!cartManager.cartPoints[i].IsTaken)
+            if (!cart.IsTaken)
             {
-                possibleLocations.Add(cartManager.cartPoints[i]);
+                possibleLocations.Add(cart);
             }
         }
-
+        
+        //Si todos están cogidos se destruyen
         if (possibleLocations.Count == 0)
         {
             Destroy(gameObject);
             return;
         }
         
-        int cartN = Random.Range(0, possibleLocations.Count);
+        //Se setean las variables tras coger un carro aleatorio entre los posibles
         
+        int cartN = Random.Range(0, possibleLocations.Count);
         currentCartPoint = possibleLocations[cartN].TransformPoint;
         currentTrainCarZone = possibleLocations[cartN].TrainCarZone;
         possibleLocations[cartN].IsTaken = true;
@@ -120,6 +124,7 @@ public class CartLogic : MonoBehaviour
         shootRoutine = StartCoroutine(ShootRoutine());
     }
 
+    //Dispara en abanico
     private void Shoot()
     {
         currentBulletNumber++;
@@ -130,13 +135,18 @@ public class CartLogic : MonoBehaviour
         
         int angleMult;
         
-        if (shootState == CartShootState.LookLeftToSide || shootState == CartShootState.LookLeftToCenter)
+        if (shootState is CartShootState.LookLeftToSide or CartShootState.LookLeftToCenter)
             angleMult = -1;
         else 
             angleMult = 1;
 
         shootDir = Quaternion.AngleAxis(bulletAngleIncrement * angleMult, Vector3.up) * shootDir;
 
+        /*Dispara en cuatro estados
+            Barre izquierda
+            Barre derecha
+            Barre más a la derecha
+            Barre a la izquierda hasta el centro*/
         if (currentBulletNumber >= bulletNumberPerMovement)
         {
             currentBulletNumber = 0;

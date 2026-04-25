@@ -15,17 +15,11 @@ public class OutlawDynamite : MonoBehaviour
     
     private void Update()
     {
-        if (!isInitialized)
-        {
-            return;
-        }
-        
-        fuseTime -= Time.deltaTime;
-        Debug.Log("Tiempo restante dinamita: " + fuseTime);
-        if (fuseTime <= 0f)
-        {
-            Explode();
-        }
+        if (!isInitialized) return;
+
+        //Cuenta atrás para explotar
+        if (fuseTime <= 0f) Explode();
+        else fuseTime -= Time.deltaTime;
     }
     
     public void Init(SabotagePoint sabotagePoint, float newFuseTime, float newDamageToTrain, float newDamageInExplosion, float newExplosionRadius)
@@ -45,34 +39,25 @@ public class OutlawDynamite : MonoBehaviour
     
     private void Explode()
     {
-        Debug.Log("La dinamita ha explotado", this.gameObject);
+        //Rompe el punto del tren
         targetSabotagePoint.BreakPoint();
 
+        //Hace daño al tren
         float finalDamageToTrain = damageToTrain;
-
-        if (targetSabotagePoint != null)
-        {
-            finalDamageToTrain = targetSabotagePoint.GetDamageValue();
-        }
-
+        if (targetSabotagePoint is not null) finalDamageToTrain = targetSabotagePoint.GetDamageValue();
         TrainGameMode.instance.TakeDamage(finalDamageToTrain);
         
+        //Busca a los colliders que puedan recibir daño de la dinamita
         Collider[] collidersHit = Physics.OverlapSphere(transform.position, explosionRadius);
 
-        for (int i = 0; i < collidersHit.Length; i++)
+        foreach (var hitCollider in collidersHit)
         {
-            Collider hitCollider = collidersHit[i];
-            
-            if (hitCollider.isTrigger)
-            {
-                continue;
-            }
+            if (hitCollider.isTrigger) continue;
             
             hitCollider.SendMessage("TakeDamage", damageInExplosion, SendMessageOptions.DontRequireReceiver);
         }
         
-        //Instantiate(explosionVfx, transform.position, Quaternion.identity);
-        Debug.Log("Destruyendo dinamita");
+        //Se destruye
         Destroy(gameObject);
     }
 
