@@ -256,14 +256,12 @@ public class TrainCarZone : MonoBehaviour
 
     private void RemoveNullPlayers()
     {
-        // for (int i = playersInsideCar.Count - 1; i >= 0; i--)
-        // {
-        //     if (playersInsideCar[i] is null) playersInsideCar.RemoveAt(i);
-        // }
-
-        foreach (var player in playersInsideCar.ToList())
+        for (int i = playersInsideCar.Count - 1; i >= 0; i--)
         {
-            playersInsideCar.Remove(player);
+            if (playersInsideCar[i] is null)
+            {
+                playersInsideCar.RemoveAt(i);
+            }
         }
     }
     

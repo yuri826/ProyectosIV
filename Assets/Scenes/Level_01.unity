@@ -38158,7 +38158,7 @@ MonoBehaviour:
   playerWeapon: {fileID: 439867393}
   respawnInvulnerabilityTime: 3
   playerMesh: {fileID: 464277595}
-  maxHealth: 1
+  maxHealth: 3
   damageCooldown: 1
   respawnDelay: 5
   levelCamera: {fileID: 2144853973}
