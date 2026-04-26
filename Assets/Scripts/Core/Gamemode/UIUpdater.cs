@@ -15,7 +15,10 @@ public class UIUpdater : GamemodeSubsystem
     [SerializeField] private LevelMenuManager levelMenuManager;
 
     [Header("ProgressCanvas")]
-    [SerializeField] private Image progressBar;
+    [SerializeField] private RectTransform progressBar;
+    [SerializeField] private RectTransform progressIcon;
+    [SerializeField] private float progressBarMaxWidth;
+    [SerializeField] private float progressIconStartX;
 
     [Header("HealthCanvas")]
     [SerializeField] private Image healthBar;
@@ -26,7 +29,7 @@ public class UIUpdater : GamemodeSubsystem
 
     public override void OnStart()
     {
-        progressBar.fillAmount = 0f;
+        SetProgressHUD(0f);
     }
 
     //Aparece una cuenta atrás
@@ -53,10 +56,24 @@ public class UIUpdater : GamemodeSubsystem
         numberAnim.SetTrigger("numberPop");
     }
 
-    //Updatea el fill de las barras
+    //Updatea el width de la barra y el icono
     public void UpdateProgressBar(int progress, int maxProgress)
     {
-        progressBar.fillAmount = (float)progress / maxProgress;
+        float progressAmount = Mathf.Clamp01((float)progress / maxProgress);
+        SetProgressHUD(progressAmount);
+    }
+
+    private void SetProgressHUD(float progressAmount)
+    {
+        progressBar.sizeDelta = new Vector2(
+            progressBarMaxWidth * progressAmount,
+            progressBar.sizeDelta.y
+        );
+
+        progressIcon.anchoredPosition = new Vector2(
+            progressIconStartX + progressBarMaxWidth * progressAmount,
+            progressIcon.anchoredPosition.y
+        );
     }
 
     public void UpdateLifeBar(float currentLife, int maxLife)

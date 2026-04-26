@@ -28163,7 +28163,10 @@ MonoBehaviour:
     introNumbers: {fileID: 1974798663}
     numberAnim: {fileID: 1974798662}
     levelMenuManager: {fileID: 1934825083}
-    progressBar: {fileID: 6864223848649112812}
+    progressBar: {fileID: 6042889225220524615}
+    progressIcon: {fileID: 3841982078415942539}
+    progressBarMaxWidth: 1050
+    progressIconStartX: -525
     healthBar: {fileID: 1877048368986504579}
     transitionAnim: {fileID: 349088767}
   levelFlow:
@@ -37360,7 +37363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 622.9999, y: -79}
+  m_AnchoredPosition: {x: 586, y: -79}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1406960848405406464
@@ -37379,7 +37382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -534, y: -79}
+  m_AnchoredPosition: {x: -583, y: -79}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1563585198493918960
@@ -37398,7 +37401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 34.21643, y: -29}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 1392.3877, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1877048368986504579
@@ -37606,7 +37609,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: 461}
+  m_AnchoredPosition: {x: -469, y: 461}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3977596058046133814
@@ -37752,10 +37755,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1636705648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 486.59998, y: 442}
-  m_SizeDelta: {x: 386.1, y: 64.6}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -525, y: -98}
+  m_SizeDelta: {x: 1050, y: 64.599976}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &6058477418047006449
 RectTransform:
@@ -37883,7 +37886,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 98543308f4e551f4d9b91883ad24f406, type: 3}
-  m_Type: 3
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
