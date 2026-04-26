@@ -1421,7 +1421,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4aa0aaf12107c44b9a2f2d12e5d32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainCarZone
-  <outlawSpawnPoints>k__BackingField: []
+  <outlawSpawnPoints>k__BackingField:
+  - {fileID: 5864858097779467730}
+  - {fileID: 9041521994549920593}
+  - {fileID: 8013593876676545168}
+  - {fileID: 3263060261857193654}
   sabotagePoints:
   - {fileID: 1410768377195411482}
   - {fileID: 257902781653806332}

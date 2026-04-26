@@ -119,8 +119,13 @@ public class CartLogic : MonoBehaviour
             yield return new WaitForSeconds(bulletTime);
         }
         
-        currentTrainCarZone.GetRandomFreeSabotagePoint().BreakPoint();
-        
+        SabotagePoint sabotagePoint = currentTrainCarZone.GetRandomFreeSabotagePoint();
+
+        if (sabotagePoint is not null)
+        {
+            sabotagePoint.BreakPoint();
+        }
+
         shootRoutine = StartCoroutine(ShootRoutine());
     }
 

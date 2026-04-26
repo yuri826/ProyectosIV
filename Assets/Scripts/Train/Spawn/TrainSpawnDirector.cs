@@ -28,11 +28,11 @@ public class TrainSpawnDirector : GamemodeSubsystem
     [SerializeField] private int highSpeedOutlawExtra = 0;
 
     private readonly List<SpawnPointData> allOutlawSpawnPoints = new List<SpawnPointData>();
-
-    private void Awake()
+    
+    public override void OnStart()
     {
-        Instance = this;
         CacheAllSpawnPoints();
+        Debug.Log("Outlaw spawn points cached: " + allOutlawSpawnPoints.Count);
     }
 
     private void CacheAllSpawnPoints()
@@ -58,7 +58,11 @@ public class TrainSpawnDirector : GamemodeSubsystem
 
     public void SpawnOutlawWave(int baseOutlawCount)
     {
+        Debug.Log("Spawning outlaw wave. Base count: " + baseOutlawCount);
+
         int finalOutlawCount = GetModifiedOutlawCount(baseOutlawCount);
+        Debug.Log("Final outlaw count: " + finalOutlawCount);
+        Debug.Log("Available outlaw spawn points: " + allOutlawSpawnPoints.Count);
 
         List<int> availableIndexes = new List<int>();
 

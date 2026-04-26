@@ -40,6 +40,7 @@ public class TrainGameMode : MonoBehaviour
         levelFlow.OnStart();
         playerSystem.OnStart();
         trainLife.OnStart();
+        trainSpawnDirector.OnStart();
         speedManager.OnStart();
         speedManager.StartStartup();
 
