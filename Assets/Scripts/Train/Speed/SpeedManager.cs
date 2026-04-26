@@ -29,6 +29,8 @@ public class SpeedManager : GamemodeSubsystem
     [SerializeField] private float speedDecayAmount = 10f;
     [Tooltip("Tiempo en segundos en el que pierde speedDecayAmount.")]
     [SerializeField] private float speedDecayInterval = 5f;
+    
+    private float currentBrakeMultiplier = 1f;
 
     [Header("HUD")]
 	[SerializeField] private RectTransform speedNeedle;
@@ -104,7 +106,17 @@ public class SpeedManager : GamemodeSubsystem
         if ((!startupTriggered || isStartingUp) || (speedDecayInterval <= 0f)) return;
 
         float decayPerSecond = speedDecayAmount / speedDecayInterval;
-        currentSpeed -= decayPerSecond * Time.deltaTime;
+        currentSpeed -= decayPerSecond * currentBrakeMultiplier * Time.deltaTime;
+    }
+    
+    public void SetBrakeMultiplier(float brakeMultiplier)
+    {
+        currentBrakeMultiplier = brakeMultiplier;
+    }
+
+    public void ResetBrakeMultiplier()
+    {
+        currentBrakeMultiplier = 1f;
     }
 
     private void ApplyRuntimeClamp()
@@ -178,13 +190,5 @@ public class SpeedManager : GamemodeSubsystem
         ApplyRuntimeClamp();
         UpdateSpeedState();
         UpdateHUD();
-    }
-    
-    public void ApplyBrakeMultiplier(float brakeMultiplier)
-    {
-        Debug.Log("BEAKING");
-        float brakeDecay = speedDecayAmount * brakeMultiplier;
-        currentSpeed -= brakeDecay * Time.deltaTime;
-        currentSpeed = Mathf.Max(currentSpeed, 0f);
     }
 }

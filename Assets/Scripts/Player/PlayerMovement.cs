@@ -246,7 +246,8 @@ public class PlayerMovement : MonoBehaviour
         
         if (currentBrakeLever is not null)
         {
-            currentBrakeLever?.OnRelease();
+            currentBrakeLever.OnRelease(this);
+            currentBrakeLever = null;
             currentState = PlayerState.Move;
         }
     }
@@ -306,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     currentState = PlayerState.Locked;
                     currentBrakeLever = brakeLever;
-                    currentBrakeLever.OnHold();
+                    currentBrakeLever.OnHold(this);
                 }
 
                 //throw new WarningException("Object with IInteractable which doesn't need it");

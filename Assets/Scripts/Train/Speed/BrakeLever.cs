@@ -1,31 +1,46 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
 public class BrakeLever : MonoBehaviour
 {
     [Header("Brake")]
     [SerializeField] private float brakeDecayMultiplier = 3f;
-    
-    private bool isHolded = false;
 
-    private int currentPlayer;
+    private PlayerMovement currentPlayer;
+    private bool isHolded;
 
-    public void OnHold()
+    public void OnHold(PlayerMovement player)
     {
         if (isHolded) return;
+
+        currentPlayer = player;
         isHolded = true;
+
+        TrainGameMode.instance.GetSpeedManager().SetBrakeMultiplier(brakeDecayMultiplier);
     }
 
-    public void OnRelease()
+    public void OnRelease(PlayerMovement player)
+    {
+        if (currentPlayer != player) return;
+
+        ReleaseBrake();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!isHolded) return;
+
+        if (other.TryGetComponent(out PlayerMovement player) && player == currentPlayer)
+        {
+            ReleaseBrake();
+            player.currentState = PlayerState.Move;
+        }
+    }
+
+    private void ReleaseBrake()
     {
         isHolded = false;
-        TrainGameMode.instance.GetPlayer(currentPlayer).currentState = PlayerState.Move;
-    }
+        currentPlayer = null;
 
-    private void Update()
-    {
-        if (isHolded) TrainGameMode.instance.GetSpeedManager().ApplyBrakeMultiplier(brakeDecayMultiplier);
+        TrainGameMode.instance.GetSpeedManager().ResetBrakeMultiplier();
     }
 }
