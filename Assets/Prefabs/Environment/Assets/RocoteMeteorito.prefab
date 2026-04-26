@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3793033592968535516}
   - component: {fileID: 2635558409261594609}
   - component: {fileID: 3662643763849017401}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HitParts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4908,7 +4908,7 @@ GameObject:
   - component: {fileID: 1808400881247887210}
   - component: {fileID: 1888028965253414372}
   - component: {fileID: 5615122289707982944}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RocoteMeteorito
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5046,7 +5046,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025594668332483197}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -5076,7 +5076,7 @@ GameObject:
   - component: {fileID: 7957608813649175557}
   - component: {fileID: 1137130919898029337}
   - component: {fileID: 566129671027686288}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DragParts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9912,7 +9912,7 @@ GameObject:
   - component: {fileID: 7573190745348887028}
   - component: {fileID: 8162323196727890970}
   - component: {fileID: 1918880122773451459}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10003,7 +10003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4128644296622696417}
   - component: {fileID: 905022829394787596}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollapseWarningShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10051,7 +10051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3176985945270131347}
   - component: {fileID: 1661936956211550349}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

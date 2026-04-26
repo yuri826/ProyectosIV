@@ -4376,6 +4376,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 473785077}
   m_CullTransparentMesh: 1
+--- !u!4 &486197558 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6459544910866907743, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 571318919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490678046
 GameObject:
   m_ObjectHideFlags: 0
@@ -11579,7 +11584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArrowVolleySystem
   levelCamera: {fileID: 2144853976}
-  warningHUD: {fileID: 0}
+  warningHUD: {fileID: 649661547}
   arrowVolleyStrikePrefab: {fileID: 2521779194948316553, guid: 8550e65ed44271d4daa5ce39d5d249d8, type: 3}
   outsideCameraOffset: 5
   defaultTravelSpeed: 18
@@ -18860,6 +18865,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!4 &1001699110 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6459544910866907743, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 588762221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1007207077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25931,6 +25941,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!4 &1309838476 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6459544910866907743, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 1389284762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1317130876
 GameObject:
   m_ObjectHideFlags: 0
@@ -27745,6 +27760,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449574235}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1462614109 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6459544910866907743, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
+  m_PrefabInstance: {fileID: 292229656}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1467596878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28178,8 +28198,21 @@ MonoBehaviour:
     - {fileID: 8055160176714418453}
   cartManager:
     <cartPoints>k__BackingField:
-    - <TransformPoint>k__BackingField: {fileID: 0}
-      <TrainCarZone>k__BackingField: {fileID: 0}
+    - <AppearPoint>k__BackingField: {fileID: 2017609676}
+      <TransformPoint>k__BackingField: {fileID: 486197558}
+      <TrainCarZone>k__BackingField: {fileID: 2094568515}
+      <IsTaken>k__BackingField: 0
+    - <AppearPoint>k__BackingField: {fileID: 2017609676}
+      <TransformPoint>k__BackingField: {fileID: 1462614109}
+      <TrainCarZone>k__BackingField: {fileID: 627595373}
+      <IsTaken>k__BackingField: 0
+    - <AppearPoint>k__BackingField: {fileID: 2017609676}
+      <TransformPoint>k__BackingField: {fileID: 1001699110}
+      <TrainCarZone>k__BackingField: {fileID: 744654136}
+      <IsTaken>k__BackingField: 0
+    - <AppearPoint>k__BackingField: {fileID: 2017609676}
+      <TransformPoint>k__BackingField: {fileID: 1309838476}
+      <TrainCarZone>k__BackingField: {fileID: 1389284768}
       <IsTaken>k__BackingField: 0
     trainCarZones:
     - {fileID: 2094568515}
@@ -28189,7 +28222,15 @@ MonoBehaviour:
   levelEventSubsystem:
     levelEvents:
     - <execTime>k__BackingField: 1
+      <levelEvent>k__BackingField: {fileID: 11400000, guid: 5677d31fa13a1c44c9334c5ef97e4f0b, type: 2}
+    - <execTime>k__BackingField: 5
       <levelEvent>k__BackingField: {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
+    - <execTime>k__BackingField: 20
+      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
+    - <execTime>k__BackingField: 25
+      <levelEvent>k__BackingField: {fileID: 11400000, guid: 49859cc343a3f1743bf86e98adecd351, type: 2}
+    - <execTime>k__BackingField: 45
+      <levelEvent>k__BackingField: {fileID: 11400000, guid: 8c79286bcf97f9340901f1b8dead0cc5, type: 2}
   trainSpawnDirector:
     trainCarZones:
     - {fileID: 2094568515}
@@ -29901,6 +29942,7 @@ Transform:
   - {fileID: 2022365129}
   - {fileID: 813819241}
   - {fileID: 319032286}
+  - {fileID: 2017609676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1740204626
@@ -36613,6 +36655,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014346919}
   m_CullTransparentMesh: 1
+--- !u!1 &2017609675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2017609676}
+  m_Layer: 0
+  m_Name: EnemyCarAppearPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2017609676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017609675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -50, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1722878229}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2022365128
 GameObject:
   m_ObjectHideFlags: 0
@@ -38085,7 +38158,7 @@ MonoBehaviour:
   playerWeapon: {fileID: 439867393}
   respawnInvulnerabilityTime: 3
   playerMesh: {fileID: 464277595}
-  maxHealth: 3
+  maxHealth: 1
   damageCooldown: 1
   respawnDelay: 5
   levelCamera: {fileID: 2144853973}

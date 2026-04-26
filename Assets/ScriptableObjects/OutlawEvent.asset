@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfbcfe2e5ee40dd4993f569384ef2a10, type: 3}
   m_Name: OutlawEvent
   m_EditorClassIdentifier: Assembly-CSharp::OutlawEvent
-  outlawCount: 0
+  outlawCount: 2
