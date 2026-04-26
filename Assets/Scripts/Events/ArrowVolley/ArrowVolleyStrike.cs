@@ -13,47 +13,31 @@ public class ArrowVolleyStrike : MonoBehaviour
     private Vector3 endPosition;
     private float damage;
 
-    private readonly List<PlayerHealthManager> damagedPlayers = new();
-
     public void Initialize(Vector3 startPosition, Vector3 targetPosition, ArrowVolleyDirection volleyDirection, float volleyDamage)
     {
         transform.position = startPosition;
         endPosition = targetPosition;
         damage = volleyDamage;
-        damagedPlayers.Clear();
-
+        
         moveDirection = (targetPosition - startPosition).normalized;
         RotateToDirection(volleyDirection);
     }
 
     private void Update()
     {
-        transform.position += moveDirection * travelSpeed * Time.deltaTime;
+        transform.position += moveDirection * (travelSpeed * Time.deltaTime);
 
         float distanceToEnd = Vector3.Distance(transform.position, endPosition);
-
-        if (distanceToEnd <= lifeAfterReachingEnd)
-        {
-            Destroy(gameObject);
-        }
+        if (distanceToEnd <= lifeAfterReachingEnd) Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerHealthManager playerHealth = other.GetComponent<PlayerHealthManager>();
-
-        if (playerHealth == null)
-        {
-            return;
-        }
-
-        if (damagedPlayers.Contains(playerHealth))
-        {
-            return;
-        }
-
-        playerHealth.TakeDamage(damage);
-        damagedPlayers.Add(playerHealth);
+        //Mucho mejor un trygetcomponent
+        // PlayerHealthManager playerHealth = other.GetComponent<PlayerHealthManager>();
+        // if ((playerHealth is null) || (damagedPlayers.Contains(playerHealth))) return;
+        
+        if (other.TryGetComponent(out PlayerHealthManager playerHealth)) playerHealth.TakeDamage(damage);
     }
 
     private void RotateToDirection(ArrowVolleyDirection volleyDirection)
