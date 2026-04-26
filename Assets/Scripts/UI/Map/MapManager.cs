@@ -5,10 +5,6 @@ using UnityEngine.InputSystem;
 
 public class MapManager : MonoBehaviour
 {
-    //TO FIX
-    
-    public static MapManager instance;
-    
     private GameInstance gameInstance => GameInstance.instance;
     
     [Tooltip("RESPETAR ORDEN NUMERICO!")][SerializeField] private MapNode[] nodeList;
@@ -22,58 +18,67 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
         playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
     {
-        // //debería de ser currentLevel y luego animación hacia el next
-        // currentNode = nodeList[levelManager.NewLevel];
-        //
-        // for (var i = 0; i < levelManager.CurrentLevel; i++)
-        // {
-        //     nodeList[i].SetState(MapNodeState.Completed);
-        // }
-        //
-        // nodeList[levelManager.NewLevel].SetState(MapNodeState.Unlocked);
-        //
-        // for (var i = levelManager.NewLevel+1; i < nodeList.Length; i++)
-        // {
-        //     nodeList[i].SetState(MapNodeState.Locked);
-        // }
-        //
-        // currentNode.ActivateNodeInfo();
-        // mapCursor.transform.position = currentNode.CursorPos.position;
-        // mapCamera.MoveToPos(currentNode.CameraPosition);
+        //Pone el nodo actual
+        currentNodeIndex = gameInstance.lastLevel;
+        currentNode = nodeList[currentNodeIndex];
+        
+        //Mueve la cámara, el cursor y activa la info
+        currentNode.ActivateNodeInfo();
+        mapCursor.transform.position = currentNode.CursorPos.position;
+        mapCamera.MoveToPos(currentNode.CameraPosition);
     }
 
+    //Input binding
     private void OnEnable()
     {
         playerInput.SwitchCurrentActionMap("UI");
         playerInput.actions["Left"].started += MoveNodeLeft;
+        playerInput.actions["Up"].started += MoveNodeLeft;
         playerInput.actions["Right"].started += MoveNodeRight;
+        playerInput.actions["Down"].started += MoveNodeRight;
     }
     
-    private void MoveNodeLeft(InputAction.CallbackContext obj){ MoveNode(-1);}
-    private void MoveNodeRight(InputAction.CallbackContext obj){ MoveNode(1);}
-
+    private void MoveNodeLeft(InputAction.CallbackContext obj){ print("LEFT"); MoveNode(-1);}
+    private void MoveNodeRight(InputAction.CallbackContext obj){ print("RIGHT");MoveNode(1);}
+    
     private void MoveNode(int direction)
     {
-        // currentNode.DeactivateNodeInfo();
-        //
-        // int oldCurrentNodeIndex = currentNodeIndex;
-        //
-        // currentNodeIndex += direction;
-        // currentNodeIndex = Mathf.Clamp(currentNodeIndex,0,levelManager.NewLevel);
-        //
-        // currentNode = nodeList[currentNodeIndex];
-        //
-        // if (currentNodeIndex != oldCurrentNodeIndex)
-        // {
-        //     currentNode.ActivateNodeInfo();
-        //     mapCursor.transform.position = currentNode.CursorPos.position;
-        //     mapCamera.MoveToPos(currentNode.CameraPosition);
-        // }
+        int newIndex = currentNodeIndex + direction;
+        
+        // if ((newIndex >= nodeList.Length) 
+        //     ||  (newIndex < 0) //Mira si está dentro de los nodos posibles
+        //     || (nodeList[newIndex].currentState == MapNodeState.Locked)) return; //Mira si el siguiente está bloqueado
+
+        if (newIndex >= nodeList.Length)
+        {
+            return;
+        }
+        
+        if (newIndex < 0)
+        {
+            return;
+        }
+
+        if (nodeList[newIndex].currentState == MapNodeState.Locked)
+        {
+            print("locked");
+        }
+            
+        //Desactiva la información del nodo
+        currentNode.DeactivateNodeInfo();
+        
+        //Pone el siguiente nodo como el actual
+        currentNodeIndex += direction;
+        currentNode = nodeList[currentNodeIndex];
+        
+        //Activa la información, mueve el cursor y la cámara
+        mapCursor.transform.position = currentNode.CursorPos.position;
+        mapCamera.MoveToPos(currentNode.CameraPosition);
+        currentNode.ActivateNodeInfo();
     }
 }

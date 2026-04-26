@@ -27,7 +27,7 @@ public class MapNode : MonoBehaviour
     
     //[SerializeField] private Button nodeButton;
     //[SerializeField] private Button playButton;
-    public MapNodeState currentState = MapNodeState.Locked; //Should be private, public for debugging
+    public MapNodeState currentState { get; private set; }
 
 
     private void Start()
@@ -57,11 +57,6 @@ public class MapNode : MonoBehaviour
     public void ActivateNodeInfo()
     {
         infoTypewriter.TypeText(nodeInfo.Title, nodeInfo.Info, 0.6f);
-    }
-
-    public void SetState(MapNodeState state)
-    {
-        currentState = state;
     }
 
     public void DeactivateNodeInfo()

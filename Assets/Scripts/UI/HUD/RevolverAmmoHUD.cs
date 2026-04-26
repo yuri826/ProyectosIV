@@ -33,37 +33,43 @@ public class RevolverAmmoHUD : MonoBehaviour
         SetAmmoInstant(chamberAmmo);
     }
 
+    //Variable setting
     private void SetAmmoInstant(int chamberAmmo)
     {
         chamberAmmo = Mathf.Clamp(chamberAmmo, 0, chamberSprites.Length - 1);
         chamberImage.sprite = chamberSprites[chamberAmmo];
     }
+    
+    private void SetChamberRotation(float zRotation)
+    {
+        currentZRotation = zRotation;
+        chamberRectTransform.localRotation = Quaternion.Euler(0f, 0f, currentZRotation);
+    }
 
+    //On shot and reload
     public void OnShot(int newChamberAmmo, float shootCooldown)
     {
-        StopAllActiveAnimations();
+        StopAllCoroutines();
         shotRoutine = StartCoroutine(ShotSequence(newChamberAmmo, shootCooldown));
     }
 
     public void OnReloadBulletInserted(int newChamberAmmo)
     {
-        StopReloadFinishOnly();
+        if (reloadFinishRoutine is not null) StopCoroutine(reloadFinishRoutine);
+        if (rotateRoutine is not null) StopCoroutine(rotateRoutine);
 
         SetAmmoInstant(newChamberAmmo);
-
-        if (rotateRoutine != null)
-        {
-            StopCoroutine(rotateRoutine);
-        }
 
         rotateRoutine = StartCoroutine(RotateByAngle(chamberStepAngle, reloadInsertRotateDuration));
     }
 
     public void OnReloadComplete()
     {
-        StopReloadFinishOnly();
+        if (reloadFinishRoutine is not null) StopCoroutine(reloadFinishRoutine);
         reloadFinishRoutine = StartCoroutine(ReloadCompleteSequence());
     }
+    
+    #region Animations
 
     private IEnumerator ShotSequence(int newChamberAmmo, float shootCooldown)
     {
@@ -111,7 +117,7 @@ public class RevolverAmmoHUD : MonoBehaviour
         }
 
         SetChamberRotation(endAngle);
-        rotateRoutine = null;
+        //rotateRoutine = null;
     }
 
     private IEnumerator SpinFullTurns(int fullTurns, float duration)
@@ -134,40 +140,38 @@ public class RevolverAmmoHUD : MonoBehaviour
 
         SetChamberRotation(endAngle);
     }
+    
+    #endregion
 
-    private void SetChamberRotation(float zRotation)
-    {
-        currentZRotation = zRotation;
-        chamberRectTransform.localRotation = Quaternion.Euler(0f, 0f, currentZRotation);
-    }
+    
 
-    private void StopAllActiveAnimations()
-    {
-        if (shotRoutine != null)
-        {
-            StopCoroutine(shotRoutine);
-            shotRoutine = null;
-        }
+    // private void StopAllActiveAnimations()
+    // {
+    //     if (shotRoutine != null)
+    //     {
+    //         StopCoroutine(shotRoutine);
+    //         shotRoutine = null;
+    //     }
+    //
+    //     if (rotateRoutine != null)
+    //     {
+    //         StopCoroutine(rotateRoutine);
+    //         rotateRoutine = null;
+    //     }
+    //
+    //     if (reloadFinishRoutine != null)
+    //     {
+    //         StopCoroutine(reloadFinishRoutine);
+    //         reloadFinishRoutine = null;
+    //     }
+    // }
 
-        if (rotateRoutine != null)
-        {
-            StopCoroutine(rotateRoutine);
-            rotateRoutine = null;
-        }
-
-        if (reloadFinishRoutine != null)
-        {
-            StopCoroutine(reloadFinishRoutine);
-            reloadFinishRoutine = null;
-        }
-    }
-
-    private void StopReloadFinishOnly()
-    {
-        if (reloadFinishRoutine != null)
-        {
-            StopCoroutine(reloadFinishRoutine);
-            reloadFinishRoutine = null;
-        }
-    }
+    // private void StopReloadFinishOnly()
+    // {
+    //     if (reloadFinishRoutine is not null) StopCoroutine(reloadFinishRoutine);
+    //     // {
+    //     //     StopCoroutine(reloadFinishRoutine);
+    //     //     reloadFinishRoutine = null;
+    //     // }
+    // }
 }

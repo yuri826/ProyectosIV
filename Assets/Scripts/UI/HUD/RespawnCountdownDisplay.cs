@@ -15,10 +15,12 @@ public class RespawnCountdownDisplay : MonoBehaviour
 
     public void ShowTime(float remainingTime)
     {
+        //Seconds to show
         int secondsToShow = Mathf.CeilToInt(remainingTime);
         countdownText.text = secondsToShow.ToString();
-        countdownText.gameObject.SetActive(true);
 
+        //Enable graphics
+        countdownText.gameObject.SetActive(true);
         backgroundObject.SetActive(true);
     }
 
