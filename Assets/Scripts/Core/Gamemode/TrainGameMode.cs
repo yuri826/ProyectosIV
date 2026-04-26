@@ -40,6 +40,7 @@ public class TrainGameMode : MonoBehaviour
         levelFlow.OnStart();
         playerSystem.OnStart();
         trainLife.OnStart();
+        speedManager.OnStart();
 
         //Suscribe todos los subsistemas necesarios a ganar y perder
         onWin += Win;
@@ -63,6 +64,7 @@ public class TrainGameMode : MonoBehaviour
                 
                 uiUpdater.OnUpdate();
                 levelFlow.OnUpdate();
+                speedManager.OnUpdate();
                 
                 break;
         }

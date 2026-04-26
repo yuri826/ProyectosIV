@@ -1405,7 +1405,11 @@ MonoBehaviour:
   - {fileID: 454853339057607964}
   - {fileID: 5919957351527289781}
   - {fileID: 7548441878355798003}
-  <collapseSpawnPoints>k__BackingField: []
+  <collapseSpawnPoints>k__BackingField:
+  - {fileID: 1157732316870906842}
+  - {fileID: 3076370945137093502}
+  - {fileID: 6811798368132701390}
+  - {fileID: 6884444681094583330}
   maxBrokenPoints: 5
   playersInsideCar: []
   <playerRespawnPoint>k__BackingField: {fileID: 1674898121822785673}
