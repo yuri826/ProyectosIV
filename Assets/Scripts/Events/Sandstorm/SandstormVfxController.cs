@@ -34,13 +34,14 @@ public class SandstormVfxController : MonoBehaviour
 
     private void SetDirection(Vector3 windDirection)
     {
-        if (visualRoot is null) return;
-
         Vector3 flatDirection = windDirection;
         flatDirection.y = 0f;
 
         if (flatDirection == Vector3.zero) return;
 
-        visualRoot.rotation = Quaternion.LookRotation(flatDirection.normalized, Vector3.up);
+        Quaternion targetRotation = Quaternion.LookRotation(flatDirection.normalized, Vector3.up);
+        Quaternion axisCorrection = Quaternion.FromToRotation(forwardAxis.normalized, Vector3.forward);
+
+        visualRoot.rotation = targetRotation * axisCorrection;
     }
 }
