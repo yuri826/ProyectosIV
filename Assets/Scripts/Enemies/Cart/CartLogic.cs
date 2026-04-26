@@ -12,6 +12,7 @@ public class CartLogic : MonoBehaviour
     private CartShootState shootState = CartShootState.LookLeftToSide;
     private Transform currentCartPoint;
     private TrainCarZone currentTrainCarZone;
+    private CartPoint currentCartPointData;
     private CartEnemyManager cartManager => TrainGameMode.instance.GetCartManager();
 
     [Header("Movement")] 
@@ -45,13 +46,18 @@ public class CartLogic : MonoBehaviour
         switch (cartState)
         {
             case CartState.MoveToCart:
-                
-                this.transform.position = Vector3.Lerp(this.transform.position, currentCartPoint.position, Time.deltaTime * appearSpeed);
 
-                if (Vector3.Distance(this.transform.position, currentCartPoint.position) < 0.2f)
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    currentCartPoint.position,
+                    appearSpeed * Time.deltaTime
+                );
+
+                if (Vector3.Distance(transform.position, currentCartPoint.position) < 0.05f)
                 {
-                    shootRoutine = StartCoroutine(ShootRoutine());
+                    transform.position = currentCartPoint.position;
                     cartState = CartState.InCart;
+                    shootRoutine = StartCoroutine(ShootRoutine());
                 }
 
                 break;
@@ -101,9 +107,13 @@ public class CartLogic : MonoBehaviour
         //Se setean las variables tras coger un carro aleatorio entre los posibles
         
         int cartN = Random.Range(0, possibleLocations.Count);
-        currentCartPoint = possibleLocations[cartN].TransformPoint;
-        currentTrainCarZone = possibleLocations[cartN].TrainCarZone;
-        possibleLocations[cartN].IsTaken = true;
+
+        currentCartPointData = possibleLocations[cartN];
+        currentCartPoint = currentCartPointData.TransformPoint;
+        currentTrainCarZone = currentCartPointData.TrainCarZone;
+        currentCartPointData.IsTaken = true;
+
+        transform.position = currentCartPointData.AppearPoint.position;
     }
 
     private IEnumerator ShootRoutine()
@@ -124,6 +134,7 @@ public class CartLogic : MonoBehaviour
         if (sabotagePoint is not null)
         {
             sabotagePoint.BreakPoint();
+            TrainGameMode.instance.TakeDamage(sabotagePoint.damageAmount);
         }
 
         shootRoutine = StartCoroutine(ShootRoutine());

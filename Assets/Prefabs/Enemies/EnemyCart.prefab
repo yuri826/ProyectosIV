@@ -344,6 +344,7 @@ Transform:
   m_Children:
   - {fileID: 5608641964514934251}
   - {fileID: 2034667572254342938}
+  - {fileID: 8401288065718262595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &934495393617077938
@@ -436,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69192b88fb05dbc42bf0c00869034d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CartLogic
-  appearSpeed: 5
+  appearSpeed: 8
   moveSpeed: 2
   moveAmplitude: 8
   bulletPrefab: {fileID: 2257593463338473087, guid: b14533207f015f449a133d02db2ae89c, type: 3}
@@ -445,7 +446,38 @@ MonoBehaviour:
   bulletNumber: 32
   maxSideAngle: 45
   shootDir: {x: 0, y: 0, z: -1}
-  shootPoint: {fileID: 8501213521409123281}
+  shootPoint: {fileID: 8401288065718262595}
+--- !u!1 &4244284626317579909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8401288065718262595}
+  m_Layer: 0
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8401288065718262595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4244284626317579909}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8501213521409123281}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5547814016560866360
 GameObject:
   m_ObjectHideFlags: 0
