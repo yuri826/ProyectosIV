@@ -31,8 +31,10 @@ public class SpeedManager : GamemodeSubsystem
     [SerializeField] private float speedDecayInterval = 5f;
 
     [Header("HUD")]
-    [SerializeField] private Image speedBarFill;
-    [SerializeField] private TextMeshProUGUI speedText;
+	[SerializeField] private RectTransform speedNeedle;
+	[SerializeField] private TextMeshProUGUI speedText;
+	[SerializeField] private float minNeedleAngle = 90f;
+	[SerializeField] private float maxNeedleAngle = -90f;
 
     [Header("CoalBoost")]
     private float targetCoalSpeed;
@@ -160,7 +162,9 @@ public class SpeedManager : GamemodeSubsystem
     private void UpdateHUD()
     {
         float normalizedSpeed = Mathf.InverseLerp(0f, maxSpeed, currentSpeed);
-        speedBarFill.fillAmount = normalizedSpeed;
+        float needleAngle = Mathf.Lerp(minNeedleAngle, maxNeedleAngle, normalizedSpeed);
+
+        speedNeedle.localRotation = Quaternion.Euler(0f, 0f, needleAngle);
         speedText.text = $"{Mathf.RoundToInt(currentSpeed)} km/h";
     }
 
