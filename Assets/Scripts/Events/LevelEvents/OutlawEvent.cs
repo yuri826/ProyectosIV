@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "OutlawEvent", menuName = "Scriptable Objects/Level Events/OutlawEvent")]
+[CreateAssetMenu(fileName = "OutlawEvent", menuName = "Scriptable Objects/Level Events/Outlaw Event")]
 public class OutlawEvent : LevelEvent
 {
     [SerializeField] private int outlawCount;

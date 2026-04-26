@@ -28177,7 +28177,10 @@ MonoBehaviour:
     players:
     - {fileID: 8055160176714418453}
   cartManager:
-    <cartPoints>k__BackingField: []
+    <cartPoints>k__BackingField:
+    - <TransformPoint>k__BackingField: {fileID: 0}
+      <TrainCarZone>k__BackingField: {fileID: 0}
+      <IsTaken>k__BackingField: 0
     trainCarZones:
     - {fileID: 2094568515}
     - {fileID: 627595373}
