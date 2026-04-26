@@ -121,24 +121,28 @@ public class SpeedManager : GamemodeSubsystem
     public void AddSpeed(float amount)
     {
         isCoalBoosting = true;
+        coalBoostTimer = 0f;
         targetCoalSpeed = Mathf.Clamp(currentSpeed + amount, 0f, maxSpeed);
     }
 
     private void CoalBoost()
     {
-        if (!isCoalBoosting) return;
+        if (!isCoalBoosting)
+        {
+            return;
+        }
         
         coalBoostTimer += Time.deltaTime;
 
-        var normalizedTime = Mathf.Clamp01(coalBoostTimer / coalSpeedBoostDuration);
-        var curveValue = coalBoostCurve.Evaluate(normalizedTime);
+        float normalizedTime = Mathf.Clamp01(coalBoostTimer / coalSpeedBoostDuration);
+        float curveValue = coalBoostCurve.Evaluate(normalizedTime);
 
         currentSpeed = Mathf.LerpUnclamped(currentSpeed, targetCoalSpeed, curveValue);
 
-        if (currentSpeed >= targetCoalSpeed)
+        if (normalizedTime >= 1f)
         {
             currentSpeed = targetCoalSpeed;
-            isCoalBoosting = true;
+            isCoalBoosting = false;
         }
     }
 
