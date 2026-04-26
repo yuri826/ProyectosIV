@@ -43,8 +43,8 @@ public class MapManager : MonoBehaviour
         playerInput.actions["Down"].started += MoveNodeRight;
     }
     
-    private void MoveNodeLeft(InputAction.CallbackContext obj){ print("LEFT"); MoveNode(-1);}
-    private void MoveNodeRight(InputAction.CallbackContext obj){ print("RIGHT");MoveNode(1);}
+    private void MoveNodeLeft(InputAction.CallbackContext obj){MoveNode(-1);}
+    private void MoveNodeRight(InputAction.CallbackContext obj){MoveNode(1);}
     
     private void MoveNode(int direction)
     {
