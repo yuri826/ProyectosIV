@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6360581377127546644}
   - component: {fileID: 3430795822461259513}
   - component: {fileID: 7214083724176559908}
-  - component: {fileID: 1529612049791698710}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -161,23 +160,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765d0f1f1f154a2439ceca50125886f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  playerN: 0
+  currentState: 0
   walkSpeed: 5
+  rotationSpeed: 12
+  gravity: -25
+  groundedVerticalSpeed: -2
   dashSpeed: 15
   maxDashTimer: 0.15
-  playerBullet: {fileID: 4597061953260433880, guid: 76e8a6980218e124bbaffb33afba712c, type: 3}
-  shootOffset: {x: 0, y: 0, z: 0}
   interactionDistance: 0.58
   interactionRadius: 0.48
   interactionOffset: {x: 0, y: -0.72, z: 0}
---- !u!114 &1529612049791698710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5848731309367880343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc406562110c37f459981aadf880b16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSystem

@@ -242,6 +242,8 @@ public class PlayerMovement : MonoBehaviour
     
     private void StopInteract(InputAction.CallbackContext obj)
     {
+        print("Stopinteraction");
+        
         if (currentBrakeLever is not null)
         {
             currentBrakeLever?.OnRelease();
