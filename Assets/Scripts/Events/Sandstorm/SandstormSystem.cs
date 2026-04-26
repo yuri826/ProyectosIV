@@ -4,7 +4,7 @@ using UnityEngine;
 public class SandstormSystem : MonoBehaviour
 {
     [Header("Sandstorm State")]
-    [SerializeField] private bool isSandstormActive = false;
+    [field:SerializeField] public bool isSandstormActive { get; set; } = false;
     [SerializeField] private float remainingDuration = 0f;
 
     [Header("Wind Settings")]
@@ -57,7 +57,7 @@ public class SandstormSystem : MonoBehaviour
     //     UpdateVisuals(true);
     // }
 
-    public void StopSandstorm()
+    private void StopSandstorm()
     {
         isSandstormActive = false;
         remainingDuration = 0f;

@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 returnVector = Vector3.zero;
 
-        if (SandstormSystem.Instance.isActiveAndEnabled)
+        if (SandstormSystem.Instance.isSandstormActive)
         {
             returnVector = SandstormSystem.Instance.GetWindDisplacement(baseSpeed) * Time.deltaTime;
         }

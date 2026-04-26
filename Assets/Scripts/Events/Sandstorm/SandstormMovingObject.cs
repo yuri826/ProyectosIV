@@ -55,7 +55,7 @@ public class SandstormMovingObject : MonoBehaviour
             return;
         }
 
-        bool sandstormActive = SandstormSystem.Instance is not null && SandstormSystem.Instance.isActiveAndEnabled;
+        bool sandstormActive = SandstormSystem.Instance is not null && SandstormSystem.Instance.isSandstormActive;
 
         // Solo queremos terminar el trayecto actual si la tormenta acaba
         // mientras el objeto estaba ya en movimiento.
