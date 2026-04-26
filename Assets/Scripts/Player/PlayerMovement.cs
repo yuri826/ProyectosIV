@@ -48,9 +48,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float interactionRadius;
     [SerializeField] private Vector3 interactionOffset;
     private DepositObj currentRepairDeposit;
-    
-    private bool isHoldingInteract = false;
-    public bool IsHoldingInteract => isHoldingInteract;
+    private BrakeLever currentBrakeLever;
     
     private void Awake()
     {
@@ -239,16 +237,16 @@ public class PlayerMovement : MonoBehaviour
         if ((currentState != PlayerState.Move) || 
             (playerWeapon != null && playerWeapon.isReloading)) return;
 
-        isHoldingInteract = true;
-
-        if ((currentState != PlayerState.Move) || playerWeapon.isReloading) return;
-        
-        StartCoroutine(InteractionWait());
+        Interaction();
     }
     
     private void StopInteract(InputAction.CallbackContext obj)
     {
-        isHoldingInteract = false;
+        if (currentBrakeLever is not null)
+        {
+            currentBrakeLever?.OnRelease();
+            currentState = PlayerState.Move;
+        }
     }
 
     private void Interaction()
@@ -302,6 +300,13 @@ public class PlayerMovement : MonoBehaviour
                     goto EndOfInteraction;
                 }
 
+                if (col.TryGetComponent(out BrakeLever brakeLever))
+                {
+                    currentState = PlayerState.Locked;
+                    currentBrakeLever = brakeLever;
+                    currentBrakeLever.OnHold();
+                }
+
                 //throw new WarningException("Object with IInteractable which doesn't need it");
             }
             else
@@ -336,11 +341,11 @@ public class PlayerMovement : MonoBehaviour
         EndOfInteraction: ; //print("end of interaction");
     }
     
-    private IEnumerator InteractionWait()
-    {
-        yield return new WaitForEndOfFrame();
-        Interaction();
-    }
+    // private IEnumerator InteractionWait()
+    // {
+    //     yield return new WaitForEndOfFrame();
+    //     Interaction();
+    // }
     
     private void Act(InputAction.CallbackContext obj)
     {
@@ -465,7 +470,6 @@ public class PlayerMovement : MonoBehaviour
     public void DisablePlayer()
     {
         StopMovingPushable();
-        isHoldingInteract = false;
         currentState = PlayerState.Locked;
     }
     

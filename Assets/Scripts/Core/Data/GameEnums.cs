@@ -6,6 +6,7 @@ public enum PlayerState
     Move,
     Dash,
     Repair,
+    BrakeHold,
     GameOver
 }
 

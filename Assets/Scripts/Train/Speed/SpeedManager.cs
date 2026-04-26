@@ -178,6 +178,7 @@ public class SpeedManager : GamemodeSubsystem
     
     public void ApplyBrakeMultiplier(float brakeMultiplier)
     {
+        Debug.Log("BEAKING");
         float brakeDecay = speedDecayAmount * brakeMultiplier;
         currentSpeed -= brakeDecay * Time.deltaTime;
         currentSpeed = Mathf.Max(currentSpeed, 0f);

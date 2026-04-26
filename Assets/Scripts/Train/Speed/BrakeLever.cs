@@ -1,59 +1,31 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrakeLever : MonoBehaviour, IInteractable
+[Serializable]
+public class BrakeLever : MonoBehaviour
 {
     [Header("Brake")]
     [SerializeField] private float brakeDecayMultiplier = 3f;
+    
+    private bool isHolded = false;
 
-    //Rehacer con IInteractable, que para algo está
-    // private readonly List<PlayerMovement> playersInRange = new();
-    //
-    // private void Update()
-    // {
-    //     if (!IsAnyPlayerHoldingInteract())
-    //     {
-    //         return;
-    //     }
-    //
-    //     TrainGameMode.instance.GetSpeedManager().ApplyBrakeMultiplier(brakeDecayMultiplier);
-    // }
-    //
-    // private bool IsAnyPlayerHoldingInteract()
-    // {
-    //     for (int i = 0; i < playersInRange.Count; i++)
-    //     {
-    //         if (playersInRange[i].IsHoldingInteract)
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //
-    //     return false;
-    // }
-    //
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (!other.TryGetComponent(out PlayerMovement player))
-    //     {
-    //         return;
-    //     }
-    //
-    //     if (playersInRange.Contains(player))
-    //     {
-    //         return;
-    //     }
-    //
-    //     playersInRange.Add(player);
-    // }
-    //
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (!other.TryGetComponent(out PlayerMovement player))
-    //     {
-    //         return;
-    //     }
-    //
-    //     playersInRange.Remove(player);
-    // }
+    private int currentPlayer;
+
+    public void OnHold()
+    {
+        if (isHolded) return;
+        isHolded = true;
+    }
+
+    public void OnRelease()
+    {
+        isHolded = false;
+        TrainGameMode.instance.GetPlayer(currentPlayer).currentState = PlayerState.Move;
+    }
+
+    private void Update()
+    {
+        if (isHolded) TrainGameMode.instance.GetSpeedManager().ApplyBrakeMultiplier(brakeDecayMultiplier);
+    }
 }
