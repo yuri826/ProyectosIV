@@ -28,6 +28,9 @@ public class PlayerAudioManager : MonoBehaviour
     [SerializeField] private EventReference onDeTool;
     [SerializeField] private EventReference dash;
     [SerializeField] private EventReference bulletPick;
+    [SerializeField] private EventReference reload;
+    [SerializeField] private EventReference hurt;
+    [SerializeField] private EventReference die;
     
     [SerializeField] private StudioEventEmitter eventEmitter;
 
@@ -51,8 +54,12 @@ public class PlayerAudioManager : MonoBehaviour
                 break;
             case PlayerSFX.bulletPick: EmmiterPlay(bulletPick);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(sfx), sfx, null);
+            case PlayerSFX.reload: EmmiterPlay(reload);
+                break;
+            case PlayerSFX.hurt: EmmiterPlay(hurt);
+                break;
+            case PlayerSFX.die: EmmiterPlay(die);
+                break;
         }
     }
 

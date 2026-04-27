@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using FMODUnity;
 using UnityEngine;
 
 public class CollapseRock : MonoBehaviour
@@ -27,6 +29,7 @@ public class CollapseRock : MonoBehaviour
     [SerializeField] private float crushRadius = 1f;
     [SerializeField] private GameObject impactVfxPrefab;
     [SerializeField] private ParticleSystem impactParts;
+    private StudioEventEmitter impactSfx;
     
     [Header("Colliders")]
     [SerializeField] private Collider solidCollider;
@@ -36,6 +39,11 @@ public class CollapseRock : MonoBehaviour
 
     private bool hasLanded = false;
     private bool hasReturnedTrainLife = false;
+
+    private void Awake()
+    {
+        impactSfx = GetComponent<StudioEventEmitter>();
+    }
 
     public void StartFall(CollapseRockSpawnPoint spawnPoint, CollapseSystem system)
     {
@@ -96,6 +104,7 @@ public class CollapseRock : MonoBehaviour
 
     private void OnRockLanded()
     {
+        impactSfx.Play();
         impactParts.Play();
         StartCoroutine(LandedRoutine());
     }
@@ -148,6 +157,8 @@ public class CollapseRock : MonoBehaviour
 
     public void RemoveRock()
     {
+        impactSfx.Play();
+        
         //Para mí estas líneas quedan bastante más limpias sin los corchetes, comprime más el código
         if (!hasLanded || hasReturnedTrainLife) return;
 
