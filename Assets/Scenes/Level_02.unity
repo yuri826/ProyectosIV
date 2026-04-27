@@ -2940,7 +2940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &349088766
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27624,7 +27624,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5862174734732207165, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 4864262023455280516, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 2077447426343347346, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 5185595297672280999, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 199321730410657767, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 6556671240638979729, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 7828781051523421987, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 3809611473977093790, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 1289924119427140703, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 973450289907710284, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 3986611164151724045, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 5160608020305780673, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 7369841489563211871, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 8441236843796562638, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 2755580891840483894, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 5126056722991153335, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 726563366717864560, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
+    - {fileID: 5375599024845907237, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33c86d13bfb119c4eab69298e389b457, type: 3}
