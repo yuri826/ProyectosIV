@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     
     private PlayerInput playerInput;
     private CharacterController characterController;
+    private PlayerAudioManager playerAudioManager;
     private PlayerWeapon playerWeapon;
 
     private Vector2 movementInputDirection;
@@ -52,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Awake()
     {
+        playerAudioManager = GetComponent<PlayerAudioManager>();
         playerInput = GetComponent<PlayerInput>();
         characterController = GetComponent<CharacterController>();
         playerWeapon = GetComponent<PlayerWeapon>();
@@ -212,6 +214,8 @@ public class PlayerMovement : MonoBehaviour
     //Dash
     private void Dash()
     {
+        playerAudioManager.PlaySfx(PlayerSFX.dash);
+        
         Vector3 dashDisplacement = lookDir * (dashSpeed * Time.deltaTime);
         Vector3 sandstormDisplacement = GetSandstormDisplacement(dashSpeed);
         Vector3 verticalDisplacement = GetVerticalDisplacement();
@@ -274,6 +278,8 @@ public class PlayerMovement : MonoBehaviour
                     // Caso especial: si son balas y tengo hueco en el cinturón, se equipan directamente.
                     if (pickableObj.type == ResourceType.Bullets)
                     {
+                        playerAudioManager.PlaySfx(PlayerSFX.bulletPick);
+                        
                         int ammoBatchAmount = playerWeapon.maxChamberAmmo;
                         int addedAmmo = playerWeapon.AddBeltAmmo(ammoBatchAmount);
 
@@ -284,6 +290,8 @@ public class PlayerMovement : MonoBehaviour
                         }
                     }
 
+                    playerAudioManager.PlaySfx(PlayerSFX.pickUpObj);
+                    
                     pickableObj.OnPick(this.transform);
                     currentObj = pickableObj;
                     isPicking = true;
@@ -294,6 +302,7 @@ public class PlayerMovement : MonoBehaviour
                 if (col.TryGetComponent<ObjectBox>(out var objectBox))
                 {
                     //print("object box");
+                    playerAudioManager.PlaySfx(PlayerSFX.pickUpObj);
                     
                     PickableObj newPickable = Instantiate(objectBox.objectToSpawn).GetComponent<PickableObj>();
                     newPickable.OnPick(this.transform);
@@ -316,6 +325,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (col.TryGetComponent<DepositObj>(out var deposit))
                 {
+                    playerAudioManager.PlaySfx(PlayerSFX.putDownObj);
+                    
                     deposit.OnObject(currentObj, out var correctObject);
 
                     if (correctObject)
@@ -336,6 +347,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (canDrop)
         {
+            playerAudioManager.PlaySfx(PlayerSFX.putDownObj);
+            
             currentObj?.Drop(lookDir);
             currentObj = null;
             isPicking = false;
@@ -357,6 +370,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (isPicking)
         {
+            playerAudioManager.PlaySfx(PlayerSFX.throwObj);
+            
             currentObj.Throw(lookDir, out var dropObj);
 
             if (!dropObj) return;
@@ -375,13 +390,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (col.TryGetComponent<DepositObj>(out var deposit) && deposit.currentState == DepositState.Tool)
                 {
-                    Debug.Log("Omg deposit to repair omg");
+                    playerAudioManager.PlaySfx(PlayerSFX.onTool);
+                    
                     currentRepairDeposit = deposit;
                     deposit.OnTool(playerN);
                     goto EndOfAct;
                 }
             }
-
+            
             playerWeapon.Shoot(lookDir);
 
             EndOfAct:;

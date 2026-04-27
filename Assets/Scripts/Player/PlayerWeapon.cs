@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class PlayerWeapon : MonoBehaviour
     [Header("Debug UI")]
     [SerializeField] private TextMeshProUGUI beltAmmoText;
     [SerializeField] private RevolverAmmoHUD revolverAmmoHUD;
+    
+    //Audio
+    private PlayerAudioManager playerAudioManager;
 
     private bool canShoot = true;
     public bool isReloading { get; private set; }
@@ -25,6 +29,11 @@ public class PlayerWeapon : MonoBehaviour
     private int currentBeltAmmo;
 
     private Coroutine reloadRoutine;
+
+    private void Awake()
+    {
+        playerAudioManager = GetComponent<PlayerAudioManager>();
+    }
 
     private void Start()
     {
@@ -53,6 +62,8 @@ public class PlayerWeapon : MonoBehaviour
 
     private void FireBullet(Vector3 dir)
     {
+        playerAudioManager.PlaySfx(PlayerSFX.shoot);
+        
         GameObject bulletObject = Instantiate(
             playerBullet,
             shootPoint.position,
@@ -74,6 +85,8 @@ public class PlayerWeapon : MonoBehaviour
         if ((isReloading) 
             || (currentBeltAmmo <= 0)
             || (currentChamberAmmo >= maxChamberAmmo)) return;
+        
+        playerAudioManager.PlaySfx(PlayerSFX.reload);
 
         reloadRoutine = StartCoroutine(ReloadRoutine());
     }

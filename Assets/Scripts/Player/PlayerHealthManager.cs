@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerHealthManager : MonoBehaviour, IDamageable
 {
     [Header("References")]
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerWeapon playerWeapon;
+    private PlayerMovement playerMovement;
+    private PlayerWeapon playerWeapon;
+    private PlayerAudioManager playerAudioManager;
 
     [Header("Respawn")]
     //[SerializeField] private PlayerRespawnManager playerRespawnManager;
@@ -31,6 +33,13 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     private bool isInvulnerable = false;
     private Coroutine invulnerabilityRoutine;
 
+    private void Awake()
+    {
+        playerAudioManager = GetComponent<PlayerAudioManager>();
+        playerMovement = GetComponent<PlayerMovement>();
+        playerWeapon = GetComponent<PlayerWeapon>();
+    }
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -39,6 +48,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         if (isDead || isInvulnerable || !canTakeDamage) return;
+        
+        playerAudioManager.PlaySfx(PlayerSFX.hurt);
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
@@ -80,6 +91,8 @@ public class PlayerHealthManager : MonoBehaviour, IDamageable
     public void ForceDie()
     {
         if (isDead) return;
+        
+        playerAudioManager.PlaySfx(PlayerSFX.die);
         
         //Variables locales
         TrainCarZone currentCarZone = TrainGameMode.instance.GetCartManager().FindCarZoneForPosition(transform.position);

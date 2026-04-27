@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,10 @@ public class MapManager : MonoBehaviour
 
     [Header("Aesthetic")] 
     [SerializeField] private Animator transitionAnim;
+    
+    [Header("Audio")]
+    [SerializeField] private StudioEventEmitter moveNode;
+    [SerializeField] private StudioEventEmitter selectNode;
     
     private PlayerInput playerInput;
     
@@ -68,7 +73,9 @@ public class MapManager : MonoBehaviour
         if ((newIndex >= nodeList.Length)
             || (newIndex < 0) //Mira si está dentro de los nodos posibles
             || (nodeList[newIndex].currentState == MapNodeState.Locked)) return;//Mira si el siguiente está bloqueado
-
+        
+        moveNode.Play();
+        
         //Desactiva la información del nodo
         currentNode.DeactivateNodeInfo();
         
@@ -84,6 +91,8 @@ public class MapManager : MonoBehaviour
     
     private void NodeClick(InputAction.CallbackContext obj)
     {
+        selectNode.Play();
+        
         if (currentNode.currentState == MapNodeState.Locked) return;
         
         playerInput.actions["Left"].started -= MoveNodeLeft;

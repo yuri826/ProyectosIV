@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,8 @@ public class MapNode : MonoBehaviour
     
     [SerializeField] private Transform cursorPosition;
     [SerializeField] private Transform cameraPosition;
+
+    private StudioEventEmitter sfx;
 
     public Transform CursorPos => cursorPosition;
     public Transform CameraPosition => cameraPosition;
@@ -53,6 +56,7 @@ public class MapNode : MonoBehaviour
 
     public void ActivateNodeInfo()
     {
+        sfx.Play();
         infoTypewriter.TypeText(nodeInfo.Title, nodeInfo.Info, 0.6f);
     }
 
