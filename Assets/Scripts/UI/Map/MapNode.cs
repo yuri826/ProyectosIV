@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MapNode : MonoBehaviour
@@ -43,14 +44,11 @@ public class MapNode : MonoBehaviour
         }
     }
 
-    private void NodeClicked()
+    public string GetNodeScene()
     {
-        switch (currentState)
-        {
-            case MapNodeState.Locked: break;
-            case MapNodeState.Unlocked: break;
-            case MapNodeState.Completed: break;
-        }
+        if (currentState == MapNodeState.Locked) return "locked";
+
+        return nodeInfo.SceneName;
     }
 
     public void ActivateNodeInfo()

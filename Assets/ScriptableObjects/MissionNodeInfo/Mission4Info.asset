@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4773e2cdcfdac241a3876a5765a6e2a, type: 3}
-  m_Name: Mission1Info
+  m_Name: Mission4Info
   m_EditorClassIdentifier: Assembly-CSharp::MapNodeInfo
-  title: MissionName
+  title: Mission4
   info: 'Flavour text and info heeeeeelllllllll yeah brother yeeehaw cowboys and
     shit loremipsumlorem ipsumlorem '
+  sceneName: Level_04

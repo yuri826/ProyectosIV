@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class MapManager : MonoBehaviour
     [Tooltip("RESPETAR ORDEN NUMERICO!")][SerializeField] private MapNode[] nodeList;
     [SerializeField] private GameObject mapCursor;
     [SerializeField] private MapCamera mapCamera;
+
+    [Header("Aesthetic")] 
+    [SerializeField] private Animator transitionAnim;
     
     private PlayerInput playerInput;
     
@@ -41,34 +46,29 @@ public class MapManager : MonoBehaviour
         playerInput.actions["Up"].started += MoveNodeLeft;
         playerInput.actions["Right"].started += MoveNodeRight;
         playerInput.actions["Down"].started += MoveNodeRight;
+        playerInput.actions["Select"].started += NodeClick;
     }
     
+    private void OnDisable()
+    {
+        playerInput.actions["Left"].started -= MoveNodeLeft;
+        playerInput.actions["Up"].started -= MoveNodeLeft;
+        playerInput.actions["Right"].started -= MoveNodeRight;
+        playerInput.actions["Down"].started -= MoveNodeRight;
+        playerInput.actions["Select"].started -= NodeClick;
+    }
+
     private void MoveNodeLeft(InputAction.CallbackContext obj){MoveNode(-1);}
     private void MoveNodeRight(InputAction.CallbackContext obj){MoveNode(1);}
     
     private void MoveNode(int direction)
     {
         int newIndex = currentNodeIndex + direction;
-        
-        // if ((newIndex >= nodeList.Length) 
-        //     ||  (newIndex < 0) //Mira si está dentro de los nodos posibles
-        //     || (nodeList[newIndex].currentState == MapNodeState.Locked)) return; //Mira si el siguiente está bloqueado
 
-        if (newIndex >= nodeList.Length)
-        {
-            return;
-        }
-        
-        if (newIndex < 0)
-        {
-            return;
-        }
+        if ((newIndex >= nodeList.Length)
+            || (newIndex < 0) //Mira si está dentro de los nodos posibles
+            || (nodeList[newIndex].currentState == MapNodeState.Locked)) return;//Mira si el siguiente está bloqueado
 
-        if (nodeList[newIndex].currentState == MapNodeState.Locked)
-        {
-            print("locked");
-        }
-            
         //Desactiva la información del nodo
         currentNode.DeactivateNodeInfo();
         
@@ -81,4 +81,30 @@ public class MapManager : MonoBehaviour
         mapCamera.MoveToPos(currentNode.CameraPosition);
         currentNode.ActivateNodeInfo();
     }
+    
+    private void NodeClick(InputAction.CallbackContext obj)
+    {
+        if (currentNode.currentState == MapNodeState.Locked) return;
+        
+        playerInput.actions["Left"].started -= MoveNodeLeft;
+        playerInput.actions["Up"].started -= MoveNodeLeft;
+        playerInput.actions["Right"].started -= MoveNodeRight;
+        playerInput.actions["Down"].started -= MoveNodeRight;
+        playerInput.actions["Select"].started -= NodeClick;
+
+        LoadScene(currentNode.GetNodeScene(),1);
+    }
+    
+    private void LoadScene(string sceneName, int time)
+    {
+        Time.timeScale = 1f;
+        StartCoroutine(LoadSceneRoutine(sceneName, time));
+        transitionAnim.SetTrigger("TransitionIn");
+    }
+
+    private IEnumerator LoadSceneRoutine(string sceneName, int time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(sceneName);
+    } 
 }

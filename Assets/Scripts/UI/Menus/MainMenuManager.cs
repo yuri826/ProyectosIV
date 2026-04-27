@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -7,16 +9,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject controlsCanvas;
     [SerializeField] private GameObject instructionsCanvas01;
     [SerializeField] private GameObject instructionsCanvas02;
+    [SerializeField] private Animator transitionAnim;
 
     [Header("Menus")]
     [SerializeField] private CanvasMenu mainMenu;
     [SerializeField] private CanvasMenu controlsMenu;
     [SerializeField] private CanvasMenu instructionsMenu01;
     [SerializeField] private CanvasMenu instructionsMenu02;
-
-    [Header("Scene Loading")]
-    [SerializeField] private SceneLoadManager sceneLoadManager;
-    [SerializeField] private string firstLevelSceneName;
 
     private GameObject previousCanvas;
 
@@ -86,11 +85,24 @@ public class MainMenuManager : MonoBehaviour
 
     public void ContinueFromInstructions02()
     {
-        SceneLoadManager.instance.LoadScene(firstLevelSceneName,1);
+        LoadScene("MapScene",1);
     }
 
     public void QuitGame()
     {
-        sceneLoadManager.QuitGame();
+        Application.Quit();
     }
+    
+    private void LoadScene(string sceneName, int time)
+    {
+        Time.timeScale = 1f;
+        StartCoroutine(LoadSceneRoutine(sceneName, time));
+        transitionAnim.SetTrigger("TransitionIn");
+    }
+
+    private IEnumerator LoadSceneRoutine(string sceneName, int time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(sceneName);
+    } 
 }
