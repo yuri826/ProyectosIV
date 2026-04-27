@@ -287,6 +287,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96707434}
   m_CullTransparentMesh: 1
+--- !u!114 &236944053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5510411016624881644, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+  m_PrefabInstance: {fileID: 8047937542381765376}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &372994729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1169,6 +1180,17 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: -1
   OverrideMaxDistance: -1
+--- !u!114 &816400722 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4404892642356451515, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+  m_PrefabInstance: {fileID: 8047937542381765376}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &947963315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,8 +2444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be21b23e66412840875432a411d084d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameInstance
-  <mapNodeStates>k__BackingField: 0200000002000000020000000100000000000000
-  lastLevel: 2
+  <mapNodeStates>k__BackingField: 0100000001000000010000000100000000000000
+  lastLevel: 1
 --- !u!4 &1300030615
 Transform:
   m_ObjectHideFlags: 0
@@ -2879,6 +2901,17 @@ RectTransform:
   m_AnchoredPosition: {x: -215.2, y: 0}
   m_SizeDelta: {x: 290, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1675497317 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8290015950877031349, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+  m_PrefabInstance: {fileID: 8047937542381765376}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1709399662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3282,7 +3315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1872499004
 Animator:
   serializedVersion: 7
@@ -3703,6 +3736,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6692762141194049403, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+      propertyPath: 'starImages.Array.data[0]'
+      value: 
+      objectReference: {fileID: 236944053}
+    - target: {fileID: 6692762141194049403, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+      propertyPath: 'starImages.Array.data[1]'
+      value: 
+      objectReference: {fileID: 816400722}
+    - target: {fileID: 6692762141194049403, guid: 92741c2263785814681e1c8e19cd2c28, type: 3}
+      propertyPath: 'starImages.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1675497317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
