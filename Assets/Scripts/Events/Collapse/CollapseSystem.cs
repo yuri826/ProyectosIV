@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class CollapseSystem : MonoBehaviour
@@ -15,6 +16,7 @@ public class CollapseSystem : MonoBehaviour
     [SerializeField] private TrainCarZone[] trainCarZones;
     [SerializeField] private ParticleSystem[] collapseParticles;
     [SerializeField] private LevelCamera levelCamera;
+    [SerializeField] private StudioEventEmitter collapseSfx;
 
     [Header("Camera Shake")]
     [SerializeField] private float collapseShakeAmount = 0.08f;
@@ -46,10 +48,9 @@ public class CollapseSystem : MonoBehaviour
 
     public void StartCollapse(float duration, int rockCount)
     {
-        if (collapseRoutine != null)
-        {
-            StopCoroutine(collapseRoutine);
-        }
+        if (collapseRoutine != null) StopCoroutine(collapseRoutine);
+        
+        collapseSfx.Play();
 
         remainingDuration = duration;
         isCollapseActive = true;
@@ -68,6 +69,8 @@ public class CollapseSystem : MonoBehaviour
     {
         isCollapseActive = false;
         remainingDuration = 0f;
+        
+        collapseSfx.Stop();
 
         for (int i = 0; i < collapseParticles.Length; i++)
         {
@@ -120,10 +123,7 @@ public class CollapseSystem : MonoBehaviour
     {
         List<float> delays = new List<float>();
 
-        if (rockCount <= 0)
-        {
-            return delays;
-        }
+        if (rockCount <= 0) return delays;
 
         for (int i = 0; i < rockCount; i++)
         {
@@ -144,10 +144,7 @@ public class CollapseSystem : MonoBehaviour
     {
         List<CollapseRockSpawnPoint> freePoints = GetFreeSpawnPoints();
 
-        if (freePoints.Count == 0)
-        {
-            return;
-        }
+        if (freePoints.Count == 0) return;
 
         int randomIndex = Random.Range(0, freePoints.Count);
         CollapseRockSpawnPoint selectedPoint = freePoints[randomIndex];
@@ -162,10 +159,7 @@ public class CollapseSystem : MonoBehaviour
 
         for (int i = 0; i < allSpawnPoints.Count; i++)
         {
-            if (!allSpawnPoints[i].isOccupied)
-            {
-                freePoints.Add(allSpawnPoints[i]);
-            }
+            if (!allSpawnPoints[i].isOccupied) freePoints.Add(allSpawnPoints[i]);
         }
 
         return freePoints;

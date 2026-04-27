@@ -19,7 +19,7 @@ public class SandstormSystem : MonoBehaviour
 
     [Header("Visual & Audio")]
     [SerializeField] private SandstormVfxController sandstormVfxController;
-    [SerializeField] private AudioSource sandstormAudioSource;
+    [SerializeField] private StudioEventEmitter sandstormAudioSource;
 
     [Header("Outlaws")]
     [SerializeField] private OutlawSystem[] outlawsInScene;
