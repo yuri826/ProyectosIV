@@ -20,6 +20,7 @@ public class SandstormSystem : MonoBehaviour
     [Header("Visual & Audio")]
     [SerializeField] private SandstormVfxController sandstormVfxController;
     [SerializeField] private StudioEventEmitter sandstormAudioSource;
+    [SerializeField] private LevelCamera levelCamera;
 
     [Header("Outlaws")]
     [SerializeField] private OutlawSystem[] outlawsInScene;
@@ -161,6 +162,11 @@ public class SandstormSystem : MonoBehaviour
             sandstormAudioSource?.Play();
         else
             sandstormAudioSource?.Stop();
+        
+        if (sandstormActive)
+            levelCamera.StartSandstormShake();
+        else
+            levelCamera.StopSandstormShake();
     }
     
     //Inutilizado

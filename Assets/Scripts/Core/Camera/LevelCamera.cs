@@ -3,28 +3,34 @@ using UnityEngine;
 public class LevelCamera : MonoBehaviour
 {
     [Header("Follow")]
-    [field: SerializeField] public Transform lookAt {get; set;}
+    [field: SerializeField] public Transform lookAt { get; set; }
     [SerializeField] private float followSmoothSpeed = 8f;
 
-    [Header("Shake")]
-    [SerializeField] private float shakeSpeed = 18f;
-    [SerializeField] private float impactShakeFadeSpeed = 4f;
+    [Header("Collapse Shake")]
+    [SerializeField] private float collapseShakeSpeed = 18f;
+    [SerializeField] private float collapseImpactFadeSpeed = 4f;
+
+    [Header("Sandstorm Shake")]
+    [SerializeField] private float sandstormShakeStrength = 0.04f;
+    [SerializeField] private float sandstormShakeSpeed = 16f;
 
     private Vector3 lookOffset;
     private Vector3 currentBasePosition;
 
-    private float collapseShakeAmount = 0f;
-    private float currentImpactShake = 0f;
+    private float collapseContinuousShakeAmount = 0f;
+    private float collapseImpactShakeAmount = 0f;
 
-    private float noiseSeedX;
-    private float noiseSeedY;
+    private bool isSandstormShakeActive;
+
+    private float collapseNoiseSeedX;
+    private float collapseNoiseSeedY;
 
     private void Start()
     {
         lookOffset = transform.position - lookAt.position;
 
-        noiseSeedX = Random.Range(0f, 100f);
-        noiseSeedY = Random.Range(100f, 200f);
+        collapseNoiseSeedX = Random.Range(0f, 100f);
+        collapseNoiseSeedY = Random.Range(100f, 200f);
 
         currentBasePosition = transform.position;
     }
@@ -39,36 +45,68 @@ public class LevelCamera : MonoBehaviour
             Time.deltaTime * followSmoothSpeed
         );
 
-        transform.position = currentBasePosition + GetShakeOffset();
+        transform.position = currentBasePosition + GetTotalShakeOffset();
 
-        currentImpactShake = Mathf.Lerp(currentImpactShake, 0f, Time.deltaTime * impactShakeFadeSpeed);
+        collapseImpactShakeAmount = Mathf.Lerp(
+            collapseImpactShakeAmount,
+            0f,
+            Time.deltaTime * collapseImpactFadeSpeed
+        );
     }
 
     public void SetCollapseShake(float amount)
     {
-        collapseShakeAmount = amount;
+        collapseContinuousShakeAmount = amount;
     }
 
     public void AddImpactShake(float amount)
     {
-        if (amount > currentImpactShake)
+        if (amount > collapseImpactShakeAmount)
         {
-            currentImpactShake = amount;
+            collapseImpactShakeAmount = amount;
         }
     }
 
-    private Vector3 GetShakeOffset()
+    public void StartSandstormShake()
     {
-        float totalShake = collapseShakeAmount + currentImpactShake;
+        isSandstormShakeActive = true;
+    }
 
-        if (totalShake <= 0f)
+    public void StopSandstormShake()
+    {
+        isSandstormShakeActive = false;
+    }
+
+    private Vector3 GetTotalShakeOffset()
+    {
+        return GetCollapseShakeOffset() + GetSandstormShakeOffset();
+    }
+
+    private Vector3 GetCollapseShakeOffset()
+    {
+        float totalCollapseShake = collapseContinuousShakeAmount + collapseImpactShakeAmount;
+
+        if (totalCollapseShake <= 0f)
         {
             return Vector3.zero;
         }
 
-        float sampleX = (Mathf.PerlinNoise(noiseSeedX, Time.time * shakeSpeed) - 0.5f) * 2f;
-        float sampleY = (Mathf.PerlinNoise(noiseSeedY, Time.time * shakeSpeed) - 0.5f) * 2f;
+        float sampleX = (Mathf.PerlinNoise(collapseNoiseSeedX, Time.time * collapseShakeSpeed) - 0.5f) * 2f;
+        float sampleY = (Mathf.PerlinNoise(collapseNoiseSeedY, Time.time * collapseShakeSpeed) - 0.5f) * 2f;
 
-        return new Vector3(sampleX, sampleY, 0f) * totalShake;
+        return new Vector3(sampleX, sampleY, 0f) * totalCollapseShake;
+    }
+
+    private Vector3 GetSandstormShakeOffset()
+    {
+        if (!isSandstormShakeActive)
+        {
+            return Vector3.zero;
+        }
+
+        float xOffset = Mathf.Sin(Time.time * sandstormShakeSpeed) * sandstormShakeStrength;
+        float yOffset = (Mathf.PerlinNoise(Time.time * sandstormShakeSpeed, 0f) - 0.5f) * sandstormShakeStrength;
+
+        return new Vector3(xOffset, yOffset, 0f);
     }
 }
