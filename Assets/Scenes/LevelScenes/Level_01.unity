@@ -28886,7 +28886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: levelEventSubsystem.<levelEvents>k__BackingField.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: cartManager.<cartPoints>k__BackingField.Array.data[0].<AppearPoint>k__BackingField
@@ -28945,6 +28945,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: levelEventSubsystem.<levelEvents>k__BackingField.Array.data[2].<execTime>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: levelEventSubsystem.<levelEvents>k__BackingField.Array.data[0].<eventIcon>k__BackingField
       value: 
       objectReference: {fileID: 1437794277, guid: a8b5e73882e071f4b96849d440c12155, type: 3}
@@ -28960,6 +28964,10 @@ PrefabInstance:
       propertyPath: levelEventSubsystem.<levelEvents>k__BackingField.Array.data[1].<levelEvent>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 49859cc343a3f1743bf86e98adecd351, type: 2}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: levelEventSubsystem.<levelEvents>k__BackingField.Array.data[2].<levelEvent>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
     - target: {fileID: 4654872579081995023, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -29184,6 +29192,14 @@ PrefabInstance:
     - target: {fileID: 5848731309367880343, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214083724176559908, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
+      propertyPath: pushSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214083724176559908, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
+      propertyPath: walkSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8328537282313353415, guid: 600eebc9e010c7c469b6f46c98e59d93, type: 3}
       propertyPath: m_LocalPosition.x

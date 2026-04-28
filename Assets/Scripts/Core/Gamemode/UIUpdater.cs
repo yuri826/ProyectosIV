@@ -54,8 +54,7 @@ public class UIUpdater : GamemodeSubsystem
                 .GetComponent<LevelProgressEventIconItem>();
 
             //Icon aesthetic
-            iconItem.eventIconSprite = eventInfo.eventIcon;
-            Debug.Log(eventInfo.eventIcon);
+            iconItem.eventIconSprite = eventInfo.levelEvent.eventIconSprite;
 
             //Icon position
             float normalizedTime = Mathf.Clamp01((float)eventInfo.execTime / levelDuration);
