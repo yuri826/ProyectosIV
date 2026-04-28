@@ -10,7 +10,7 @@ public class TrainGameMode : MonoBehaviour
     [Header("Components")]
     [SerializeField] private float introTime;
     [SerializeField] private UIUpdater uiUpdater;
-    [SerializeField] private LevelFlow levelFlow;
+    [field: SerializeField] public LevelFlow levelFlow { get; private set; }
     [SerializeField] private TrainLife trainLife;
     [SerializeField] private PlayerSubsystem playerSystem;
     [SerializeField] private CartEnemyManager cartManager;

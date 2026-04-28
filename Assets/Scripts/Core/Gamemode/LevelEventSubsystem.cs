@@ -4,8 +4,8 @@ using UnityEngine;
 [Serializable]
 public class LevelEventSubsystem
 {
-    [SerializeField] private LevelEventInfo[] levelEvents;
-    
+    [field: SerializeField] public LevelEventInfo[] levelEvents { get; private set; }
+
     public void UpdateEventTimeline(int currentLevelTime)
     {
         foreach (var t in levelEvents)

@@ -1,69 +1,52 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelProgressEventIconsHUD : MonoBehaviour
 {
-    // [Header("References")] [SerializeField]
-    // private RectTransform progressIconsRoot;
-    //
-    //
-    // private LevelEventSubsystem levelEventManager => TrainGameMode.instance.GetLevelEventManager();
-    //
-    //
-    // private readonly List<GameObject> spawnedIcons = new List<GameObject>();
-    //
-    //
-    // private IEnumerator Start()
-    // {
-    //     yield return null;
-    //     BuildIcons();
-    // }
-    //
-    //
-    // public void BuildIcons()
-    // {
-    //     ClearIcons();
-    //
-    //
-    //     int maxXPos = 740 * 2; //Calculado a mano
-    //
-    //
-    //     int levelDuration = TrainGameMode.instance.GetLevelDuration();
-    //     List<LevelEventInstance> levelEvents = levelEventManager.GetLevelEvents();
-    //
-    //
-    //     foreach (var eventData in levelEvents)
-    //     {
-    //         GameObject iconObject = Instantiate(eventData.eventData.iconPrefab, progressIconsRoot);
-    //         spawnedIcons.Add(iconObject);
-    //
-    //
-    //         RectTransform iconRect = iconObject.GetComponent<RectTransform>();
-    //
-    //
-    //         float normalizedTime = Mathf.Clamp01((float)eventData.timeToSpawn / levelDuration);
-    //         float xPos = normalizedTime * maxXPos;
-    //
-    //
-    //         iconRect.anchoredPosition = new Vector2(xPos, iconRect.anchoredPosition.y);
-    //
-    //
-    //         LevelProgressEventIconItem iconItem = iconObject.GetComponent<LevelProgressEventIconItem>();
-    //         iconItem.Initialize(eventData.eventData);
-    //     }
-    // }
-    //
-    //
-    // private void ClearIcons()
-    // {
-    //     for (int i = 0; i < spawnedIcons.Count; i++)
-    //     {
-    //         Destroy(spawnedIcons[i]);
-    //     }
-    //
-    //
-    //     spawnedIcons.Clear();
-    // }
+    [Header("References")]
+    [SerializeField] private RectTransform progressIconsRoot;
+    [SerializeField] private LevelProgressEventIconItem iconPrefab;
 
+    [Header("Layout")]
+    [SerializeField] private float progressBarWidth = 500f;
+
+    private readonly List<LevelProgressEventIconItem> spawnedIcons = new();
+
+    private void Start()
+    {
+        BuildIcons();
+    }
+
+    public void BuildIcons()
+    {
+        ClearIcons();
+
+        int levelDuration = TrainGameMode.instance.levelFlow.levelDuration;
+        LevelEventInfo[] levelEvents = TrainGameMode.instance.GetLevelEventSubsystem().levelEvents;
+
+        foreach (LevelEventInfo eventInfo in levelEvents)
+        {
+            LevelProgressEventIconItem iconItem = Instantiate(iconPrefab, progressIconsRoot);
+            spawnedIcons.Add(iconItem);
+
+            RectTransform iconRect = iconItem.GetComponent<RectTransform>();
+
+            float normalizedTime = Mathf.Clamp01((float)eventInfo.execTime / levelDuration);
+            float xPosition = normalizedTime * progressBarWidth;
+
+            iconRect.anchoredPosition = new Vector2(xPosition, iconRect.anchoredPosition.y);
+
+            iconItem.Initialize(eventInfo.eventIcon);
+        }
+    }
+
+    private void ClearIcons()
+    {
+        for (int i = 0; i < spawnedIcons.Count; i++)
+        {
+            Destroy(spawnedIcons[i].gameObject);
+        }
+
+        spawnedIcons.Clear();
+    }
 }
