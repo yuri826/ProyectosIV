@@ -50,8 +50,7 @@ public class SpeedManager : GamemodeSubsystem
     private bool startupTriggered;
     private bool isStartingUp;
     private float startupTimer;
-
-    public float CurrentSpeed => currentSpeed;
+    
     public SpeedState CurrentSpeedState => currentSpeedState;
 
     public override void OnStart()

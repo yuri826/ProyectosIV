@@ -247,17 +247,18 @@ public class PlayerMovement : MonoBehaviour
     private void StopInteract(InputAction.CallbackContext obj)
     {
         print("Stopinteraction");
+
+        if (currentBrakeLever is not null) return;
         
-        if (currentBrakeLever is not null)
-        {
-            currentBrakeLever.OnRelease(this);
-            currentBrakeLever = null;
-            currentState = PlayerState.Move;
-        }
+        currentBrakeLever.OnRelease(this);
+        currentBrakeLever = null;
+        currentState = PlayerState.Move;
     }
 
     private void Interaction()
     {
+        print("Interaction init");
+        
         if (currentState != PlayerState.Move) return;
         
         Collider[] cols = Physics.OverlapSphere(this.transform.position + ((lookDir + interactionOffset) * interactionDistance), interactionRadius);

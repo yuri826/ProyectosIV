@@ -17,10 +17,8 @@ public class LevelProgressEventIconsHUD : MonoBehaviour
         BuildIcons();
     }
 
-    public void BuildIcons()
+    private void BuildIcons()
     {
-        ClearIcons();
-
         int levelDuration = TrainGameMode.instance.levelFlow.levelDuration;
         LevelEventInfo[] levelEvents = TrainGameMode.instance.GetLevelEventSubsystem().levelEvents;
 
@@ -36,17 +34,7 @@ public class LevelProgressEventIconsHUD : MonoBehaviour
 
             iconRect.anchoredPosition = new Vector2(xPosition, iconRect.anchoredPosition.y);
 
-            iconItem.Initialize(eventInfo.eventIcon);
+            iconItem.Initialize();
         }
-    }
-
-    private void ClearIcons()
-    {
-        for (int i = 0; i < spawnedIcons.Count; i++)
-        {
-            Destroy(spawnedIcons[i].gameObject);
-        }
-
-        spawnedIcons.Clear();
     }
 }
