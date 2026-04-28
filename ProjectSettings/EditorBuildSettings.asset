@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MapScene.unity
     guid: 462c3f13652fa4f4683764f2081fab5e
   - enabled: 1
-    path: Assets/Scenes/Level_01.unity
+    path: Assets/Scenes/LevelScenes/Level_01.unity
     guid: f1234f4b8e01a93459ba8beb7755264a
   - enabled: 1
-    path: Assets/Scenes/Level_02.unity
+    path: Assets/Scenes/LevelScenes/Level_02.unity
     guid: 53df6806ea57dee46953916be6347d56
   - enabled: 0
     path: Assets/Scenes/Pruebas/EnemyLogicScene.unity
