@@ -19,6 +19,10 @@ public class UIUpdater : GamemodeSubsystem
     [SerializeField] private RectTransform progressIcon;
     [SerializeField] private float progressBarMaxWidth;
     [SerializeField] private float progressIconStartX;
+    
+    [Header("ProgressIcons")]
+    [SerializeField] private GameObject iconPrefab;
+    [SerializeField] private RectTransform progressIconsRoot;
 
     [Header("HealthCanvas")]
     [SerializeField] private Image healthBar;
@@ -30,6 +34,38 @@ public class UIUpdater : GamemodeSubsystem
     public override void OnStart()
     {
         SetProgressHUD(0f);
+        BuildIcons();
+    }
+    
+    //Crea los iconos de eventos
+    private void BuildIcons()
+    {
+        int progressBarLength = 1050;
+        int levelDuration = TrainGameMode.instance.levelFlow.levelDuration;
+        
+        LevelEventInfo[] levelEvents = TrainGameMode.instance.GetLevelEventSubsystem().levelEvents;
+
+        for (var i = 0; i < levelEvents.Length; i++)
+        {
+            //Getting icons
+            var eventInfo = levelEvents[i];
+            
+            LevelProgressEventIconItem iconItem = GameObject.Instantiate(iconPrefab, progressIconsRoot)
+                .GetComponent<LevelProgressEventIconItem>();
+
+            //Icon aesthetic
+            iconItem.eventIconSprite = eventInfo.eventIcon;
+
+            //Icon position
+            float normalizedTime = Mathf.Clamp01((float)eventInfo.execTime / levelDuration);
+            float xPosition = normalizedTime * progressBarLength;
+
+            RectTransform iconRect = iconItem.GetComponent<RectTransform>();
+            iconRect.anchoredPosition = new Vector2(xPosition, iconRect.anchoredPosition.y);
+
+            //IconInit
+            iconItem.Initialize();
+        }
     }
 
     //Aparece una cuenta atrás

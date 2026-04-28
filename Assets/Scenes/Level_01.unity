@@ -28840,6 +28840,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1877048368986504579}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: uiUpdater.iconPrefab
+      value: 
+      objectReference: {fileID: 1559586538698002278, guid: 585aa9ec703048e4caedcdd98afb8fdd, type: 3}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: uiUpdater.numberAnim
       value: 
       objectReference: {fileID: 1805067450}
@@ -28859,6 +28863,10 @@ PrefabInstance:
       propertyPath: speedManager.speedNeedle
       value: 
       objectReference: {fileID: 5323469710637544730}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: uiUpdater.progressIconsRoot
+      value: 
+      objectReference: {fileID: 1934531067}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: 'playerSystem.players.Array.data[0]'
       value: 

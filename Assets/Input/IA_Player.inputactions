@@ -21,7 +21,7 @@
                     "id": "f147525d-e1a8-4bed-a557-d6fd54e4259c",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -131,7 +131,7 @@
                 {
                     "name": "",
                     "id": "f4a33596-ffd8-4d88-8632-3aac4c5b0f05",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KBM",
