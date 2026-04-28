@@ -2748,8 +2748,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   <lookAt>k__BackingField: {fileID: 0}
   followSmoothSpeed: 8
-  shakeSpeed: 18
-  impactShakeFadeSpeed: 4
+  collapseShakeSpeed: 18
+  collapseImpactFadeSpeed: 4
+  sandstormShakeStrength: 0.04
+  sandstormShakeSpeed: 16
 --- !u!1 &338541491
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,7 +4108,6 @@ MonoBehaviour:
   <maxChamberAmmo>k__BackingField: 6
   maxBeltAmmo: 18
   reloadTimePerBullet: 0.5
-  beltAmmoText: {fileID: 1031725887}
   revolverAmmoHUD: {fileID: 1097428492}
 --- !u!1 &464277595 stripped
 GameObject:
@@ -12677,6 +12678,7 @@ MonoBehaviour:
   highSpeedStormMultiplier: 1.2
   sandstormVfxController: {fileID: 1893738329}
   sandstormAudioSource: {fileID: 942061762}
+  levelCamera: {fileID: 0}
   outlawsInScene: []
 --- !u!1 &971380560
 GameObject:
@@ -18330,6 +18332,7 @@ MonoBehaviour:
   reloadInsertRotateDuration: 0.12
   reloadFinishSpinDuration: 0.5
   reloadFinishSpinTurns: 2
+  beltBulletImages: []
 --- !u!1 &1103427236
 GameObject:
   m_ObjectHideFlags: 0
@@ -25492,6 +25495,7 @@ MonoBehaviour:
   - {fileID: 1959032266}
   - {fileID: 525395625}
   levelCamera: {fileID: 2144853973}
+  collapseSfx: {fileID: 0}
   collapseShakeAmount: 0.08
   rockLandingShakeAmount: 0.18
 --- !u!1 &1433429354
@@ -26287,8 +26291,8 @@ MonoBehaviour:
     progressIconStartX: -525
     healthBar: {fileID: 1877048368986504579}
     transitionAnim: {fileID: 349088767}
-  levelFlow:
-    <levelDuration>k__BackingField: 150
+  <levelFlow>k__BackingField:
+    <levelDuration>k__BackingField: 0
   trainLife:
     <maxTrainLife>k__BackingField: 100
   playerSystem:
@@ -26318,19 +26322,7 @@ MonoBehaviour:
     - {fileID: 744654136}
     - {fileID: 1389284768}
   levelEventSubsystem:
-    levelEvents:
-    - <execTime>k__BackingField: 10
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 49859cc343a3f1743bf86e98adecd351, type: 2}
-    - <execTime>k__BackingField: 20
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
-    - <execTime>k__BackingField: 45
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 49859cc343a3f1743bf86e98adecd351, type: 2}
-    - <execTime>k__BackingField: 70
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
-    - <execTime>k__BackingField: 90
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 5677d31fa13a1c44c9334c5ef97e4f0b, type: 2}
-    - <execTime>k__BackingField: 120
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
+    <levelEvents>k__BackingField: []
   trainSpawnDirector:
     trainCarZones:
     - {fileID: 2094568515}
@@ -34619,8 +34611,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   <lookAt>k__BackingField: {fileID: 439867392}
   followSmoothSpeed: 8
-  shakeSpeed: 18
-  impactShakeFadeSpeed: 4
+  collapseShakeSpeed: 18
+  collapseImpactFadeSpeed: 4
+  sandstormShakeStrength: 0.04
+  sandstormShakeSpeed: 16
 --- !u!114 &2144853974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35488,8 +35482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63002370fa4f5a5488cc8ec6b931fba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthManager
-  playerMovement: {fileID: 8055160176714418453}
-  playerWeapon: {fileID: 439867393}
   respawnInvulnerabilityTime: 3
   playerMesh: {fileID: 464277595}
   maxHealth: 3

@@ -1196,8 +1196,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   <lookAt>k__BackingField: {fileID: 0}
   followSmoothSpeed: 8
-  shakeSpeed: 18
-  impactShakeFadeSpeed: 4
+  collapseShakeSpeed: 18
+  collapseImpactFadeSpeed: 4
+  sandstormShakeStrength: 0.04
+  sandstormShakeSpeed: 16
 --- !u!1 &361727150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3003330214595151055, guid: 918e935ba31744d4abf4db53a232849b, type: 3}
@@ -26916,8 +26918,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelCamera
   <lookAt>k__BackingField: {fileID: 439867392}
   followSmoothSpeed: 8
-  shakeSpeed: 18
-  impactShakeFadeSpeed: 4
+  collapseShakeSpeed: 18
+  collapseImpactFadeSpeed: 4
+  sandstormShakeStrength: 0.04
+  sandstormShakeSpeed: 16
 --- !u!114 &2144853974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27286,6 +27290,10 @@ PrefabInstance:
       propertyPath: 'trainSpawnDirector.trainCarZones.Array.data[3]'
       value: 
       objectReference: {fileID: 1389284768}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: <levelFlow>k__BackingField.<levelDuration>k__BackingField
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: cartManager.<cartPoints>k__BackingField.Array.data[0].<AppearPoint>k__BackingField
       value: 
