@@ -16,7 +16,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float reloadTimePerBullet = 0.5f;
 
     [Header("Debug UI")]
-    [SerializeField] private TextMeshProUGUI beltAmmoText;
     [SerializeField] private RevolverAmmoHUD revolverAmmoHUD;
     
     //Audio
@@ -40,7 +39,7 @@ public class PlayerWeapon : MonoBehaviour
         currentChamberAmmo = maxChamberAmmo;
         currentBeltAmmo = 12;
 
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
         revolverAmmoHUD.Initialize(currentChamberAmmo);
     }
 
@@ -74,7 +73,7 @@ public class PlayerWeapon : MonoBehaviour
         bullet.Init(dir, gameObject);
 
         currentChamberAmmo--;
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
         revolverAmmoHUD.OnShot(currentChamberAmmo, shootCooldown);
 
         StartCoroutine(ShootCd());
@@ -94,7 +93,7 @@ public class PlayerWeapon : MonoBehaviour
     private IEnumerator ReloadRoutine()
     {
         isReloading = true;
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
 
         while (currentChamberAmmo < maxChamberAmmo && currentBeltAmmo > 0)
         {
@@ -103,14 +102,14 @@ public class PlayerWeapon : MonoBehaviour
             currentChamberAmmo++;
             currentBeltAmmo--;
 
-            UpdateBeltAmmoText();
+            UpdateBeltAmmoHUD();
             revolverAmmoHUD.OnReloadBulletInserted(currentChamberAmmo);
         }
 
         isReloading = false;
         reloadRoutine = null;
 
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
         if (currentChamberAmmo == maxChamberAmmo)
         {
             revolverAmmoHUD.OnReloadComplete();
@@ -124,9 +123,9 @@ public class PlayerWeapon : MonoBehaviour
         canShoot = true;
     }
 
-    private void UpdateBeltAmmoText()
+    private void UpdateBeltAmmoHUD()
     {
-        beltAmmoText.text = $"{currentBeltAmmo}/{maxBeltAmmo}";
+        revolverAmmoHUD.UpdateBeltAmmo(currentBeltAmmo);
     }
 
     public int AddBeltAmmo(int amount)
@@ -137,7 +136,7 @@ public class PlayerWeapon : MonoBehaviour
         int addedAmount = Mathf.Clamp(amount, 0, freeSpace);
 
         currentBeltAmmo += addedAmount;
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
 
         return addedAmount;
     }
@@ -149,6 +148,6 @@ public class PlayerWeapon : MonoBehaviour
         if (reloadRoutine != null) StopCoroutine(reloadRoutine);
 
         isReloading = false;
-        UpdateBeltAmmoText();
+        UpdateBeltAmmoHUD();
     }
 }

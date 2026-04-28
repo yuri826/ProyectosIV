@@ -13,6 +13,9 @@ public class RevolverAmmoHUD : MonoBehaviour
     [SerializeField] private float reloadInsertRotateDuration = 0.12f;
     [SerializeField] private float reloadFinishSpinDuration = 0.5f;
     [SerializeField] private int reloadFinishSpinTurns = 2;
+    
+    [Header("Belt Ammo")]
+    [SerializeField] private Image[] beltBulletImages;
 
     private RectTransform chamberRectTransform;
 
@@ -67,6 +70,14 @@ public class RevolverAmmoHUD : MonoBehaviour
     {
         if (reloadFinishRoutine is not null) StopCoroutine(reloadFinishRoutine);
         reloadFinishRoutine = StartCoroutine(ReloadCompleteSequence());
+    }
+    
+    public void UpdateBeltAmmo(int currentBeltAmmo)
+    {
+        for (int i = 0; i < beltBulletImages.Length; i++)
+        {
+            beltBulletImages[i].enabled = i < currentBeltAmmo;
+        }
     }
     
     #region Animations
