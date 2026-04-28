@@ -55,6 +55,7 @@ public class UIUpdater : GamemodeSubsystem
 
             //Icon aesthetic
             iconItem.eventIconSprite = eventInfo.eventIcon;
+            Debug.Log(eventInfo.eventIcon);
 
             //Icon position
             float normalizedTime = Mathf.Clamp01((float)eventInfo.execTime / levelDuration);
