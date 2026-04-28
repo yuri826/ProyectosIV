@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ca1acc243588c7438cf150e437960c0, type: 3}
-  m_Name: CollapseEvent
-  m_EditorClassIdentifier: Assembly-CSharp::CollapseEvent
-  duration: 5
-  rockCount: 7
+  m_Script: {fileID: 11500000, guid: bfbcfe2e5ee40dd4993f569384ef2a10, type: 3}
+  m_Name: 3_OutlawEvent
+  m_EditorClassIdentifier: Assembly-CSharp::OutlawEvent
+  outlawCount: 3

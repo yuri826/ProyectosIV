@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc8a4c24d4b44c4db271efe5d8caafd, type: 3}
-  m_Name: CartEvent
-  m_EditorClassIdentifier: Assembly-CSharp::CartEvent
-  cartPrefab: {fileID: 3266464155132546801, guid: c9c96a7884e4a384f96bbb3cc3b43d85, type: 3}
-  cartCount: 1
+  m_Script: {fileID: 11500000, guid: de66f8a04a8fcc149a97cd9ac7122899, type: 3}
+  m_Name: 15s_SandstormEvent 2
+  m_EditorClassIdentifier: Assembly-CSharp::SandstormEvent
+  duration: 15
