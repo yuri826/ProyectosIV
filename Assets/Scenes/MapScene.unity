@@ -753,8 +753,8 @@ MonoBehaviour:
   mapCursor: {fileID: 1136591546}
   mapCamera: {fileID: 1041790835}
   transitionAnim: {fileID: 1872499004}
-  moveNode: {fileID: 0}
-  selectNode: {fileID: 0}
+  moveNode: {fileID: 1141115420}
+  selectNode: {fileID: 784316693}
 --- !u!4 &584434459
 Transform:
   m_ObjectHideFlags: 0
@@ -2445,7 +2445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameInstance
   <mapNodeStates>k__BackingField: 0100000001000000010000000100000000000000
-  lastLevel: 1
+  lastLevel: 3
 --- !u!4 &1300030615
 Transform:
   m_ObjectHideFlags: 0

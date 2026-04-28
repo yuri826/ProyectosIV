@@ -134,9 +134,9 @@ MonoBehaviour:
   index: 0
   nodeInfo: {fileID: 11400000, guid: ce1538262db8a9840a795d8269f5d0e7, type: 2}
   starImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5510411016624881644}
+  - {fileID: 4404892642356451515}
+  - {fileID: 8290015950877031349}
   starOn: {fileID: 357676531, guid: b429e6a644fd219458fdd1aabe3b8f71, type: 3}
   infoTypewriter: {fileID: 653319767461371869}
   cursorPosition: {fileID: 3764664350846904756}
