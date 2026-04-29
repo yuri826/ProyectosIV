@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d55b26e6038f24f8bdac8abf5c10ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrakeLever
-  brakeDecayMultiplier: 3
+  brakeDecayMultiplier: 5
 --- !u!4 &123797310
 Transform:
   m_ObjectHideFlags: 0
@@ -1145,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 9138662687051568549, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 3c2efa7585cea684db5a7e593cff3b74, type: 2}
+      objectReference: {fileID: 23800000, guid: da828e1c9e4f55449bb66f0f919263c0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4658255475638290682, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -7537,7 +7537,7 @@ PrefabInstance:
     - target: {fileID: 9138662687051568549, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 4c43f05a39d63ab469667c9ca2fc54bb, type: 2}
+      objectReference: {fileID: 23800000, guid: ae96739decde361408d13d661360c703, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4658255475638290682, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -8078,7 +8078,7 @@ PrefabInstance:
     - target: {fileID: 9138662687051568549, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: ea7f63279d4c1be459d7b328096cf6ac, type: 2}
+      objectReference: {fileID: 23800000, guid: 7098ce9088ff9a9429f7ece8cb53493e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4658255475638290682, guid: 6b64898856f93df4aa81b0a3e5b727c2, type: 3}
@@ -20384,9 +20384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29826c94da4670b40ab557dd27608f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelProgressEventIconsHUD
-  progressIconsRoot: {fileID: 1934531067}
-  iconPrefab: {fileID: 1235727091499359698, guid: 585aa9ec703048e4caedcdd98afb8fdd, type: 3}
-  progressBarWidth: 1050
 --- !u!1 &1360313979
 GameObject:
   m_ObjectHideFlags: 0
@@ -28840,6 +28837,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1877048368986504579}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: uiUpdater.iconPrefab
+      value: 
+      objectReference: {fileID: 1559586538698002278, guid: 585aa9ec703048e4caedcdd98afb8fdd, type: 3}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: uiUpdater.numberAnim
       value: 
       objectReference: {fileID: 1805067450}
@@ -28859,6 +28860,18 @@ PrefabInstance:
       propertyPath: speedManager.speedNeedle
       value: 
       objectReference: {fileID: 5323469710637544730}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: uiUpdater.progressIconsRoot
+      value: 
+      objectReference: {fileID: 1934531067}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: speedManager.speedDecayAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: speedManager.speedDecayInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4321252600565082682, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
       propertyPath: 'playerSystem.players.Array.data[0]'
       value: 
