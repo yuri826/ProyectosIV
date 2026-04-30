@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 7759361602745750928}
   - component: {fileID: 8054965512277657815}
   - component: {fileID: 4854407740826459734}
+  - component: {fileID: 8130294531493684672}
   m_Layer: 0
   m_Name: Aserradero
   m_TagString: Untagged
@@ -301,7 +302,28 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 2.5
-  m_Center: {x: 3, y: 1.5, z: 0}
+  m_Center: {x: 3, y: 1.5, z: 0.25}
+--- !u!65 &8130294531493684672
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733591426847376471}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.078614, y: 1.7671388, z: 2}
+  m_Center: {x: 3.3330588, y: 1.3835696, z: 0.25000003}
 --- !u!1 &2410937578880347184
 GameObject:
   m_ObjectHideFlags: 0

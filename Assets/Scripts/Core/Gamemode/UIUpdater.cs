@@ -82,6 +82,9 @@ public class UIUpdater : GamemodeSubsystem
 
         yield return new WaitForSeconds(timeBetween);
         ShowIntroText("GO");
+        
+        yield return new WaitForSeconds(timeBetween);
+        ShowIntroText("");
 
         TrainGameMode.StartGameplay();
     }
