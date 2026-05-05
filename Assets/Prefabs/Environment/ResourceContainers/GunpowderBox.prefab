@@ -8,9 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 283747833247359806, guid: ca3f0679a8b6bc244bc7108d4d1551d1, type: 3}
+      propertyPath: m_text
+      value: GUNPOWDER
+      objectReference: {fileID: 0}
     - target: {fileID: 454266404938833783, guid: ca3f0679a8b6bc244bc7108d4d1551d1, type: 3}
       propertyPath: m_Name
       value: GunpowderBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367983123568688867, guid: ca3f0679a8b6bc244bc7108d4d1551d1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1504002298234268025, guid: ca3f0679a8b6bc244bc7108d4d1551d1, type: 3}
       propertyPath: m_LocalPosition.x
