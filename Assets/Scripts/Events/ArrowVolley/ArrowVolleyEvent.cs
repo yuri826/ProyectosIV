@@ -13,19 +13,14 @@ public class ArrowVolleyEvent : LevelEvent
     [Header("Damage")]
     [SerializeField] private float damage = 1f;
 
-    [Header("Direction")]
-    [SerializeField] private bool useRandomDirections = true;
-    [SerializeField] private ArrowVolleyDirection[] fixedDirections;
-
     public override void ExecuteEvent()
     {
-        ArrowVolleySystem.Instance.StartArrowVolley(
-            volleyCount,
-            timeBetweenVolleys,
-            warningTime,
-            damage,
-            useRandomDirections,
-            fixedDirections
-        );
+        int randomDir = Random.Range(0, 2);
+        ArrowVolleyDirection dir = (ArrowVolleyDirection)randomDir;
+        
+        foreach (var cart in TrainGameMode.instance.GetCartManager().GetAllCarts())
+        {
+            cart.SpawnArrowVolley(dir);
+        }
     }
 }

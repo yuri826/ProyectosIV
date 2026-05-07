@@ -25,4 +25,9 @@ public class CartEnemyManager : GamemodeSubsystem
     
         return null;
     }
+
+    public TrainCarZone[] GetAllCarts()
+    {
+        return trainCarZones;
+    }
 }

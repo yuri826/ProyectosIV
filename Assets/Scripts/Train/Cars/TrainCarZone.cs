@@ -1,40 +1,41 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class TrainCarZone : MonoBehaviour
 {
-    [Header("Enemy Spawn Points")]
-    [field: SerializeField] public Transform[] outlawSpawnPoints { get; private set; }
-
-    [Header("Sabotage Points")] [SerializeField]
-    private SabotagePoint[] sabotagePoints;
-
-    [Header("Patrol Points")]
-    [SerializeField] private Transform[] patrolPoints;
-
-    [Header("Safe Points")]
-    [SerializeField] private Transform[] safePoints;
+    //Un header por variable no sirve de mucho, porque para eso ya está el propio nombre de la variable
     
-    [Header("Collapse Spawn Points")]
+    [Header("Points")]
+    [field: SerializeField] public Transform[] outlawSpawnPoints { get; private set; }
+    [SerializeField] private SabotagePoint[] sabotagePoints;
+    [SerializeField] private Transform[] patrolPoints;
+    [SerializeField] private Transform[] safePoints;
     [field: SerializeField] public CollapseRockSpawnPoint[] collapseSpawnPoints { get; private set; }
-
-    [Header("Broken Points Limit")]
     [SerializeField] private int maxBrokenPoints = 5;
+    [SerializeField] private Transform arrowVolleyPoint;
 
-    [Header("Players in Car")]
+    [Header("Player")]
     [SerializeField] private List<PlayerMovement> playersInsideCar = new List<PlayerMovement>();
-
-    [Header("Player Respawn")]
     [field: SerializeField] public Transform playerRespawnPoint { get; private set; }
     
+    [Header("ArrowVolley")]
+    [SerializeField] private ArrowVolleyProjectile[] arrowVolleyProjectiles;
+    [SerializeField] private Transform arrowPoolPos;
 
     private Collider zoneCollider;
 
     private void Awake()
     {
         zoneCollider = GetComponent<Collider>();
+
+        foreach (var arrow in arrowVolleyProjectiles)
+        {
+            arrow.poolPos = arrowPoolPos;
+        }
     }
     
     private void OnTriggerEnter(Collider other)
@@ -51,14 +52,6 @@ public class TrainCarZone : MonoBehaviour
         if (player != null && playersInsideCar.Contains(player)) playersInsideCar.Remove(player);
     }
 
-    //Inutilizado
-    // public bool HasPlayersInside()
-    // {
-    //     RefreshPlayersInsideCar();
-    //     RemoveNullPlayers();
-    //     return playersInsideCar.Count > 0;
-    // }
-    
     #region Point management
 
     public Vector3 GetRandomPatrolPointFarFrom(Vector3 originPoint, float minDistance)
@@ -169,42 +162,6 @@ public class TrainCarZone : MonoBehaviour
     }
     
     #endregion
-
-    //Inutilizado
-    // public bool TryGetRandomNavMeshPointInCar(Vector3 originPoint, float minDistance, out Vector3 randomPoint)
-    // {
-    //     randomPoint = transform.position;
-    //
-    //     for (int i = 0; i < 20; i++)
-    //     {
-    //         Vector3 candidatePoint = new Vector3(
-    //             Random.Range(zoneCollider.bounds.min.x, zoneCollider.bounds.max.x),
-    //             transform.position.y,
-    //             Random.Range(zoneCollider.bounds.min.z, zoneCollider.bounds.max.z)
-    //         );
-    //
-    //         if (Vector3.Distance(originPoint, candidatePoint) < minDistance)
-    //         {
-    //             continue;
-    //         }
-    //
-    //         NavMeshHit navMeshHit;
-    //         if (!NavMesh.SamplePosition(candidatePoint, out navMeshHit, 1.5f, NavMesh.AllAreas))
-    //         {
-    //             continue;
-    //         }
-    //
-    //         if (!ContainsPoint(navMeshHit.position))
-    //         {
-    //             continue;
-    //         }
-    //
-    //         randomPoint = navMeshHit.position;
-    //         return true;
-    //     }
-    //
-    //     return false;
-    // }
     
     #region Player in cart management
     
@@ -267,6 +224,41 @@ public class TrainCarZone : MonoBehaviour
     
     #endregion
 
+    public void SpawnArrowVolley(ArrowVolleyDirection dir)
+    {
+        Vector3 shootDir = Vector3.down;
+        int zOffset = 0;
+        
+        switch (dir)
+        {
+            case ArrowVolleyDirection.TopToBottom:
+                shootDir = -Vector3.forward;
+                zOffset = -8;
+                break;
+            case ArrowVolleyDirection.BottomToTop:
+                shootDir = Vector3.forward;
+                break;
+        }
+        
+        int maxX = 8;
+        Vector3 nnapaOffsetX = new Vector3(4f,0,-4);
+
+        int loopIndex = 0;
+        
+        for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
+        {
+            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i * 2.3f,
+                0,
+                zOffset) + nnapaOffsetX;
+
+            if (loopIndex >= arrowVolleyProjectiles.Length) return;
+            
+            arrowVolleyProjectiles[loopIndex].Shoot(shootDir, initPoint);
+            
+            loopIndex++;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (patrolPoints != null)
@@ -294,5 +286,52 @@ public class TrainCarZone : MonoBehaviour
                 }
             }
         }
+        
+        #region ArrowVolleyPoints
+        
+        Gizmos.color = Color.cyan;
+
+        float zOffset = 1;
+        int maxX = 8;
+        int maxZ = 5;
+        Vector3 nnapaOffsetX = new Vector3(4f,0,-4);
+        Vector3 nnapaOffsetZ = new Vector3(-maxX*0.5f,0,-4);
+        
+        for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
+        {
+            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i * 2.3f,
+                0,
+                0) + nnapaOffsetX;
+            Gizmos.color = Color.lawnGreen;
+            Gizmos.DrawCube(initPoint, Vector3.one);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(initPoint, Vector3.forward*maxX);
+        }
+        
+        for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
+        {
+            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i * 2.3f + 0.1f,
+                0,
+                -9) + nnapaOffsetX;
+            Gizmos.color = Color.lightGreen;
+            Gizmos.DrawCube(initPoint, Vector3.one);
+            Gizmos.color = Color.blueViolet;
+            Gizmos.DrawRay(initPoint, -Vector3.forward*maxX);
+        }
+        
+        // for (int i = 0; i < maxZ; i ++)
+        // {
+        //     Vector3 initPoint = arrowVolleyPoint.transform.position + new Vector3(
+        //         -maxX*0.7f,
+        //         0,
+        //         maxZ*0.6f + i) + nnapaOffsetZ;
+        //     
+        //     Gizmos.color = Color.lightGreen;
+        //     Gizmos.DrawCube(initPoint, Vector3.one);
+        //     Gizmos.color = Color.cyan;
+        //     Gizmos.DrawRay(initPoint, Vector3.forward*maxZ);
+        // }
+        
+        #endregion
     }
 }
