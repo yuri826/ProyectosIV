@@ -16,7 +16,7 @@ public class SceneLoadManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         StartCoroutine(LoadSceneRoutine(sceneName, time));
-        TrainGameMode.instance.TransitionIn();
+        TrainGameMode.instance.GetUI().TransitionIn();
     }
 
     private IEnumerator LoadSceneRoutine(string sceneName, int time)
@@ -29,13 +29,13 @@ public class SceneLoadManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        TrainGameMode.instance.TransitionIn();
+        TrainGameMode.instance.GetUI().TransitionIn();
     }
 
     public void QuitGame()
     {
         Time.timeScale = 1f;
         Application.Quit();
-        TrainGameMode.instance.TransitionIn();
+        TrainGameMode.instance.GetUI().TransitionIn();
     }
 }

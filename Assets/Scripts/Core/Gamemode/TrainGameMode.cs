@@ -101,22 +101,12 @@ public class TrainGameMode : MonoBehaviour
     #endregion
 
     #region UI
-    
-    public void UpdateProgressBar(int progress, int maxProgress)
+
+    public UIUpdater GetUI()
     {
-        uiUpdater.UpdateProgressBar(progress, maxProgress);
-    }
-    
-    public void UpdateLifeBar(float currentLife, int maxLife)
-    {
-        uiUpdater.UpdateLifeBar(currentLife, maxLife);
+        return uiUpdater;
     }
 
-    public void TransitionIn()
-    {
-        uiUpdater.TransitionIn();
-    }
-    
     #endregion
 
     #region PlayerSystem

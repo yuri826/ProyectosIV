@@ -48,6 +48,6 @@ public class TrainLife : GamemodeSubsystem
 
     private void UpdateLifeBar()
     {
-        TrainGameMode.UpdateLifeBar(currentTrainLife, maxTrainLife);
+        TrainGameMode.GetUI().UpdateLifeBar(currentTrainLife, maxTrainLife);
     }
 }

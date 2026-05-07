@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -23,7 +24,7 @@ public class TrainCarZone : MonoBehaviour
     [field: SerializeField] public Transform playerRespawnPoint { get; private set; }
     
     [Header("ArrowVolley")]
-    [SerializeField] private ArrowVolleyProjectile[] arrowVolleyProjectiles;
+    private List<ArrowVolleyProjectile> arrowVolleyProjectiles = new List<ArrowVolleyProjectile>();
     [SerializeField] private Transform arrowPoolPos;
 
     private Collider zoneCollider;
@@ -32,9 +33,11 @@ public class TrainCarZone : MonoBehaviour
     {
         zoneCollider = GetComponent<Collider>();
 
-        foreach (var arrow in arrowVolleyProjectiles)
+        foreach (Transform arrow in arrowPoolPos)
         {
-            arrow.poolPos = arrowPoolPos;
+            ArrowVolleyProjectile arrowComponent = arrow.GetComponent<ArrowVolleyProjectile>();
+            arrowVolleyProjectiles.Add(arrowComponent);
+            arrowComponent.poolPos = arrowPoolPos;
         }
     }
     
@@ -226,6 +229,8 @@ public class TrainCarZone : MonoBehaviour
 
     public void SpawnArrowVolley(ArrowVolleyDirection dir)
     {
+        print("shootCart");
+        
         Vector3 shootDir = Vector3.down;
         int zOffset = 0;
         
@@ -241,22 +246,26 @@ public class TrainCarZone : MonoBehaviour
         }
         
         int maxX = 8;
-        Vector3 nnapaOffsetX = new Vector3(4f,0,-4);
+        Vector3 nnapaOffsetX = new Vector3(4f,7,-4);
 
         int loopIndex = 0;
         
         for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
         {
-            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i * 2.3f,
-                0,
+            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i + 2.3f,
+                8,
                 zOffset) + nnapaOffsetX;
+            
+            print("zOffset: " + zOffset);
 
-            if (loopIndex >= arrowVolleyProjectiles.Length) return;
+            if (loopIndex >= arrowVolleyProjectiles.Count) return;
             
             arrowVolleyProjectiles[loopIndex].Shoot(shootDir, initPoint);
             
             loopIndex++;
         }
+
+        throw new AbandonedMutexException();
     }
 
     private void OnDrawGizmosSelected()
@@ -294,8 +303,8 @@ public class TrainCarZone : MonoBehaviour
         float zOffset = 1;
         int maxX = 8;
         int maxZ = 5;
-        Vector3 nnapaOffsetX = new Vector3(4f,0,-4);
-        Vector3 nnapaOffsetZ = new Vector3(-maxX*0.5f,0,-4);
+        Vector3 nnapaOffsetX = new Vector3(4f,7,-4);
+        Vector3 nnapaOffsetZ = new Vector3(-maxX*0.5f,7,-4);
         
         for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
         {
@@ -317,6 +326,16 @@ public class TrainCarZone : MonoBehaviour
             Gizmos.DrawCube(initPoint, Vector3.one);
             Gizmos.color = Color.blueViolet;
             Gizmos.DrawRay(initPoint, -Vector3.forward*maxX);
+        }
+        
+        for (float i = maxX*-0.5f; i < maxX*0.5f; i ++)
+        {
+            Vector3 initPoint = arrowVolleyPoint.transform.position - new Vector3(maxX * 0.7f + i * 2.3f,
+                0,
+                zOffset) + nnapaOffsetX;
+            
+            Gizmos.color = Color.aquamarine;
+            Gizmos.DrawCube(initPoint, Vector3.one);
         }
         
         // for (int i = 0; i < maxZ; i ++)

@@ -15,12 +15,6 @@ public class ArrowVolleyEvent : LevelEvent
 
     public override void ExecuteEvent()
     {
-        int randomDir = Random.Range(0, 2);
-        ArrowVolleyDirection dir = (ArrowVolleyDirection)randomDir;
-        
-        foreach (var cart in TrainGameMode.instance.GetCartManager().GetAllCarts())
-        {
-            cart.SpawnArrowVolley(dir);
-        }
+        ArrowVolleySystem.Instance.StartVolley();
     }
 }

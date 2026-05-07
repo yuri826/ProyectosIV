@@ -29,6 +29,10 @@ public class UIUpdater : GamemodeSubsystem
     
     [Header("TransitionAnim")]
     [SerializeField] private Animator transitionAnim;
+    
+    [Header("ArrowVolley")]
+    [SerializeField] private ArrowVolleyWarningHUD topArrowWarning;
+    [SerializeField] private ArrowVolleyWarningHUD bottomArrowWarning;
 
 
     public override void OnStart()
@@ -134,5 +138,16 @@ public class UIUpdater : GamemodeSubsystem
     public void TransitionIn()
     {
         transitionAnim.SetTrigger("TransitionIn");
+    }
+
+    public void ShowVolleyWarning(ArrowVolleyDirection dir)
+    {
+        switch (dir)
+        {
+            case ArrowVolleyDirection.TopToBottom: topArrowWarning.ShowWarning();
+                break;
+            case ArrowVolleyDirection.BottomToTop: bottomArrowWarning.ShowWarning();
+                break;
+        }
     }
 }

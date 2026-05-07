@@ -22,7 +22,7 @@ public class LevelFlow : GamemodeSubsystem
         currentLevelTime += Time.deltaTime;
     
         //Updatea la timeline y el progreso en el gamemanager
-        TrainGameMode.UpdateProgressBar(currentLevelTimeRound, levelDuration);
+        TrainGameMode.GetUI().UpdateProgressBar(currentLevelTimeRound, levelDuration);
         TrainGameMode.GetLevelEventSubsystem().UpdateEventTimeline(currentLevelTimeRound);
     
         //Termina el nivel si el tiempo es mayor a tal

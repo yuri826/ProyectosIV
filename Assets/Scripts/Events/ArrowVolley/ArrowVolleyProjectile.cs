@@ -19,7 +19,10 @@ public class ArrowVolleyProjectile : MonoBehaviour
 
     public void Shoot(Vector3 direction, Vector3 shootPos)
     {
+        print(shootPos);
         transform.position = shootPos;
+        print(transform.position);
+        
         rb.linearVelocity = direction.normalized * speed;
         
         StartCoroutine(DestroyBullet());

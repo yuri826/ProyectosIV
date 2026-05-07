@@ -1,69 +1,37 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArrowVolleyWarningHUD : MonoBehaviour
 {
-    [Header("Warnings")]
-    [SerializeField] private GameObject topWarning;
-    [SerializeField] private GameObject bottomWarning;
-    [SerializeField] private GameObject leftWarning;
-    [SerializeField] private GameObject rightWarning;
+    private Image warningIcon;
 
     private void Awake()
     {
-        HideAllWarnings();
+        warningIcon = GetComponent<Image>();
+        warningIcon.color = new Color(1, 1, 1, 0); 
     }
 
-    public void ShowWarning(ArrowVolleyDirection direction)
+    public void ShowWarning()
     {
-        HideAllWarnings();
+        StartCoroutine(WarningRoutine());
+    }
 
-        switch (direction)
+    public IEnumerator WarningRoutine()
+    {
+        float a = 1;
+        
+        for (int i = 0; i < 3; i++)
         {
-            case ArrowVolleyDirection.TopToBottom:
-                topWarning.SetActive(true);
-                break;
-
-            case ArrowVolleyDirection.BottomToTop:
-                bottomWarning.SetActive(true);
-                break;
-
-            case ArrowVolleyDirection.LeftToRight:
-                leftWarning.SetActive(true);
-                break;
-
-            case ArrowVolleyDirection.RightToLeft:
-                rightWarning.SetActive(true);
-                break;
+            while (a > 0)
+            {
+                warningIcon.color = new Color(1, 1, 1, a); 
+                a -= Time.deltaTime;
+                yield return null;
+            }
         }
-    }
-
-    public void HideWarning(ArrowVolleyDirection direction)
-    {
-        switch (direction)
-        {
-            case ArrowVolleyDirection.TopToBottom:
-                topWarning.SetActive(false);
-                break;
-
-            case ArrowVolleyDirection.BottomToTop:
-                bottomWarning.SetActive(false);
-                break;
-
-            case ArrowVolleyDirection.LeftToRight:
-                leftWarning.SetActive(false);
-                break;
-
-            case ArrowVolleyDirection.RightToLeft:
-                rightWarning.SetActive(false);
-                break;
-        }
-    }
-
-    public void HideAllWarnings()
-    {
-        topWarning.SetActive(false);
-        bottomWarning.SetActive(false);
-        leftWarning.SetActive(false);
-        rightWarning.SetActive(false);
+        
+        warningIcon.color = new Color(1, 1, 1, 0); 
     }
 }
