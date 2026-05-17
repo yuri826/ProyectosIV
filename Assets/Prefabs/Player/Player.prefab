@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &118860995275493858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517378930322409682}
+  - component: {fileID: 8002274161556509041}
+  m_Layer: 6
+  m_Name: Reload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &517378930322409682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118860995275493858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7258704757268828629}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8002274161556509041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118860995275493858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1715896374
+      Data2: 1098048716
+      Data3: -1800106822
+      Data4: 1107864759
+    Path: event:/sfxReload
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1835002366664782209
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +96,7 @@ Transform:
   - {fileID: 7767989510703691560}
   - {fileID: 8546123875181792162}
   - {fileID: 1249212067900577854}
+  - {fileID: 517378930322409682}
   m_Father: {fileID: 8328537282313353415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004282631562223874
@@ -660,84 +724,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c55641825edbf24ab86ad44b24441ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioManager
-  shoot:
-    Guid:
-      Data1: -1435847772
-      Data2: 1135365613
-      Data3: -422324814
-      Data4: -673940777
-    Path: event:/sfxPlayerShoot
-  pickUpObj:
-    Guid:
-      Data1: -1113181846
-      Data2: 1152767614
-      Data3: 154771389
-      Data4: -1148398817
-    Path: event:/sfxPick
-  throwObj:
-    Guid:
-      Data1: 1346724029
-      Data2: 1324820619
-      Data3: -785991243
-      Data4: 1499556767
-    Path: event:/sfxThrow
-  putDownObj:
-    Guid:
-      Data1: -1860902911
-      Data2: 1089089209
-      Data3: -1690088796
-      Data4: 964802688
-    Path: event:/sfxPut
-  onTool:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  onDeTool:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  dash:
-    Guid:
-      Data1: -2115034838
-      Data2: 1082317769
-      Data3: -97848165
-      Data4: 202242452
-    Path: event:/sfxDash
-  bulletPick:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  reload:
-    Guid:
-      Data1: -1715896374
-      Data2: 1098048716
-      Data3: -1800106822
-      Data4: 1107864759
-    Path: event:/sfxReload
-  hurt:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  die:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  eventEmitter: {fileID: 121335612699583363}
+  shoot: {fileID: 3823166120869172853}
+  pickUpObj: {fileID: 351060074782756527}
+  throwObj: {fileID: 6360157054886301016}
+  putDownObj: {fileID: 16611579868357087}
+  onTool: {fileID: 0}
+  onDeTool: {fileID: 0}
+  dash: {fileID: 0}
+  bulletPick: {fileID: 0}
+  reload: {fileID: 8002274161556509041}
+  hurt: {fileID: 0}
+  die: {fileID: 0}
 --- !u!114 &121335612699583363
 MonoBehaviour:
   m_ObjectHideFlags: 0

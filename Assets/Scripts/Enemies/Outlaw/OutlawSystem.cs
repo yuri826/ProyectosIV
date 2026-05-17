@@ -67,7 +67,7 @@ public class OutlawSystem : MonoBehaviour
         if (isSandstormActive)
         {
             currentState = OutlawState.Sandstorm;
-            navMeshAgent.isStopped = true;
+            if (navMeshAgent is not null) navMeshAgent.isStopped = true;
             return;
         }
 
