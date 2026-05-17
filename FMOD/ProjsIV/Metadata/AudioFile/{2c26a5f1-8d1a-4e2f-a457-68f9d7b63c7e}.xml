@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{2c26a5f1-8d1a-4e2f-a457-68f9d7b63c7e}">
+		<property name="assetPath">
+			<value>sfxCollapseLoop.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>4.1012244897959187</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{33f8854b-09f1-46df-9dd9-9901a607b65c}</destination>
+		</relationship>
+	</object>
+</objects>

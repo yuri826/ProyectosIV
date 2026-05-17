@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 public class OutlawDynamite : MonoBehaviour
@@ -12,6 +13,9 @@ public class OutlawDynamite : MonoBehaviour
     private SabotagePoint targetSabotagePoint;
     
     private bool isInitialized = false;
+
+    [SerializeField] private StudioEventEmitter sfxLoop;
+    [SerializeField] private StudioEventEmitter sfxExplode;
     
     private void Update()
     {
@@ -26,7 +30,8 @@ public class OutlawDynamite : MonoBehaviour
     {
         // Este método se llama justo después de instanciar la dinamita.
         // Sirve para pasarle todos los datos que necesita esta instancia concreta.
-        Debug.Log("Dinamita inicializada");
+        
+        sfxLoop.Play();
         
         targetSabotagePoint = sabotagePoint;
         fuseTime = newFuseTime;
@@ -39,6 +44,13 @@ public class OutlawDynamite : MonoBehaviour
     
     private void Explode()
     {
+        sfxLoop.Stop();
+        sfxExplode.Play();
+
+        GameObject xposion = Instantiate(explosionVfx, this.transform.position, Quaternion.identity);
+        xposion.transform.parent = null;
+        Destroy(xposion, 2f);
+        
         //Rompe el punto del tren
         targetSabotagePoint.BreakPoint();
 

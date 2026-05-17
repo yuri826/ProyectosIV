@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{d54d525f-fb49-4aee-aafb-519ab3097639}">
+		<property name="assetPath">
+			<value>sEnemyShoot.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.45598639455782314</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{33f8854b-09f1-46df-9dd9-9901a607b65c}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -47,6 +47,8 @@ public class SandstormSystem : MonoBehaviour
     
     public void StartSandstorm(float duration)
     {
+        sandstormAudioSource.Play();
+        
         remainingDuration = duration;
         isSandstormActive = true;
 
@@ -76,6 +78,8 @@ public class SandstormSystem : MonoBehaviour
 
     private void StopSandstorm()
     {
+        sandstormAudioSource.Stop();
+        
         isSandstormActive = false;
         remainingDuration = 0f;
         currentWindStrengthMultiplier = baseWindStrengthMultiplier;

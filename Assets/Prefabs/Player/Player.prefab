@@ -82,11 +82,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1113181846
+      Data2: 1152767614
+      Data3: 154771389
+      Data4: -1148398817
+    Path: event:/sfxPick
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -96,8 +96,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &2250711252889375627
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,11 +313,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1346724029
+      Data2: 1324820619
+      Data3: -785991243
+      Data4: 1499556767
+    Path: event:/sfxThrow
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -327,8 +327,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5737136387693449811
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +602,7 @@ MonoBehaviour:
   playerN: 0
   currentState: 0
   walkSpeed: 5
+  pushSpeed: 0
   rotationSpeed: 8
   gravity: -25
   groundedVerticalSpeed: -2
@@ -646,7 +647,6 @@ MonoBehaviour:
   <maxChamberAmmo>k__BackingField: 6
   maxBeltAmmo: 18
   reloadTimePerBullet: 0.5
-  beltAmmoText: {fileID: 0}
   revolverAmmoHUD: {fileID: 0}
 --- !u!114 &1257699378416203566
 MonoBehaviour:
@@ -662,32 +662,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioManager
   shoot:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1435847772
+      Data2: 1135365613
+      Data3: -422324814
+      Data4: -673940777
+    Path: event:/sfxPlayerShoot
   pickUpObj:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1113181846
+      Data2: 1152767614
+      Data3: 154771389
+      Data4: -1148398817
+    Path: event:/sfxPick
   throwObj:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1346724029
+      Data2: 1324820619
+      Data3: -785991243
+      Data4: 1499556767
+    Path: event:/sfxThrow
   putDownObj:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1860902911
+      Data2: 1089089209
+      Data3: -1690088796
+      Data4: 964802688
+    Path: event:/sfxPut
   onTool:
     Guid:
       Data1: 0
@@ -704,12 +704,33 @@ MonoBehaviour:
     Path: 
   dash:
     Guid:
+      Data1: -2115034838
+      Data2: 1082317769
+      Data3: -97848165
+      Data4: 202242452
+    Path: event:/sfxDash
+  bulletPick:
+    Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
-  bulletPick:
+  reload:
+    Guid:
+      Data1: -1715896374
+      Data2: 1098048716
+      Data3: -1800106822
+      Data4: 1107864759
+    Path: event:/sfxReload
+  hurt:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  die:
     Guid:
       Data1: 0
       Data2: 0
@@ -795,11 +816,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1860902911
+      Data2: 1089089209
+      Data3: -1690088796
+      Data4: 964802688
+    Path: event:/sfxPut
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -809,8 +830,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &7982684683459602147
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,11 +879,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1435847772
+      Data2: 1135365613
+      Data3: -422324814
+      Data4: -673940777
+    Path: event:/sfxPlayerShoot
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -872,8 +893,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &5286648214901951732
 PrefabInstance:
   m_ObjectHideFlags: 0

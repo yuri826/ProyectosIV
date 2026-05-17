@@ -182,12 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47b3356635b93f4687d2e4b48bc3c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArrowVolleySystem
-  levelCamera: {fileID: 0}
-  warningHUD: {fileID: 0}
-  arrowVolleyStrikePrefab: {fileID: 2521779194948316553, guid: 8550e65ed44271d4daa5ce39d5d249d8, type: 3}
-  outsideCameraOffset: 5
-  defaultTravelSpeed: 18
-  warningHideDelayAfterStrikeStarts: 0.35
 --- !u!1 &2629874744354897847
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +386,8 @@ MonoBehaviour:
   middleSpeedStormMultiplier: 1
   highSpeedStormMultiplier: 1.2
   sandstormVfxController: {fileID: 0}
-  sandstormAudioSource: {fileID: 0}
+  sandstormAudioSource: {fileID: 6601271925961788172}
+  levelCamera: {fileID: 0}
   outlawsInScene: []
 --- !u!114 &6601271925961788172
 MonoBehaviour:
@@ -409,11 +404,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1852496178
+      Data2: 1240734452
+      Data3: -1285645684
+      Data4: -1271046515
+    Path: event:/sfxSandstorm
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -423,8 +418,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &3260279821579092715
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,10 +1541,14 @@ MonoBehaviour:
     progressIcon: {fileID: 0}
     progressBarMaxWidth: 1050
     progressIconStartX: -525
+    iconPrefab: {fileID: 0}
+    progressIconsRoot: {fileID: 0}
     healthBar: {fileID: 0}
     transitionAnim: {fileID: 893678835962455955}
-  levelFlow:
-    <levelDuration>k__BackingField: 180
+    topArrowWarning: {fileID: 0}
+    bottomArrowWarning: {fileID: 0}
+  <levelFlow>k__BackingField:
+    <levelDuration>k__BackingField: 0
   trainLife:
     <maxTrainLife>k__BackingField: 100
   playerSystem:
@@ -1579,21 +1578,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   levelEventSubsystem:
-    levelEvents:
-    - <execTime>k__BackingField: 10
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
-    - <execTime>k__BackingField: 30
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 17d5adae36a885146a92cbe08891f5c6, type: 2}
-    - <execTime>k__BackingField: 60
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
-    - <execTime>k__BackingField: 80
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
-    - <execTime>k__BackingField: 95
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 49859cc343a3f1743bf86e98adecd351, type: 2}
-    - <execTime>k__BackingField: 130
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 598c1d6b606e7184ea7c46455bbd6715, type: 2}
-    - <execTime>k__BackingField: 150
-      <levelEvent>k__BackingField: {fileID: 11400000, guid: 8c79286bcf97f9340901f1b8dead0cc5, type: 2}
+    <levelEvents>k__BackingField: []
   trainSpawnDirector:
     trainCarZones:
     - {fileID: 0}
@@ -1958,11 +1943,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1061653304
+      Data2: 1223731773
+      Data3: 972569780
+      Data4: -1341524058
+    Path: event:/sfxCollapse
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -1972,8 +1957,8 @@ MonoBehaviour:
   NonRigidbodyVelocity: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &8951669480300636601
 GameObject:
   m_ObjectHideFlags: 0

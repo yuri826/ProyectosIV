@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7411650307593449795}
   - component: {fileID: 5665953572362624748}
   - component: {fileID: 4323097876438356418}
+  - component: {fileID: 1300405727342846905}
+  - component: {fileID: 7040196592941659495}
   m_Layer: 0
   m_Name: OutlawDynamite
   m_TagString: Untagged
@@ -47,7 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33c530d8424fbe43931132528b31e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlawDynamite
-  explosionVfx: {fileID: 0}
+  explosionVfx: {fileID: 3604450707583815647, guid: 0e8b0a9da86937444b01b494eafd4271, type: 3}
+  sfxLoop: {fileID: 7040196592941659495}
+  sfxExplode: {fileID: 1300405727342846905}
 --- !u!33 &7411650307593449795
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126,3 +130,65 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.5
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &1300405727342846905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7819088694921146989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -817350483
+      Data2: 1292372157
+      Data3: 2074729900
+      Data4: 979100177
+    Path: event:/sfxDynamiteExplosion
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &7040196592941659495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7819088694921146989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -174911379
+      Data2: 1106737636
+      Data3: -1911065931
+      Data4: 615886946
+    Path: event:/sfxDynamiteLoop
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

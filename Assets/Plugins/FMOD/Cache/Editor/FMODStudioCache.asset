@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9222018088931271183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxEnemyShoot
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxEnemyShoot
+  Guid:
+    Data1: -1270034908
+    Data2: 1137468659
+    Data3: -669108075
+    Data4: 781696675
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 455
 --- !u!114 &-8115148795059155794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,11 +42,200 @@ MonoBehaviour:
   Path: FMOD/ProjsIV/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639117880379543020
+  lastModified: 639146081524715575
   FileSizes:
   - Name: Desktop
-    Value: 1074
+    Value: 458688
   Exists: 1
+--- !u!114 &-7819501119078482735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxReload
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxReload
+  Guid:
+    Data1: -1715896374
+    Data2: 1098048716
+    Data3: -1800106822
+    Data4: 1107864759
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3525
+--- !u!114 &-6887164608964501306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxCannonShoot
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxCannonShoot
+  Guid:
+    Data1: -1792629530
+    Data2: 1093296411
+    Data3: -1286973566
+    Data4: -621469006
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2124
+--- !u!114 &-6751356036005284335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxPut
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxPut
+  Guid:
+    Data1: -1860902911
+    Data2: 1089089209
+    Data3: -1690088796
+    Data4: 964802688
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 679
+--- !u!114 &-6513662064903647397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxThrow
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxThrow
+  Guid:
+    Data1: 1346724029
+    Data2: 1324820619
+    Data3: -785991243
+    Data4: 1499556767
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 470
+--- !u!114 &-5150492420447589166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxDynamiteLoop
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxDynamiteLoop
+  Guid:
+    Data1: -174911379
+    Data2: 1106737636
+    Data3: -1911065931
+    Data4: 615886946
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3108
+--- !u!114 &-4937445362919269786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxDash
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxDash
+  Guid:
+    Data1: -2115034838
+    Data2: 1082317769
+    Data3: -97848165
+    Data4: 202242452
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 862
+--- !u!114 &-1926767057614251090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxCollapse
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxCollapse
+  Guid:
+    Data1: 1061653304
+    Data2: 1223731773
+    Data3: 972569780
+    Data4: -1341524058
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4101
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,15 +251,81 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 614771285690712592}
   - {fileID: -8115148795059155794}
-  EditorEvents: []
+  EditorEvents:
+  - {fileID: -6751356036005284335}
+  - {fileID: -9222018088931271183}
+  - {fileID: -4937445362919269786}
+  - {fileID: -1926767057614251090}
+  - {fileID: 5121870908317950807}
+  - {fileID: -5150492420447589166}
+  - {fileID: 5024833320072901977}
+  - {fileID: 7852327164310559788}
+  - {fileID: 302870261598750930}
+  - {fileID: -6513662064903647397}
+  - {fileID: -7819501119078482735}
+  - {fileID: 7870344113710456193}
+  - {fileID: -6887164608964501306}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8115148795059155794}
   StringsBanks:
   - {fileID: 614771285690712592}
   cacheVersion: 131847
-  cacheTime: 639117880379553874
-  SerializableEventsDict: []
+  cacheTime: 639146081524738309
+  SerializableEventsDict:
+  - key: event:/sfxPut
+    index: 0
+  - key: event:/sfxEnemyShoot
+    index: 1
+  - key: event:/sfxDash
+    index: 2
+  - key: event:/sfxCollapse
+    index: 3
+  - key: event:/sfxPick
+    index: 4
+  - key: event:/sfxDynamiteLoop
+    index: 5
+  - key: event:/sfxPlayerShoot
+    index: 6
+  - key: event:/sfxBoulderFall
+    index: 7
+  - key: event:/sfxDynamiteExplosion
+    index: 8
+  - key: event:/sfxThrow
+    index: 9
+  - key: event:/sfxReload
+    index: 10
+  - key: event:/sfxSandstorm
+    index: 11
+  - key: event:/sfxCannonShoot
+    index: 12
+--- !u!114 &302870261598750930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxDynamiteExplosion
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxDynamiteExplosion
+  Guid:
+    Data1: -817350483
+    Data2: 1292372157
+    Data3: 2074729900
+    Data4: 979100177
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1724
 --- !u!114 &614771285690712592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,8 +341,116 @@ MonoBehaviour:
   Path: FMOD/ProjsIV/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639117880379553874
+  lastModified: 639146081524738309
   FileSizes:
   - Name: Desktop
-    Value: 724
+    Value: 1296
   Exists: 1
+--- !u!114 &5024833320072901977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxPlayerShoot
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxPlayerShoot
+  Guid:
+    Data1: -1435847772
+    Data2: 1135365613
+    Data3: -422324814
+    Data4: -673940777
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 871
+--- !u!114 &5121870908317950807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxPick
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxPick
+  Guid:
+    Data1: -1113181846
+    Data2: 1152767614
+    Data3: 154771389
+    Data4: -1148398817
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 365
+--- !u!114 &7852327164310559788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxBoulderFall
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxBoulderFall
+  Guid:
+    Data1: -870097751
+    Data2: 1231625336
+    Data3: 279508911
+    Data4: -1650837009
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2220
+--- !u!114 &7870344113710456193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/sfxSandstorm
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/sfxSandstorm
+  Guid:
+    Data1: -1852496178
+    Data2: 1240734452
+    Data3: -1285645684
+    Data4: -1271046515
+  Banks:
+  - {fileID: -8115148795059155794}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20114

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine.AI;
 
 public class OutlawCombat : MonoBehaviour
@@ -17,6 +18,9 @@ public class OutlawCombat : MonoBehaviour
 
     [Header("Shot Blocking Layer")]
     [SerializeField] private LayerMask obstacleMask;
+    
+    [Header("Audio")]
+    [SerializeField] private StudioEventEmitter sfxShoot;
 
     private NavMeshAgent navMeshAgent;
     private PlayerMovement currentTarget;
@@ -271,6 +275,8 @@ public class OutlawCombat : MonoBehaviour
     {
         if ((targetPlayer is null) || (outlawBulletPrefab is null) || (shootPoint is null)) return;
 
+        sfxShoot.Play();
+            
         Vector3 shootDirection = (targetPlayer.transform.position - shootPoint.position).normalized;
         shootDirection.y = 0f;
 

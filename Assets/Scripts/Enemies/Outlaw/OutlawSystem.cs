@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,6 +31,9 @@ public class OutlawSystem : MonoBehaviour
 
     [Header("Laugh")]
     [SerializeField] private float laughTime;
+
+    [Header("Audio")] 
+    [SerializeField] private StudioEventEmitter sfxLaugh;
 
     private NavMeshAgent navMeshAgent;
     private OutlawCombat outlawCombat;
@@ -149,6 +153,8 @@ public class OutlawSystem : MonoBehaviour
         outlawCombat.OnPlayerFell(player);
         currentStateTimer = laughTime;
         navMeshAgent.isStopped = true;
+        
+        sfxLaugh.Play();
         currentState = OutlawState.Laugh;
     }
 
