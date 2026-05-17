@@ -27479,6 +27479,34 @@ PrefabInstance:
       propertyPath: 'collapseParticles.Array.data[1]'
       value: 
       objectReference: {fileID: 525395625}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: EventReference.Path
+      value: event:/mLevel4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: OverrideMaxDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: OverrideMinDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: EventReference.Guid.Data1
+      value: -1425932078
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: EventReference.Guid.Data2
+      value: 1211061438
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: EventReference.Guid.Data3
+      value: 906827692
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584228517491894614, guid: b68c48d47e8201546be013e5f8c3905f, type: 3}
+      propertyPath: EventReference.Guid.Data4
+      value: 1942197029
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
